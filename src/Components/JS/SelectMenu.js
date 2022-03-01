@@ -75,8 +75,8 @@ export default function SelectMenu(props) {
                 variant="contained"
                 href="#contained-buttons"
                 sx={{mt: 5}}
-                // onClick={props.editRole}
-                onClick={props.createPayload}
+                onClick={props.editRole}
+                // onClick={props.createPayload}
 
             >
                 Submit

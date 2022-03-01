@@ -115,7 +115,7 @@ function DashboardContent() {
         console.log(putPayload)
         console.log(selectedRole)
         console.log(selectedUser)
-        return putPayload
+        return JSON.stringify(putPayload)
 
     }
 
@@ -127,7 +127,7 @@ function DashboardContent() {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(createPayload)
+            body: createPayload()
 
         }
         fetch(`http://127.0.0.1:8000/api/update-role/`, requestOptions)
