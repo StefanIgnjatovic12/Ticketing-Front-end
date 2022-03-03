@@ -7,18 +7,6 @@ import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
 
 export default function SelectMenu(props) {
-    // const [personName, setPersonName] = useState([]);
-    // const handleChangeMultiple = (event) => {
-    //     const {options} = event.target;
-    //     const value = [];
-    //     for (let i = 0, l = options.length; i < l; i += 1) {
-    //         if (options[i].selected) {
-    //             value.push(options[i].value);
-    //         }
-    //     }
-    //     setPersonName(value);
-    //
-    // };
 
     return (
         <>
@@ -40,6 +28,7 @@ export default function SelectMenu(props) {
                         inputProps={{
                             id: 'select-multiple-native',
                         }}
+
                     >
                         {/*id on option is set so that when name is selected, its
                         id can be passed to the backend to edit role*/}
@@ -61,7 +50,7 @@ export default function SelectMenu(props) {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    size="small"
+                    size="medium"
                     label="Role"
                     value={props.selectedRole}
                     onChange={props.handleRoleChange}
@@ -76,7 +65,6 @@ export default function SelectMenu(props) {
                 href="#contained-buttons"
                 sx={{mt: 5}}
                 onClick={props.editRole}
-                // onClick={props.createPayload}
 
             >
                 Submit
