@@ -32,12 +32,12 @@ export default function SelectMenu(props) {
                     >
                         {/*id on option is set so that when name is selected, its
                         id can be passed to the backend to edit role*/}
-                        {props.loading ? props.users.map((user) => (
-                                <option id={user.id} key={user.id} value={user.username}>
-                                    {`${user.first_name} ${user.last_name}`}
-                                </option>
-                            ))
-                            : null}
+
+                        {props.users.map((user) => (
+                            <option id={user.id} key={user.id} value={user.username}>
+                                {`${user.first_name} ${user.last_name}`}
+                            </option>
+                        ))}
                     </Select>
                 </FormControl>
             </div>
@@ -56,8 +56,8 @@ export default function SelectMenu(props) {
                     onChange={props.handleRoleChange}
                 >
                     <MenuItem value="Admin">Admin</MenuItem>
-                    <MenuItem value="Developer" >Developer</MenuItem>
-                    <MenuItem value="User" >User</MenuItem>
+                    <MenuItem value="Developer">Developer</MenuItem>
+                    <MenuItem value="User">User</MenuItem>
                 </Select>
             </FormControl>
             <Button

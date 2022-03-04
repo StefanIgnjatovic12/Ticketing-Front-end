@@ -92,14 +92,12 @@ export default function RoleManagement() {
     }
     //fetch user data to populate table
     useEffect(() => {
-            let dataObj
             const fetchUsers = (num) => {
                 fetch(`http://127.0.0.1:8000/api/users/?limit=${num}`)
                     .then(response => response.json())
                     .then(data => {
                         console.log('Data loaded in useEffect')
-                        dataObj = data
-                        setUsers(dataObj)
+                        setUsers(data)
                         setLoading(true)
 
 
@@ -118,39 +116,40 @@ export default function RoleManagement() {
             <Grid container spacing={3} direction='row' justifyContent="space-between"
                   alignItems="flex-start">
                 <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <Paper
-                        sx={{
-                            p: 2, display: 'flex', flexDirection: 'column',
-                        }}
-                    >
-                        <SelectMenu
-                            users={users}
-                            loading={loading}
-                            personName={personName}
-                            handleChangeMultiple={handleChangeMultiple}
-                            editRole={editRole}
-                            selectedRole={selectedRole}
-                            handleRoleChange={handleRoleChange}
-                            createPayload={createPayload}
-                        />
-                    </Paper>
+
+                    {loading
+                        ? <Paper
+                            sx={{
+                                p: 2, display: 'flex', flexDirection: 'column',
+                            }}
+                        >
+                            <SelectMenu
+                                users={users}
+                                loading={loading}
+                                personName={personName}
+                                handleChangeMultiple={handleChangeMultiple}
+                                editRole={editRole}
+                                selectedRole={selectedRole}
+                                handleRoleChange={handleRoleChange}
+                                createPayload={createPayload}
+                            />
+                        </Paper>
+                        : null
+                    }
                 </Grid>
                 {/* Recent UserTable */}
                 <Grid item xs={12} sm={12} md={8} lg={8}>
+                    {loading
+                        ? <MUIDataTable
+                            columns={['Name', 'Email', 'Role']}
+                            data={userData()}
+                            title={"Users"}
+                            options={
+                                {selectableRows: 'none'}
+                            }
 
-                    <MUIDataTable
-                        columns={['Name', 'Email', 'Role']}
-                        data={loading ? userData() : []}
-                        title={"Users"}
-                        options={
-                            {selectableRows: 'none'}
-                        }
-
-                    />
-                    {/*<UserTable*/}
-                    {/*    users={users}*/}
-                    {/*    loading={loading}*/}
-                    {/*/>*/}
+                        />
+                        : null}
 
                 </Grid>
             </Grid>
