@@ -45,7 +45,7 @@ export default function ProjectList() {
                             options: {
                                 filter: false,
                                 //makes the content of the column into a href
-                                customBodyRender: (value, tableMeta, updateValue) => {
+                                customBodyRender: (value) => {
                                     return (
                                         <a href={`http://localhost:3000/projects/${value}`}>View/Modify Project</a>
                                     );

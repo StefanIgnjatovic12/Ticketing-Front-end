@@ -6,9 +6,11 @@ import * as React from "react";
 // import Cookies from "js-cookie";
 import {useEffect, useState} from "react";
 import MUIDataTable from "mui-datatables";
+import {useLocation} from "react-router";
 
 export default function RoleManagement() {
-
+    let location = useLocation();
+    console.log(location)
     // const csrftoken = Cookies.get('csrftoken');
     const [loading, setLoading] = useState(null)
     const [users, setUsers] = useState(null)

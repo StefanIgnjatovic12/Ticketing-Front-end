@@ -17,6 +17,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import {mainListItems, secondaryListItems} from './listItems';
 import RoleManagement from "./RoleManagement";
 import ProjectList from "./ProjectList";
+import ProjectDetail from "./ProjectDetail";
 
 
 const drawerWidth = 240;
@@ -123,6 +124,7 @@ export default function DashboardContent(props) {
                 <Toolbar/>
                 {props.role ? <RoleManagement/> : null}
                 {props.project ? <ProjectList/> : null}
+                {props.first ? <ProjectDetail/> : null}
 
             </Box>
         </Box>
