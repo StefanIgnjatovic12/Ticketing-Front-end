@@ -38,7 +38,7 @@ export default function ProjectList() {
     return (
         <>
             {loading
-                ? <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
+                ? <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
                     <MUIDataTable
                         columns={['Project name', 'Description', 'Created on', 'Created by', {
                             name: "",
@@ -57,6 +57,7 @@ export default function ProjectList() {
                         options={
                             {
                                 selectableRows: 'none',
+                                print: false
                                 //if cell is in column 0, redirect on click
                                 // onCellClick: (cellIndex, colIndex) => {
                                 //     if (colIndex.colIndex === 0){

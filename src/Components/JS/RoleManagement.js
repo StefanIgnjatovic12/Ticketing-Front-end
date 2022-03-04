@@ -23,14 +23,16 @@ export default function RoleManagement() {
     //Array to populate the User table
     const userData = () => {
         let userDataArr = []
-        for (let i = 0; i < users.length; i++) {
+        users.forEach(user => {
             userDataArr.push([
-                `${users[i].first_name} ${users[i].last_name}`,
-                users[i].email,
-                users[i].roles.assigned_role
+                `${user.first_name} ${user.last_name}`,
+                user.email,
+                user.roles.assigned_role
             ])
-        }
+        })
+
         return userDataArr
+
     }
     //handle change for selecting names in SelectMenu component
     const handleChangeMultiple = (event) => {
@@ -104,6 +106,7 @@ export default function RoleManagement() {
 
 
                     })
+                    .catch(error => console.log(error))
             }
 
             fetchUsers(20)
@@ -114,7 +117,7 @@ export default function RoleManagement() {
 
     return (
 
-        <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
+        <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
             <Grid container spacing={3} direction='row' justifyContent="space-between"
                   alignItems="flex-start">
                 <Grid item xs={12} sm={12} md={4} lg={4}>
