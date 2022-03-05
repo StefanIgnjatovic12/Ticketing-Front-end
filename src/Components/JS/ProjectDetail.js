@@ -8,6 +8,7 @@ export default function ProjectDetail(props) {
 
     const [assignedUsers, setAssignedUsers] = useState(null)
     const [assignedTickets, setAssignedTickets] = useState(null)
+
     const [loading, setLoading] = useState(null)
     //Get project ID from the location URL
     // let deletedUserID
@@ -56,7 +57,9 @@ export default function ProjectDetail(props) {
                 ticket.title,
                 ticket.description,
                 ticket.priority,
+                ticket.created_by,
                 ticket.id
+
             ])
         })
         return assignedTicketDataArr
@@ -114,7 +117,7 @@ export default function ProjectDetail(props) {
 
                         <Grid item xs={12} sm={12} md={7} lg={7}>
                             <MUIDataTable
-                                columns={['Ticket title', 'Description', 'Priority']}
+                                columns={['Ticket title', 'Description', 'Priority', 'Created by']}
                                 data={assignedTicketData()}
                                 title={'Tickets assigned to project'}
                                 options={
