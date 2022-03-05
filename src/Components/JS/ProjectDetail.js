@@ -10,9 +10,10 @@ export default function ProjectDetail(props) {
     const [tickets, setTickets] = useState(null)
     const [loading, setLoading] = useState(null)
     //Get project ID from the location URL
-    let deletedUserID
+    // let deletedUserID
     let location = useLocation();
     let projectID = location.pathname
+
     //get personnel attached to project
     useEffect(() => {
 
@@ -30,7 +31,7 @@ export default function ProjectDetail(props) {
 
         // console.log('useEffect called')
         fetchProjectPersonnel(projectID)
-    },[])
+    }, [])
 
 
     const personnelData = () => {
@@ -54,21 +55,36 @@ export default function ProjectDetail(props) {
             assignedTicketDataArr.push([
                 ticket.title,
                 ticket.description,
-                ticket.priority
+                ticket.priority,
+                ticket.id
             ])
         })
         return assignedTicketDataArr
     }
 
-    useEffect(() => {
-       const deleteProjectUser = (ID) => {
-
+    //remove user or ticket from project
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
     }
-    })
+    const deleteProjectUser = (userID) => {
+        fetch(`http://127.0.0.1:8000/api/assigned-user-delete${projectID}/${userID}/`, requestOptions)
+            .then(response => console.log(response))
+            .catch(error => console.log(error))
+    }
+    const deleteProjectTicket = (ticketID) => {
+        fetch(`http://127.0.0.1:8000/api/assigned-ticket-delete${projectID}/${ticketID}/`, requestOptions)
+            .then(response => console.log(response))
+            .catch(error => console.log(error))
+    }
+
 
     return (
         <>
-                {/*table containing personnel assigned to project*/}
+            {/*table containing personnel assigned to project*/}
             {loading
                 ? <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
                     <Grid container spacing={3} direction='row' justifyContent="space-between"
@@ -81,9 +97,12 @@ export default function ProjectDetail(props) {
                                 options={
                                     {
                                         // selectableRows: 'none'
-                                        onRowsDelete:  (rowsDeleted) => {
-                                            deletedUserID = personnelData()[rowsDeleted.data[0].dataIndex][3]
-                                            console.log(deletedUserID)
+                                        onRowsDelete: (rowsDeleted) => {
+                                            //on row delete get the user ID corresponding to the row and call the function
+                                            let deletedUserID = personnelData()[rowsDeleted.data[0].dataIndex][3]
+
+                                            deleteProjectUser(deletedUserID)
+
                                         },
                                         print: false
                                     }
@@ -95,12 +114,18 @@ export default function ProjectDetail(props) {
 
                         <Grid item xs={12} sm={12} md={7} lg={7}>
                             <MUIDataTable
-                            columns={['Ticket title', 'Description', 'Priority']}
-                            data={assignedTicketData()}
-                            title={'Tickets assigned to project'}
-                            options={
+                                columns={['Ticket title', 'Description', 'Priority']}
+                                data={assignedTicketData()}
+                                title={'Tickets assigned to project'}
+                                options={
                                     {
-                                        selectableRows: 'none',
+
+                                        onRowsDelete: (rowsDeleted) => {
+                                            //on row delete get the ticket ID corresponding to the row and call the function
+                                            let deletedticketID = assignedTicketData()[rowsDeleted.data[0].dataIndex][3]
+                                            deleteProjectTicket(deletedticketID)
+
+                                        },
                                         print: false
 
                                     }
