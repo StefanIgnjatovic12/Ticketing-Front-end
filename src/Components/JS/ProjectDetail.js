@@ -6,8 +6,8 @@ import {useLocation} from "react-router";
 
 export default function ProjectDetail(props) {
 
-    const [personnel, setPersonnel] = useState(null)
-    const [tickets, setTickets] = useState(null)
+    const [assignedUsers, setAssignedUsers] = useState(null)
+    const [assignedTickets, setAssignedTickets] = useState(null)
     const [loading, setLoading] = useState(null)
     //Get project ID from the location URL
     // let deletedUserID
@@ -21,9 +21,9 @@ export default function ProjectDetail(props) {
             fetch(`http://127.0.0.1:8000/api${ID}`)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data)
-                    setPersonnel(data[0].assigned_users)
-                    setTickets(data[0].assigned_tickets)
+
+                    setAssignedUsers(data[0].assigned_users)
+                    setAssignedTickets(data[0].assigned_tickets)
                     setLoading(true)
                 })
                 .catch(error => console.log(error))
@@ -33,11 +33,11 @@ export default function ProjectDetail(props) {
         fetchProjectPersonnel(projectID)
     }, [])
 
-
-    const personnelData = () => {
-        let personnelDataArr = []
-        personnel.forEach(person => {
-            personnelDataArr.push([
+    //convert assigned user data to array format required by the datatable
+    const assignedUserData = () => {
+        let assignedUserDataArr = []
+        assignedUsers.forEach(person => {
+            assignedUserDataArr.push([
                 person.username,
                 person.email,
                 person.assigned_role,
@@ -45,13 +45,13 @@ export default function ProjectDetail(props) {
             ])
         })
 
-        return personnelDataArr
+        return assignedUserDataArr
     }
 
-    // tickets assigned to project
+    //convert assigned ticket data to array format required by the datatable
     const assignedTicketData = () => {
         let assignedTicketDataArr = []
-        tickets.forEach(ticket => {
+        assignedTickets.forEach(ticket => {
             assignedTicketDataArr.push([
                 ticket.title,
                 ticket.description,
@@ -92,14 +92,14 @@ export default function ProjectDetail(props) {
                         <Grid item xs={12} sm={12} md={5} lg={5}>
                             <MUIDataTable
                                 columns={['User name', 'Email', 'Role']}
-                                data={personnelData()}
+                                data={assignedUserData()}
                                 title={'Personnel assigned to project'}
                                 options={
                                     {
                                         // selectableRows: 'none'
                                         onRowsDelete: (rowsDeleted) => {
                                             //on row delete get the user ID corresponding to the row and call the function
-                                            let deletedUserID = personnelData()[rowsDeleted.data[0].dataIndex][3]
+                                            let deletedUserID = assignedUserData()[rowsDeleted.data[0].dataIndex][3]
 
                                             deleteProjectUser(deletedUserID)
 
