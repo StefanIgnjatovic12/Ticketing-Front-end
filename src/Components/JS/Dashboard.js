@@ -18,6 +18,7 @@ import {mainListItems, secondaryListItems} from './listItems';
 import RoleManagement from "./RoleManagement";
 import ProjectList from "./ProjectList";
 import ProjectDetail from "./ProjectDetail";
+import TicketDetail from "./TicketDetail";
 
 
 const drawerWidth = 240;
@@ -122,9 +123,10 @@ export default function DashboardContent(props) {
                 }}
             >
                 <Toolbar/>
-                {props.role ? <RoleManagement/> : null}
-                {props.project ? <ProjectList/> : null}
-                {props.first ? <ProjectDetail/> : null}
+                {props.role && <RoleManagement/> }
+                {props.project && <ProjectList/>}
+                {props.projectDetail && <ProjectDetail/>}
+                {props.ticketDetail && <TicketDetail/> }
 
             </Box>
         </Box>

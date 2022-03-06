@@ -4,14 +4,13 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import {useLocation} from "react-router";
 
-export default function ProjectDetail(props) {
+export default function ProjectDetail() {
 
     const [assignedUsers, setAssignedUsers] = useState(null)
     const [assignedTickets, setAssignedTickets] = useState(null)
-
     const [loading, setLoading] = useState(null)
+
     //Get project ID from the location URL
-    // let deletedUserID
     let location = useLocation();
     let projectID = location.pathname
 

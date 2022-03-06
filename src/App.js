@@ -15,7 +15,9 @@ export default function App() {
                 <Route path="/" element={<App/>}/>
                 <Route path="roles" element={<DashboardContent role={true}/>}/>
                 <Route path="projects" element={<DashboardContent project={true}/>}/>
-                <Route path="projects/:projectId" element={<DashboardContent first={true}/>}/>
+                <Route path="projects/:projectId" element={<DashboardContent projectDetail={true}/>}/>
+                <Route path="tickets/:ticketId" element={<DashboardContent ticketDetail={true}/>}/>
+
             </Routes>
         </Router>
 
