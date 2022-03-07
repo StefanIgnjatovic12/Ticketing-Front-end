@@ -74,8 +74,11 @@ export default function RoleManagement() {
 
     }
 
+
     //need to make this so you don't need to refresh the page to see the change
     const editRole = () => {
+        //changes the state of search done because it is a dependency of the useState used to fetch data
+        //ie the user data gets refetched after the edit automatically without reloading the page
         setSearchDone(Math.floor(Math.random() * 1000))
         const requestOptions = {
             method: 'PUT',

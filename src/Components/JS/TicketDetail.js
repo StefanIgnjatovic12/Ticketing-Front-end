@@ -4,10 +4,9 @@ import Paper from "@mui/material/Paper";
 import MUIDataTable from "mui-datatables";
 import {useEffect, useState} from "react";
 import {useLocation} from "react-router";
-import Title from "./Title";
-import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
 import TicketDetailContent from "./TicketDetailContent"
+import TicketEditForm from "./TicketEditForm";
 
 export default function TicketDetail() {
     const mockData = [['data1', 'data2', 'data3'],
@@ -15,6 +14,8 @@ export default function TicketDetail() {
         ['data1', 'data2', 'data3'],]
     const [assignedComments, setAssignedComments] = useState(null)
     const [ticketInfo, setTicketInfo] = useState(null)
+    const [ticketEditInfo, setTicketEditInfo] = useState(null)
+    const [ticketEditDone, setTicketEditDone] = useState(null)
     const [loading, setLoading] = useState(null)
     let location = useLocation();
     let ticketID = location.pathname
@@ -33,8 +34,31 @@ export default function TicketDetail() {
                 .catch(error => console.log(error))
         }
         fetchTicketData(ticketID)
-        console.log(ticketInfo)
-    }, [])
+        // console.log()
+    }, [ticketEditDone])
+
+    useEffect(() => {
+        console.log('useEffectCalled')
+         //changes the state of ticket edit done because it is a dependency of the useState used to fetch data
+        //ie the ticket data gets refetched after the edit automatically without reloading the page
+        setTicketEditDone(Math.floor(Math.random() * 1000))
+        const requestOptions = {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ticketEditInfo)
+
+        }
+        const editTicketData = (ticketID) => {
+            fetch(`http://127.0.0.1:8000/api/ticket-update/${ticketID.split('/')[2]}/`, requestOptions)
+
+        }
+        editTicketData(ticketID)
+
+        console.log(`${ticketEditInfo} > state`)
+    }, [ticketEditInfo])
 
     const assignedCommentData = () => {
         let assignedCommentData = []
@@ -76,9 +100,10 @@ export default function TicketDetail() {
                         </Typography
 
                         >
-                        <TicketDetailContent
-                        ticket_info={ticketInfo}
-                        />
+                        {loading && <TicketDetailContent
+                            ticket_info={ticketInfo}
+                        />}
+
                     </Paper>
                 </Grid>
 
@@ -106,11 +131,16 @@ export default function TicketDetail() {
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={6} lg={6}>
-                    <MUIDataTable
-                        columns={['Column1', 'Column2', 'Column3']}
-                        data={mockData}
-                        title={"Ticket attachments"}
-                    />
+
+                        <TicketEditForm
+                        setTicketEditInfo={setTicketEditInfo}
+                        />
+
+                    {/*<MUIDataTable*/}
+                    {/*    columns={['Column1', 'Column2', 'Column3']}*/}
+                    {/*    data={mockData}*/}
+                    {/*    title={"Ticket attachments"}*/}
+                    {/*/>*/}
 
                 </Grid>
             </Grid>
