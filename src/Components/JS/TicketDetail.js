@@ -7,29 +7,33 @@ import {useLocation} from "react-router";
 import Title from "./Title";
 import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
+import TicketDetailContent from "./TicketDetailContent"
 
 export default function TicketDetail() {
     const mockData = [['data1', 'data2', 'data3'],
         ['data1', 'data2', 'data3'],
         ['data1', 'data2', 'data3'],]
     const [assignedComments, setAssignedComments] = useState(null)
+    const [ticketInfo, setTicketInfo] = useState(null)
     const [loading, setLoading] = useState(null)
     let location = useLocation();
     let ticketID = location.pathname
 
     useEffect(() => {
-        const fetchAssignedComments = (ticketID) => {
+        const fetchTicketData = (ticketID) => {
             fetch(`http://127.0.0.1:8000/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
                     // console.log(data[0].comments)
                     setAssignedComments(data[0].comments)
+                    setTicketInfo(data[0].ticket_info)
                     setLoading(true)
 
                 })
                 .catch(error => console.log(error))
         }
-        fetchAssignedComments(ticketID)
+        fetchTicketData(ticketID)
+        console.log(ticketInfo)
     }, [])
 
     const assignedCommentData = () => {
@@ -44,6 +48,8 @@ export default function TicketDetail() {
         })
         return assignedCommentData
     }
+
+
     return (
         <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
             {/*first row*/}
@@ -51,30 +57,28 @@ export default function TicketDetail() {
                   alignItems="flex-start">
                 <Grid item xs={12} sm={12} md={6} lg={6}>
                     <Paper>
-                        <Box
+                        <Typography
+                            component="h2"
+                            variant="h6"
+                            color="#212121"
+                            fontSize="1.25rem"
+                            fontWeight={500}
+                            lineHeight={1.6}
+                            letterSpacing="0.0075em"
                             sx={{
-                                width: 1 / 3,
-                                pt: 2,
-                                pl: 2.5
+                                pt: 1.9,
+                                pl: 2.75
                             }}
+                            gutterBottom
                         >
-                            <Typography
-                                component="h2"
-                                variant="h6"
-                                color="#212121"
-                                fontSize="1.25rem"
-                                gutterBottom
+                            Details for Ticket
 
-                            >
-                                Ticket details
+                        </Typography
 
-                            </Typography>
-
-                            <Typography variant="subtitle2">
-                                test
-                            </Typography>
-                        </Box>
-
+                        >
+                        <TicketDetailContent
+                        ticket_info={ticketInfo}
+                        />
                     </Paper>
                 </Grid>
 
