@@ -7,9 +7,22 @@ import {useState} from "react";
 import {InputLabel} from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 export default function TicketEditForm(props) {
+    const [open, setOpen] = useState(false)
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     const defaultValues = {
         title: "",
         description: "",
@@ -25,65 +38,82 @@ export default function TicketEditForm(props) {
     }
 
     const handleSubmit = (event) => {
-        event.preventDefault();
+        event.preventDefault()
         props.setTicketEditInfo(formValues)
+        setOpen(false)
 
     };
     return (
-        <Paper
-            sx={{
-                width: 300
-            }}
-        >
-            <Box
-                sx={{
-                    padding: 3
-                }}
-                mt={3}
-            >
-                <form
-                    onSubmit={handleSubmit}>
+        <>
+            <Button variant="outlined" onClick={handleClickOpen}>
+                Edit ticket
+            </Button>
+            <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={"xs"}>
+                <DialogTitle>Edit ticket information</DialogTitle>
+                <DialogContent>
 
-                    <TextField
-                        id="title-input"
-                        name="title"
-                        label="Ticket title"
-                        type="text"
-                        value={formValues.title}
-                        onChange={handleInputChange}
+                    <Box p={2}>
+                        {/*<form*/}
+                        <Box pb={3} width={3 / 4}>
+                            <TextField
+                                id="title-input"
+                                name="title"
+                                label="Ticket title"
+                                type="text"
+                                value={formValues.title}
+                                onChange={handleInputChange}
 
-                    />
-                    <TextField
-                        id="description-input"
-                        name="description"
-                        label="Ticket description"
-                        type="text"
-                        value={formValues.description}
-                        onChange={handleInputChange}
 
-                    />
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            name="priority"
-                            value={formValues.priority}
-                            label="Priority"
-                            onChange={handleInputChange}
-                        >
-                            <MenuItem key="Low" value="Low">Low</MenuItem>
-                            <MenuItem key="Medium" value="Medium">Medium</MenuItem>
-                            <MenuItem key="High" value="High">High</MenuItem>
-                            <MenuItem key="Urgent" value="Urgent">Urgent</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <Button variant="contained" color="primary" type="submit">
+                            />
+                        </Box>
+                        <Box pb={5} width={3 / 4}>
+                            <TextField
+                                id="description-input"
+                                name="description"
+                                label="Ticket description"
+                                type="text"
+                                value={formValues.description}
+                                onChange={handleInputChange}
+
+                            />
+                        </Box>
+
+                        <Box pb={3} width={3 / 4}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    name="priority"
+                                    value={formValues.priority}
+                                    label="Priority"
+                                    onChange={handleInputChange}
+                                >
+                                    <MenuItem key="Low" value="Low">Low</MenuItem>
+                                    <MenuItem key="Medium" value="Medium">Medium</MenuItem>
+                                    <MenuItem key="High" value="High">High</MenuItem>
+                                    <MenuItem key="Urgent" value="Urgent">Urgent</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                        {/*</form>*/}
+                    </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    {/*<Button onClick={handleClose}>Subscribe</Button>*/}
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        onClick={handleSubmit}
+                    >
                         Submit
                     </Button>
-                </form>
-            </Box>
-        </Paper>
+                </DialogActions>
+            </Dialog>
+        </>
+
 
     )
 }

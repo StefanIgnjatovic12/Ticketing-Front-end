@@ -7,6 +7,7 @@ import {useLocation} from "react-router";
 import {Typography} from "@mui/material";
 import TicketDetailContent from "./TicketDetailContent"
 import TicketEditForm from "./TicketEditForm";
+import Box from "@mui/material/Box";
 
 export default function TicketDetail() {
     const mockData = [['data1', 'data2', 'data3'],
@@ -81,6 +82,15 @@ export default function TicketDetail() {
                   alignItems="flex-start">
                 <Grid item xs={12} sm={12} md={6} lg={6}>
                     <Paper>
+                        <Box sx={{
+                            display:"flex",
+                            flexDirection:"row",
+                            justifyContent:"space-between",
+                            pt: 1.9,
+                            pl: 2.75,
+                            pr: 2.75
+
+                        }}>
                         <Typography
                             component="h2"
                             variant="h6"
@@ -89,17 +99,18 @@ export default function TicketDetail() {
                             fontWeight={500}
                             lineHeight={1.6}
                             letterSpacing="0.0075em"
-                            sx={{
-                                pt: 1.9,
-                                pl: 2.75
-                            }}
                             gutterBottom
                         >
                             Details for Ticket
 
-                        </Typography
+                        </Typography>
 
-                        >
+                        <TicketEditForm
+                        setTicketEditInfo={setTicketEditInfo}
+                        />
+
+                        </Box>
+
                         {loading && <TicketDetailContent
                             ticket_info={ticketInfo}
                         />}
@@ -130,19 +141,11 @@ export default function TicketDetail() {
                     />
                 </Grid>
 
-                <Grid item xs={12} sm={12} md={6} lg={6}>
+                {/*<Grid item xs={12} sm={12} md={6} lg={6}>*/}
 
-                        <TicketEditForm
-                        setTicketEditInfo={setTicketEditInfo}
-                        />
 
-                    {/*<MUIDataTable*/}
-                    {/*    columns={['Column1', 'Column2', 'Column3']}*/}
-                    {/*    data={mockData}*/}
-                    {/*    title={"Ticket attachments"}*/}
-                    {/*/>*/}
 
-                </Grid>
+                {/*</Grid>*/}
             </Grid>
 
         </Container>

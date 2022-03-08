@@ -74,7 +74,6 @@ export default function RoleManagement() {
 
     }
 
-
     //need to make this so you don't need to refresh the page to see the change
     const editRole = () => {
         //changes the state of search done because it is a dependency of the useState used to fetch data
