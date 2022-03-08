@@ -1,16 +1,16 @@
-import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import Button from "@material-ui/core/Button";
+import TextField from "@mui/material/TextField";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+// import Button from "@mui/material/Button";
+import Button from '@mui/material/Button'
 import {useState} from "react";
 import {InputLabel} from "@mui/material";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 
@@ -45,45 +45,55 @@ export default function TicketEditForm(props) {
     };
     return (
         <>
+            {/*<a href="#" onClick={handleClickOpen}>Edit ticket</a>*/}
             <Button variant="outlined" onClick={handleClickOpen}>
                 Edit ticket
             </Button>
+
             <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={"xs"}>
-                <DialogTitle>Edit ticket information</DialogTitle>
+
+                <DialogTitle sx={{pl: 4.6}}>Edit ticket information</DialogTitle>
                 <DialogContent>
 
                     <Box p={2}>
                         {/*<form*/}
-                        <Box pb={3} width={3 / 4}>
+                        <Box pb={3} >
                             <TextField
-                                id="title-input"
+                                fullWidth
+                                id="standard-multiline-static"
+                                variant="standard"
                                 name="title"
                                 label="Ticket title"
                                 type="text"
+                                multiline
+                                maxRows={4}
                                 value={formValues.title}
                                 onChange={handleInputChange}
-
-
                             />
                         </Box>
-                        <Box pb={5} width={3 / 4}>
+                        <Box pb={5} >
                             <TextField
-                                id="description-input"
+                                fullWidth
+                                id="standard-multiline-static"
+                                variant="standard"
                                 name="description"
                                 label="Ticket description"
                                 type="text"
+                                multiline
+                                maxRows={4}
                                 value={formValues.description}
                                 onChange={handleInputChange}
 
                             />
+
                         </Box>
 
-                        <Box pb={3} width={3 / 4}>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+                        <Box pb={3}>
+                            <FormControl variant="standard" fullWidth>
+                                <InputLabel id="demo-simple-select-standard-label">Priority</InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
                                     name="priority"
                                     value={formValues.priority}
                                     label="Priority"

@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import MUIDataTable from "mui-datatables";
 import Container from "@mui/material/Container";
+import TicketEditForm from "./TicketEditForm";
+
 
 export default function ProjectList() {
     const [projects, setProjects] = useState(null)
@@ -68,9 +70,11 @@ export default function ProjectList() {
                         }
 
                     />
+
                 </Container>
                 : null
             }
+
         </>
 
     )

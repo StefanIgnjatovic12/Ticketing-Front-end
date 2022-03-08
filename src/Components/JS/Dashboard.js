@@ -58,6 +58,8 @@ export default function DashboardContent(props) {
     const [open, setOpen] = useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
+        console.log(open)
+
     };
 
     return (<ThemeProvider theme={mdTheme}>

@@ -9,6 +9,7 @@ import TicketDetailContent from "./TicketDetailContent"
 import TicketEditForm from "./TicketEditForm";
 import Box from "@mui/material/Box";
 
+
 export default function TicketDetail() {
     const mockData = [['data1', 'data2', 'data3'],
         ['data1', 'data2', 'data3'],
@@ -26,7 +27,7 @@ export default function TicketDetail() {
             fetch(`http://127.0.0.1:8000/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data[0].comments)
+
                     setAssignedComments(data[0].comments)
                     setTicketInfo(data[0].ticket_info)
                     setLoading(true)
@@ -35,12 +36,12 @@ export default function TicketDetail() {
                 .catch(error => console.log(error))
         }
         fetchTicketData(ticketID)
-        // console.log()
+
     }, [ticketEditDone])
 
     useEffect(() => {
-        console.log('useEffectCalled')
-         //changes the state of ticket edit done because it is a dependency of the useState used to fetch data
+
+        //changes the state of ticket edit done because it is a dependency of the useState used to fetch data
         //ie the ticket data gets refetched after the edit automatically without reloading the page
         setTicketEditDone(Math.floor(Math.random() * 1000))
         const requestOptions = {
@@ -58,7 +59,7 @@ export default function TicketDetail() {
         }
         editTicketData(ticketID)
 
-        console.log(`${ticketEditInfo} > state`)
+
     }, [ticketEditInfo])
 
     const assignedCommentData = () => {
@@ -83,32 +84,31 @@ export default function TicketDetail() {
                 <Grid item xs={12} sm={12} md={6} lg={6}>
                     <Paper>
                         <Box sx={{
-                            display:"flex",
-                            flexDirection:"row",
-                            justifyContent:"space-between",
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
                             pt: 1.9,
                             pl: 2.75,
                             pr: 2.75
 
                         }}>
-                        <Typography
-                            component="h2"
-                            variant="h6"
-                            color="#212121"
-                            fontSize="1.25rem"
-                            fontWeight={500}
-                            lineHeight={1.6}
-                            letterSpacing="0.0075em"
-                            gutterBottom
-                        >
-                            Details for Ticket
+                            <Typography
+                                component="h2"
+                                variant="h6"
+                                color="#212121"
+                                fontSize="1.25rem"
+                                fontWeight={500}
+                                lineHeight={1.6}
+                                letterSpacing="0.0075em"
+                                gutterBottom
+                            >
+                                Details for Ticket
 
-                        </Typography>
+                            </Typography>
 
-                        <TicketEditForm
-                        setTicketEditInfo={setTicketEditInfo}
-                        />
-
+                            <TicketEditForm
+                                setTicketEditInfo={setTicketEditInfo}
+                            />
                         </Box>
 
                         {loading && <TicketDetailContent
@@ -141,11 +141,7 @@ export default function TicketDetail() {
                     />
                 </Grid>
 
-                {/*<Grid item xs={12} sm={12} md={6} lg={6}>*/}
 
-
-
-                {/*</Grid>*/}
             </Grid>
 
         </Container>

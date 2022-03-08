@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
 
 export default function TicketDetailContent(props) {
-    console.log(props)
     const ticketDetailData = [
     {
         "leftHeader": "Ticket title",
@@ -36,7 +35,7 @@ export default function TicketDetailContent(props) {
     },
 ]
     const ticketDetailElements = ticketDetailData.map((entry) =>
-        <>
+        <div key={Math.floor(Math.random() * 10000)}>
             {/*box that contains both columns*/}
             <Box sx={{
                 display: "flex",
@@ -105,7 +104,7 @@ export default function TicketDetailContent(props) {
                     </div>
                 </Box>
             </Box>
-        </>
+        </div>
     )
 
     return (
