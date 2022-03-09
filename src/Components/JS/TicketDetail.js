@@ -7,12 +7,12 @@ import {useLocation} from "react-router";
 import {Typography} from "@mui/material";
 import TicketDetailContent from "./TicketDetailContent"
 import TicketEditForm from "./TicketEditForm";
-import UploadFile from "./UploadFIle"
 import Box from "@mui/material/Box";
-
-
+import UploadFile from './UploadFile'
 
 export default function TicketDetail() {
+
+
     const mockData = [['data1', 'data2', 'data3'],
         ['data1', 'data2', 'data3'],
         ['data1', 'data2', 'data3'],]
@@ -148,6 +148,11 @@ export default function TicketDetail() {
                     <MUIDataTable
                         columns={['Submitter', 'Message', 'Created on']}
                         data={assignedCommentData()}
+                        options={{
+                            print: false,
+                            download: false,
+                            viewColumns: false
+                        }}
                         title={"Ticket comments"}
                     />
 
@@ -161,29 +166,37 @@ export default function TicketDetail() {
                     <MUIDataTable
                         columns={['Column1', 'Column2', 'Column3']}
                         data={mockData}
-                        title={"Ticket history"}
+                        options={{
+                            print: false,
+                            download: false,
+                            viewColumns: false,
+
+                        }}
+                        title={'Ticket history'}
                     />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={6}>
                     {/*useeffect runs again when you remove the file because the state changes*/}
-                    <Box sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            pt: 1.9,
-                            pl: 2.75,
-                            pr: 2.75
 
-                        }}>
-                            <UploadFile
-                            files={files}
-                            setFiles={setFiles}
-                            />
-                        </Box>
                     <MUIDataTable
                         columns={['File', 'Uploader', 'Description', 'Created on']}
                         data={mockData}
-                        title={"Ticket history"}
+                        options={{
+                            print: false,
+                            download: false,
+                            viewColumns: false,
+                            //adds the upload button to the toolbar
+                            customToolbar: () => {
+                                return (
+                                    <UploadFile
+                                    files={files}
+                                    setFiles={setFiles}
+                                    />
+                                );
+                            }
+                        }}
+                        title={"Ticket attachments"}
+
                     />
                 </Grid>
 

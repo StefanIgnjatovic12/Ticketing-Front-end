@@ -59,7 +59,9 @@ export default function ProjectList() {
                         options={
                             {
                                 selectableRows: 'none',
-                                print: false
+                                print: false,
+                                download: false,
+                                viewColumns: false
                                 //if cell is in column 0, redirect on click
                                 // onCellClick: (cellIndex, colIndex) => {
                                 //     if (colIndex.colIndex === 0){
