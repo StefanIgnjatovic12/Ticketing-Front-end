@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import MUIDataTable from "mui-datatables";
 import Container from "@mui/material/Container";
-import TicketEditForm from "./TicketEditForm";
 
 
 export default function ProjectList() {
@@ -29,14 +28,11 @@ export default function ProjectList() {
                 projects[i].created_on,
                 `${projects[i].created_by.first_name} ${projects[i].created_by.last_name}`,
                 projects[i].id
-
-
             ])
         }
         return projectDataArr
     }
 
-    //<Link to="/roles" style={{ textDecoration: 'none' }}>Role Management</Link>
     return (
         <>
             {loading

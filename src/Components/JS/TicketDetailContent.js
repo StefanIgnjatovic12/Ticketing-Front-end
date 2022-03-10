@@ -1,5 +1,7 @@
 import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
+import Divider from "@mui/material/Divider";
+import * as React from "react";
 
 export default function TicketDetailContent(props) {
     const ticketDetailData = [
@@ -74,6 +76,7 @@ export default function TicketDetailContent(props) {
 
                     </div>
                 </Box>
+
                 <Box sx={
                     {
                         width: 3 / 5,
@@ -102,7 +105,9 @@ export default function TicketDetailContent(props) {
                         </Typography>
 
                     </div>
+                    <Divider sx={{my: 1}}/>
                 </Box>
+
             </Box>
         </div>
     )

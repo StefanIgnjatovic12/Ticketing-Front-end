@@ -17,6 +17,7 @@ export default function TicketDetail() {
         ['data1', 'data2', 'data3'],
         ['data1', 'data2', 'data3'],]
     const [assignedComments, setAssignedComments] = useState(null)
+    const [fileAttachments, setFileAttachments] = useState(null)
     const [ticketInfo, setTicketInfo] = useState(null)
     const [ticketEditInfo, setTicketEditInfo] = useState(null)
     const [ticketEditDone, setTicketEditDone] = useState(null)
@@ -33,6 +34,7 @@ export default function TicketDetail() {
 
                     setAssignedComments(data[0].comments)
                     setTicketInfo(data[0].ticket_info)
+                    setFileAttachments(data[0].attachments)
                     setLoading(true)
 
                 })
@@ -78,12 +80,28 @@ export default function TicketDetail() {
         return assignedCommentData
     }
 
+    const attachedFiles = () => {
+        let attachedFilesArr = []
+        fileAttachments.forEach(attachment => {
+            attachedFilesArr.push([
+                attachment.file_name
+            ])
+        })
+        return attachedFilesArr
+    }
+
     useEffect(() => {
         console.log(files)
+        //append the state which contains the file to the formData
+        //append the id of the parent ticket
         let formData = new FormData();
         if (files) {
             formData.append('file', files[0])
+            formData.append('parent_ticket', ticketID)
         }
+        // if (files.length === 0) {
+        //     console.log('state emptied')
+        // }
 
         //if length of files is 0 > DELETE, if > 0 POST
         const requestOptions = {
@@ -95,7 +113,7 @@ export default function TicketDetail() {
             body: formData
         }
         fetch("http://127.0.0.1:8000/api/attachment-upload/", requestOptions)
-            .then(response => console.log(response))
+            .then(response => console.log(response.json()))
             .catch(error => console.log(error))
     }, [files])
 
@@ -175,30 +193,33 @@ export default function TicketDetail() {
                         title={'Ticket history'}
                     />
                 </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={6}>
-                    {/*useeffect runs again when you remove the file because the state changes*/}
+                {loading
+                    ? <Grid item xs={12} sm={12} md={6} lg={6}>
+                        {/*useeffect runs again when you remove the file because the state changes*/}
 
-                    <MUIDataTable
-                        columns={['File', 'Uploader', 'Description', 'Created on']}
-                        data={mockData}
-                        options={{
-                            print: false,
-                            download: false,
-                            viewColumns: false,
-                            //adds the upload button to the toolbar
-                            customToolbar: () => {
-                                return (
-                                    <UploadFile
-                                    files={files}
-                                    setFiles={setFiles}
-                                    />
-                                );
-                            }
-                        }}
-                        title={"Ticket attachments"}
+                        <MUIDataTable
+                            columns={['File', 'Uploader', 'Description', 'Created on']}
+                            data={attachedFiles()}
+                            options={{
+                                print: false,
+                                download: false,
+                                viewColumns: false,
+                                //adds the upload button to the toolbar
+                                customToolbar: () => {
+                                    return (
+                                        <UploadFile
+                                            files={files}
+                                            setFiles={setFiles}
+                                        />
+                                    );
+                                }
+                            }}
+                            title={"Ticket attachments"}
 
-                    />
-                </Grid>
+                        />
+                    </Grid>
+                    : null}
+
 
             </Grid>
 
