@@ -9,6 +9,8 @@ import TicketDetailContent from "./TicketDetailContent"
 import TicketEditForm from "./TicketEditForm";
 import Box from "@mui/material/Box";
 import UploadFile from './UploadFile'
+import AddComment from './AddComment'
+import Divider from "@mui/material/Divider";
 
 export default function TicketDetail() {
 
@@ -20,6 +22,7 @@ export default function TicketDetail() {
     const [fileAttachments, setFileAttachments] = useState(null)
     const [ticketInfo, setTicketInfo] = useState(null)
     const [ticketEditInfo, setTicketEditInfo] = useState(null)
+    const [addComment, setAddComment] = useState(null)
     const [ticketEditDone, setTicketEditDone] = useState(null)
     const [loading, setLoading] = useState(null)
     const [files, setFiles] = useState(null)
@@ -50,10 +53,12 @@ export default function TicketDetail() {
         //ie the ticket data gets refetched after the edit automatically without reloading the page
         setTicketEditDone(Math.floor(Math.random() * 1000))
         const requestOptions = {
+            // credentials: 'include',
             method: 'PUT',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`
             },
             body: JSON.stringify(ticketEditInfo)
 
@@ -66,6 +71,20 @@ export default function TicketDetail() {
 
 
     }, [ticketEditInfo])
+
+    useEffect(() =>{
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(addComment)
+
+        }
+        // const addComment = (ticketID) => {
+        // }
+    })
 
     const assignedCommentData = () => {
         let assignedCommentData = []
@@ -106,7 +125,7 @@ export default function TicketDetail() {
         //if length of files is 0 > DELETE, if > 0 POST
         const requestOptions = {
             method: 'POST',
-            // headers: {
+            // headers: {s
             //     "Accept": "*/*",
             //     'Content-type': 'multipart/form-data'
             // },
@@ -131,7 +150,8 @@ export default function TicketDetail() {
                             justifyContent: "space-between",
                             pt: 1.9,
                             pl: 2.75,
-                            pr: 2.75
+                            pr: 2.75,
+                            pb: 1
 
                         }}>
                             <Typography
@@ -151,7 +171,9 @@ export default function TicketDetail() {
                             <TicketEditForm
                                 setTicketEditInfo={setTicketEditInfo}
                             />
+
                         </Box>
+
 
                         {loading && <TicketDetailContent
                             ticket_info={ticketInfo}
@@ -169,7 +191,14 @@ export default function TicketDetail() {
                         options={{
                             print: false,
                             download: false,
-                            viewColumns: false
+                            viewColumns: false,
+                            customToolbar: () => {
+                                    return (
+                                        <AddComment
+                                        setAddComment={setAddComment}
+                                        />
+                                    );
+                                }
                         }}
                         title={"Ticket comments"}
                     />

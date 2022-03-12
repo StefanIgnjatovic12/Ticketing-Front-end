@@ -5,44 +5,46 @@ import * as React from "react";
 
 export default function TicketDetailContent(props) {
     const ticketDetailData = [
-    {
-        "leftHeader": "Ticket title",
-        "leftSubtitle": `${props.ticket_info.title}`,
-        "rightHeader": "Ticket description",
-        "rightSubtitle": `${props.ticket_info.description}`
-    },
-    {
-        "leftHeader": "Assigned developer",
-        "leftSubtitle": "Demo assigned developer",
-        "rightHeader": "Ticket submitter",
-        "rightSubtitle": "Demo ticket submitter"
-    },
-    {
-        "leftHeader": "Project",
-        "leftSubtitle": "Demo project title",
-        "rightHeader": "Ticket priority",
-        "rightSubtitle": `${props.ticket_info.priority}`
-    },
-    {
-        "leftHeader": "Ticket status",
-        "leftSubtitle": "Demo ticket status",
-        "rightHeader": "Ticket type",
-        "rightSubtitle": "Demo ticket type"
-    },
-    {
-        "leftHeader": "Created",
-        "leftSubtitle": `${props.ticket_info.created_on}`,
-        "rightHeader": "Updated",
-        "rightSubtitle": "Demo ticket update time"
-    },
-]
+        {
+            "leftHeader": "Ticket title",
+            "leftSubtitle": `${props.ticket_info.title}`,
+            "rightHeader": "Ticket description",
+            "rightSubtitle": `${props.ticket_info.description}`
+        },
+        {
+            "leftHeader": "Assigned developer",
+            "leftSubtitle": "Demo assigned developer",
+            "rightHeader": "Ticket submitter",
+            "rightSubtitle": "Demo ticket submitter"
+        },
+        {
+            "leftHeader": "Project",
+            "leftSubtitle": "Demo project title",
+            "rightHeader": "Ticket priority",
+            "rightSubtitle": `${props.ticket_info.priority}`
+        },
+        {
+            "leftHeader": "Ticket status",
+            "leftSubtitle": "Demo ticket status",
+            "rightHeader": "Ticket type",
+            "rightSubtitle": "Demo ticket type"
+        },
+        {
+            "leftHeader": "Created",
+            "leftSubtitle": `${props.ticket_info.created_on}`,
+            "rightHeader": "Updated",
+            "rightSubtitle": "Demo ticket update time"
+        },
+    ]
     const ticketDetailElements = ticketDetailData.map((entry) =>
         <div key={Math.floor(Math.random() * 10000)}>
             {/*box that contains both columns*/}
+            <Divider />
             <Box sx={{
                 display: "flex",
                 flexDirection: 'row',
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
+                height: 80
             }}>
                 {/*left column*/}
                 <Box sx={
@@ -100,15 +102,16 @@ export default function TicketDetailContent(props) {
 
                         </Typography>
 
-                        <Typography variant="subtitle2" fontSize="0.75rem">
+                        <Typography variant="subtitle2">
                             {entry.rightSubtitle}
                         </Typography>
 
                     </div>
-                    <Divider sx={{my: 1}}/>
+
                 </Box>
 
             </Box>
+            {/*<Divider />*/}
         </div>
     )
 
