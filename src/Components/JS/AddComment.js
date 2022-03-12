@@ -1,5 +1,4 @@
 import {withStyles} from "@material-ui/core/styles";
-import FileUpload from 'react-material-file-upload';
 import Box from "@mui/material/Box";
 import Dialog from '@mui/material/Dialog';
 import {useState} from "react";
@@ -7,10 +6,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import TextField from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
-import {InputLabel} from "@mui/material";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from '@mui/material/DialogContent';
 import Button from "@mui/material/Button";
@@ -44,8 +39,7 @@ function UploadFile(props) {
     }
     const handleSubmit = (event) => {
         event.preventDefault()
-        props.setAddComment(formValues)
-
+        props.setAddComment(formValues['comment'])
         setOpen(false)
 
     };

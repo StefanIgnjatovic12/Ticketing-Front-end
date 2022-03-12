@@ -71,7 +71,8 @@ export default function ProjectDetail() {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${localStorage.getItem('token')}`
         },
     }
     //make it so that you can delete multiple users at once > look at how its done in role management
@@ -156,7 +157,7 @@ export default function ProjectDetail() {
 
                                         onRowsDelete: (rowsDeleted) => {
                                             //on row delete get the ticket ID corresponding to the row and call the function
-                                            let deletedticketID = assignedTicketData()[rowsDeleted.data[0].dataIndex][3]
+                                            let deletedticketID = assignedTicketData()[rowsDeleted.data[0].dataIndex][4]
                                             deleteProjectTicket(deletedticketID)
 
                                         },

@@ -10,7 +10,7 @@ import {useLocation} from "react-router";
 
 export default function RoleManagement() {
     let location = useLocation();
-    console.log(location)
+
     // const csrftoken = Cookies.get('csrftoken');
     const [loading, setLoading] = useState(null)
     const [users, setUsers] = useState(null)
@@ -83,7 +83,8 @@ export default function RoleManagement() {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`
             },
             body: createPayload()
 
@@ -102,7 +103,6 @@ export default function RoleManagement() {
                 fetch(`http://127.0.0.1:8000/api/users/?limit=${num}`)
                     .then(response => response.json())
                     .then(data => {
-                        console.log('Data loaded in useEffect')
                         setUsers(data)
                         setLoading(true)
 

@@ -1,7 +1,2 @@
-Ticket detail page
-- create popup form to edit ticket
- * popup form on submit does a PUT request to edit the DB
-- create an attachment form
- * form on front end and new views for adding, deleting and downloading attachments
-- update table
-  * display changes made to said ticket > time and what fields were altered
+Make it so that you can delete multiple tickets, comments and projects
+Make user permissions
