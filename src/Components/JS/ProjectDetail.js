@@ -10,8 +10,6 @@ export default function ProjectDetail() {
     const [assignedUsers, setAssignedUsers] = useState(null)
     const [assignedTickets, setAssignedTickets] = useState(null)
     const [loading, setLoading] = useState(null)
-    const [confirmDelete, setConfirmDelete] = useState(false)
-    const dialog = useDialog()
     //Get project ID from the location URL
     let location = useLocation();
     let projectID = location.pathname
@@ -76,13 +74,31 @@ export default function ProjectDetail() {
         },
     }
     //make it so that you can delete multiple users at once > look at how its done in role management
-    const deleteProjectUser = (userID) => {
-        fetch(`http://127.0.0.1:8000/api/assigned-user-delete${projectID}/${userID}/`, requestOptions)
+    const deleteProjectUser = (deleteUserIDArray) => {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(deleteUserIDArray)
+        }
+        fetch(`http://127.0.0.1:8000/api/assigned-user-delete${projectID}/`, requestOptions)
             .then(response => console.log(response))
             .catch(error => console.log(error))
     }
-    const deleteProjectTicket = (ticketID) => {
-        fetch(`http://127.0.0.1:8000/api/assigned-ticket-delete${projectID}/${ticketID}/`, requestOptions)
+    const deleteTicket = (deleteTicketArray) => {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(deleteTicketArray)
+        }
+        fetch(`http://127.0.0.1:8000/api/ticket-delete/`, requestOptions)
             .then(response => console.log(response))
             .catch(error => console.log(error))
     }
@@ -103,12 +119,13 @@ export default function ProjectDetail() {
                                 title={'Personnel assigned to project'}
                                 options={
                                     {
-                                        //maybe have a separate button that you click before rows become selectable instead
-                                        // selectableRows: 'none'
+
                                         onRowsDelete: (rowsDeleted) => {
                                             //on row delete get the user ID corresponding to the row and call the function
-                                            let deletedUserID = assignedUserData()[rowsDeleted.data[0].dataIndex][3]
-                                            deleteProjectUser(deletedUserID)
+                                            let deleteUserIDArray = []
+                                            rowsDeleted.data.forEach(row => deleteUserIDArray.push(assignedUserData()[row.dataIndex][3]))
+
+                                            deleteProjectUser(deleteUserIDArray)
                                         }
                                     }
                                 }
@@ -157,9 +174,11 @@ export default function ProjectDetail() {
 
                                         onRowsDelete: (rowsDeleted) => {
                                             //on row delete get the ticket ID corresponding to the row and call the function
-                                            let deletedticketID = assignedTicketData()[rowsDeleted.data[0].dataIndex][4]
-                                            deleteProjectTicket(deletedticketID)
-
+                                            // let deletedticketID = assignedTicketData()[rowsDeleted.data[0].dataIndex][4]
+                                            // deleteProjectTicket(deletedticketID)
+                                            let deleteTicketArray = []
+                                            rowsDeleted.data.forEach(row => deleteTicketArray.push(assignedTicketData()[row.dataIndex][4]))
+                                            deleteTicket(deleteTicketArray)
                                         },
                                         print: false
 

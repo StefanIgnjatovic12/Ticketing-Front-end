@@ -10,7 +10,7 @@ import TicketEditForm from "./TicketEditForm";
 import Box from "@mui/material/Box";
 import UploadFile from './UploadFile'
 import AddComment from './AddComment'
-import Divider from "@mui/material/Divider";
+
 
 export default function TicketDetail() {
 
@@ -21,19 +21,17 @@ export default function TicketDetail() {
     const [assignedComments, setAssignedComments] = useState(null)
     const [fileAttachments, setFileAttachments] = useState(null)
     const [ticketInfo, setTicketInfo] = useState(null)
-    const [ticketEditInfo, setTicketEditInfo] = useState(null)
+    const [ticketEditForm, setTicketEditForm] = useState(null)
     const [addComment, setAddComment] = useState(null)
-    //array that contains rowIDs of comments to be deleted
-    const [deleteComment, setDeleteComment] = useState(null)
-    const [ticketEditDone, setTicketEditDone] = useState(null)
-    const [loading, setLoading] = useState(null)
     const [files, setFiles] = useState(null)
+    const [loading, setLoading] = useState(null)
     let location = useLocation();
     let ticketID = location.pathname
 
+
     //Loading all data on page, called on page load and when a ticket is edited or comment added
     useEffect(() => {
-        const fetchTicketData = (ticketID) => {
+        const fetchTicketData = () => {
             fetch(`http://127.0.0.1:8000/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
@@ -45,59 +43,82 @@ export default function TicketDetail() {
                 })
                 .catch(error => console.log(error))
         }
-        fetchTicketData(ticketID)
+        fetchTicketData()
 
-    }, [ticketEditDone, addComment])
+    }, [])
 
     useEffect(() => {
 
         //changes the state of ticket edit done because it is a dependency of the useState used to fetch data
         //ie the ticket data gets refetched after the edit automatically without reloading the page
-        setTicketEditDone(Math.floor(Math.random() * 1000))
-        const requestOptions = {
-            // credentials: 'include',
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify(ticketEditInfo)
+        // setTicketEditDone(Math.floor(Math.random() * 1000))
 
-        }
         const editTicketData = (ticketID) => {
+            const requestOptions = {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(ticketEditForm)
+
+            }
             fetch(`http://127.0.0.1:8000/api/ticket-update/${ticketID.split('/')[2]}/`, requestOptions)
                 .then(response => console.log(response.json()))
                 .catch(error => console.log(error))
 
         }
-        editTicketData(ticketID)
+
+        //makes it so that the API call is only ran when ticket is edited
+        //ticket is edited and then API is called to update the content on screen
+        if (ticketEditForm) {
+            editTicketData(ticketID)
+            fetch(`http://127.0.0.1:8000/api${ticketID}`)
+                .then(response => response.json())
+                .then(data => {
+                    setTicketInfo(data[0].ticket_info)
+                    setLoading(true)
+
+                })
+                .catch(error => console.log(error))
+
+        }
 
 
-    }, [ticketEditInfo])
+    }, [ticketEditForm])
 
     useEffect(() => {
         let commentPayload = {
             'comment': addComment,
             'parent_ticket': ticketID.split('/')[2]
         }
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify(commentPayload)
 
-        }
         const addCommentFetch = () => {
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(commentPayload)
+
+            }
             fetch('http://127.0.0.1:8000/api/comment-create/', requestOptions)
                 .then(response => console.log(response.json()))
                 .catch(error => console.log(error))
         }
-        if (addComment){
+        if (addComment) {
             addCommentFetch()
+            fetch(`http://127.0.0.1:8000/api${ticketID}`)
+                .then(response => response.json())
+                .then(data => {
+                    setAssignedComments(data[0].comments)
+                    setLoading(true)
+
+                })
+                .catch(error => console.log(error))
         }
 
     }, [addComment])
@@ -131,35 +152,49 @@ export default function TicketDetail() {
         //append the id of the parent ticket
         let formData = new FormData();
         if (files) {
-            formData.append('file', files[0])
-            formData.append('parent_ticket', ticketID)
-        }
-        // if (files.length === 0) {
-        //     console.log('state emptied')
-        // }
 
-        //if length of files is 0 > DELETE, if > 0 POST
-        const requestOptions = {
-            method: 'POST',
-            body: formData
+            formData.append('file', files[0])
+            formData.append('parent_ticket', ticketID.split('/')[2])
         }
-        fetch("http://127.0.0.1:8000/api/attachment-upload/", requestOptions)
-            .then(response => console.log(response.json()))
-            .catch(error => console.log(error))
+        const addAttachment = () => {
+            console.log('addAttachment ran')
+            const requestOptions = {
+                method: 'POST',
+                body: formData
+            }
+            fetch("http://127.0.0.1:8000/api/attachment-upload/", requestOptions)
+                .then(response => console.log(response.json()))
+                .catch(error => console.log(error))
+        }
+
+        if (files) {
+            addAttachment()
+            fetch(`http://127.0.0.1:8000/api${ticketID}`)
+                .then(response => response.json())
+                .then(data => {
+                    setFileAttachments(data[0].attachments)
+                    setLoading(true)
+
+                })
+                .catch(error => console.log(error))
+
+        }
+
     }, [files])
 
-    const requestOptions = {
-        method: 'DELETE',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(deleteComment)
-    }
-    const deleteCommentFetch = () => {
+
+    const deleteCommentFetch = (deleteCommentArray) => {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(deleteCommentArray)
+        }
         fetch(`http://127.0.0.1:8000/api/comment-delete/`, requestOptions)
-        .then(response => console.log(response))
+            .then(response => console.log(response))
             .catch(error => console.log(error))
     }
     return (
@@ -194,7 +229,7 @@ export default function TicketDetail() {
                             </Typography>
 
                             <TicketEditForm
-                                setTicketEditInfo={setTicketEditInfo}
+                                setTicketEditInfo={setTicketEditForm}
                             />
 
                         </Box>
@@ -229,10 +264,7 @@ export default function TicketDetail() {
                                 //on row delete get the user ID corresponding to the row and call the function
                                 let commentIds = []
                                 rowsDeleted.data.forEach(row => commentIds.push(assignedCommentData()[row.dataIndex][3]))
-                                setDeleteComment(commentIds)
-                                console.log(`State: ${deleteComment}`)
-                                console.log(`Array: ${commentIds}`)
-                                // deleteCommentFetch()
+                                deleteCommentFetch(commentIds)
 
 
                             }

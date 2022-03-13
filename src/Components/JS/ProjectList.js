@@ -33,6 +33,21 @@ export default function ProjectList() {
         return projectDataArr
     }
 
+    const deleteProjectFetch = (deleteProjectArray) => {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(deleteProjectArray)
+        }
+        fetch(`http://127.0.0.1:8000/api/project-delete/`, requestOptions)
+            .then(response => console.log(response))
+            .catch(error => console.log(error))
+    }
+
     return (
         <>
             {loading
@@ -54,15 +69,18 @@ export default function ProjectList() {
                         title={'Projects'}
                         options={
                             {
-                                selectableRows: 'none',
                                 print: false,
                                 download: false,
-                                viewColumns: false
-                                //if cell is in column 0, redirect on click
-                                // onCellClick: (cellIndex, colIndex) => {
-                                //     if (colIndex.colIndex === 0){
-                                //         window.location.href = `http://127.0.0.1:8000/api/projects/${cellIndex.split(' ')[1]}`
-                                //     }
+                                viewColumns: false,
+                                onRowsDelete: (rowsDeleted) => {
+                                // console.log(rowsDeleted.data)
+                                //on row delete get the user ID corresponding to the row and call the function
+                                let deleteProjectArray = []
+                                rowsDeleted.data.forEach(row => deleteProjectArray.push(projectData()[row.dataIndex][4]))
+                                deleteProjectFetch(deleteProjectArray)
+                                // console.log(deleteProjectArray)
+
+                            }
 
                             }
                         }

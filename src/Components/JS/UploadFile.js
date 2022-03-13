@@ -6,6 +6,7 @@ import {useState} from "react";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import {DropzoneDialog} from 'react-mui-dropzone'
 
 
 const defaultToolbarStyles = {
@@ -21,6 +22,8 @@ function UploadFile(props) {
     const handleClose = () => {
         setOpen(false);
     };
+
+
     return (
         <>
             <Tooltip title="Upload attachment">
@@ -28,11 +31,18 @@ function UploadFile(props) {
                     <CloudUploadIcon/>
                 </IconButton>
             </Tooltip>
-            <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={"xs"}>
-                <Box>
-                    <FileUpload value={props.files} onChange={props.setFiles}/>
-                </Box>
-            </Dialog>
+
+            <DropzoneDialog
+                open={open}
+                onSave={(files) => {
+                    props.setFiles(files)
+                    setOpen(false)
+                }}
+                acceptedFiles={['.txt', '.doc', '.docx', '.xlsx', '.csv', 'image/*']}
+                showPreviews={true}
+                maxFileSize={5000000}
+                onClose={handleClose}
+            />
         </>
     )
 }
