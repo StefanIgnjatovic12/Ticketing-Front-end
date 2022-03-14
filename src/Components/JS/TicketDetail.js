@@ -10,7 +10,7 @@ import TicketEditForm from "./TicketEditForm";
 import Box from "@mui/material/Box";
 import UploadFile from './UploadFile'
 import AddComment from './AddComment'
-
+import {getTime} from './getTime'
 
 export default function TicketDetail() {
 
@@ -24,6 +24,7 @@ export default function TicketDetail() {
     const [ticketEditForm, setTicketEditForm] = useState(null)
     const [addComment, setAddComment] = useState(null)
     const [files, setFiles] = useState(null)
+    const [currentTime, setCurrentTime] = useState(null)
     const [loading, setLoading] = useState(null)
     let location = useLocation();
     let ticketID = location.pathname
@@ -31,6 +32,8 @@ export default function TicketDetail() {
 
     //Loading all data on page, called on page load and when a ticket is edited or comment added
     useEffect(() => {
+
+
         const fetchTicketData = () => {
             fetch(`http://127.0.0.1:8000/api${ticketID}`)
                 .then(response => response.json())
@@ -43,10 +46,12 @@ export default function TicketDetail() {
                 })
                 .catch(error => console.log(error))
         }
+
         fetchTicketData()
 
     }, [])
 
+    //-----------EDIT TICKET DATA ------------
     useEffect(() => {
 
         //changes the state of ticket edit done because it is a dependency of the useState used to fetch data
@@ -88,26 +93,34 @@ export default function TicketDetail() {
 
     }, [ticketEditForm])
 
+    //-----------ADD COMMENT ------------
     useEffect(() => {
-        let commentPayload = {
-            'comment': addComment,
-            'parent_ticket': ticketID.split('/')[2]
-        }
 
-        const addCommentFetch = () => {
-            const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json, text/plain, */*',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify(commentPayload)
 
-            }
-            fetch('http://127.0.0.1:8000/api/comment-create/', requestOptions)
-                .then(response => console.log(response.json()))
-                .catch(error => console.log(error))
+        const addCommentFetch = async () => {
+            const time = await getTime()
+
+                let commentPayload = {
+                    'comment': addComment,
+                    'parent_ticket': ticketID.split('/')[2],
+                    'created_on': time
+                }
+                console.log(commentPayload)
+                const requestOptions = {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify(commentPayload)
+
+                }
+                fetch('http://127.0.0.1:8000/api/comment-create/', requestOptions)
+                    .then(response => console.log(response.json()))
+                    .catch(error => console.log(error))
+
+
         }
         if (addComment) {
             addCommentFetch()
@@ -116,6 +129,8 @@ export default function TicketDetail() {
                 .then(data => {
                     setAssignedComments(data[0].comments)
                     setLoading(true)
+                    setAddComment(null)
+
 
                 })
                 .catch(error => console.log(error))
@@ -137,52 +152,7 @@ export default function TicketDetail() {
         return assignedCommentDataArr
     }
 
-    const attachedFiles = () => {
-        let attachedFilesArr = []
-        fileAttachments.forEach(attachment => {
-            attachedFilesArr.push([
-                attachment.file_name
-            ])
-        })
-        return attachedFilesArr
-    }
-
-    useEffect(() => {
-        //append the state which contains the file to the formData
-        //append the id of the parent ticket
-        let formData = new FormData();
-        if (files) {
-
-            formData.append('file', files[0])
-            formData.append('parent_ticket', ticketID.split('/')[2])
-        }
-        const addAttachment = () => {
-            console.log('addAttachment ran')
-            const requestOptions = {
-                method: 'POST',
-                body: formData
-            }
-            fetch("http://127.0.0.1:8000/api/attachment-upload/", requestOptions)
-                .then(response => console.log(response.json()))
-                .catch(error => console.log(error))
-        }
-
-        if (files) {
-            addAttachment()
-            fetch(`http://127.0.0.1:8000/api${ticketID}`)
-                .then(response => response.json())
-                .then(data => {
-                    setFileAttachments(data[0].attachments)
-                    setLoading(true)
-
-                })
-                .catch(error => console.log(error))
-
-        }
-
-    }, [files])
-
-
+    //-----------DELETE COMMENT  ------------
     const deleteCommentFetch = (deleteCommentArray) => {
         const requestOptions = {
             method: 'DELETE',
@@ -197,12 +167,78 @@ export default function TicketDetail() {
             .then(response => console.log(response))
             .catch(error => console.log(error))
     }
+
+    //-----------ADD ATTACHMENT ------------
+
+    const attachedFiles = () => {
+        let attachedFilesArr = []
+
+        fileAttachments.forEach(attachment => {
+            attachedFilesArr.push([
+                attachment.file_name,
+                attachment.uploaded_by,
+                attachment.created_on
+
+
+            ])
+        })
+
+        return attachedFilesArr
+    }
+
+    useEffect(() => {
+        //append the state which contains the file to the formData
+        //append the id of the parent ticket
+        let formData = new FormData();
+
+        const addAttachment = async () => {
+
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                },
+                body: formData
+            }
+            fetch("http://127.0.0.1:8000/api/attachment-upload/", requestOptions)
+                .then(response => console.log(response.json()))
+                .catch(error => console.log(error))
+        }
+
+        if (files) {
+            getTime().then(time => {
+                    setCurrentTime(time)
+                }
+            )
+            if (currentTime && files) {
+                formData.append('created_on', currentTime)
+                formData.append('file', files[0])
+                formData.append('parent_ticket', ticketID.split('/')[2])
+            }
+
+
+            addAttachment()
+            fetch(`http://127.0.0.1:8000/api${ticketID}`)
+                .then(response => response.json())
+                .then(data => {
+                    setFileAttachments(data[0].attachments)
+                    setLoading(true)
+                    setFiles(null)
+
+                })
+                .catch(error => console.log(error))
+
+        }
+
+    }, [files])
+
+
     return (
         <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
             {/*first row*/}
             <Grid container spacing={3} direction='row' justifyContent="space-between"
                   alignItems="flex-start">
-                <Grid item xs={12} sm={12} md={6} lg={6}>
+                {loading ? <Grid item xs={12} sm={12} md={6} lg={6}>
                     <Paper>
                         <Box sx={{
                             display: "flex",
@@ -240,7 +276,7 @@ export default function TicketDetail() {
                         />}
 
                     </Paper>
-                </Grid>
+                </Grid> : null}
 
                 {/*Ticket comment table*/}
 
@@ -278,25 +314,25 @@ export default function TicketDetail() {
             {/*second row */}
             <Grid sx={{pt: 5}} container spacing={3} direction='row' justifyContent="space-between"
                   alignItems="flex-start">
-                <Grid item xs={12} sm={12} md={6} lg={6}>
-                    <MUIDataTable
-                        columns={['Column1', 'Column2', 'Column3']}
-                        data={mockData}
-                        options={{
-                            print: false,
-                            download: false,
-                            viewColumns: false,
+                {/*<Grid item xs={12} sm={12} md={6} lg={6}>*/}
+                {/*    <MUIDataTable*/}
+                {/*        columns={['Column1', 'Column2', 'Column3']}*/}
+                {/*        data={mockData}*/}
+                {/*        options={{*/}
+                {/*            print: false,*/}
+                {/*            download: false,*/}
+                {/*            viewColumns: false,*/}
 
-                        }}
-                        title={'Ticket history'}
-                    />
-                </Grid>
+                {/*        }}*/}
+                {/*        title={'Ticket history'}*/}
+                {/*    />*/}
+                {/*</Grid>*/}
                 {loading
                     ? <Grid item xs={12} sm={12} md={6} lg={6}>
                         {/*useeffect runs again when you remove the file because the state changes*/}
 
                         <MUIDataTable
-                            columns={['File', 'Uploader', 'Description', 'Created on']}
+                            columns={['File', 'Uploader', 'Uploaded on']}
                             data={attachedFiles()}
                             options={{
                                 print: false,

@@ -1,2 +1,5 @@
 Make it so that you can delete multiple tickets, comments and projects
 Make user permissions
+
+check why adding comment isnt auto refreshing
+make sure you dont have to edit all the fields of a ticket for the request to work
