@@ -18,8 +18,8 @@ export default function TicketDetail() {
     const mockData = [['data1', 'data2', 'data3'],
         ['data1', 'data2', 'data3'],
         ['data1', 'data2', 'data3'],]
-    const [assignedComments, setAssignedComments] = useState(null)
-    const [fileAttachments, setFileAttachments] = useState(null)
+    const [savedComments, setSavedComments] = useState(null)
+    const [savedAttachments, setSavedAttachments] = useState(null)
     const [ticketHistory, setTicketHistory] = useState(null)
     const [ticketInfo, setTicketInfo] = useState(null)
     const [ticketEditForm, setTicketEditForm] = useState(null)
@@ -39,9 +39,9 @@ export default function TicketDetail() {
             fetch(`http://127.0.0.1:8000/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
-                    setAssignedComments(data[0].comments)
+                    setSavedComments(data[0].comments)
                     setTicketInfo(data[0].ticket_info)
-                    setFileAttachments(data[0].attachments)
+                    setSavedAttachments(data[0].attachments)
                     setTicketHistory(data[0].ticket_history)
                     setLoading(true)
 
@@ -101,13 +101,16 @@ export default function TicketDetail() {
     useEffect(() => {
 
 
-        const addCommentFetch = async () => {
-            const time = await getTime()
+        const addCommentFetch =  () => {
+            getTime().then(time => {
+                    setCurrentTime(time)
+                    console.log(currentTime)
+                })
 
             let commentPayload = {
                 'comment': addComment,
                 'parent_ticket': ticketID.split('/')[2],
-                'created_on': time
+                'created_on': currentTime
             }
             console.log(commentPayload)
             const requestOptions = {
@@ -121,7 +124,10 @@ export default function TicketDetail() {
 
             }
             fetch('http://127.0.0.1:8000/api/comment-create/', requestOptions)
-                .then(response => console.log(response.json()))
+                .then(response => {
+                    console.log(response.json())
+                    setAddComment(null)
+                })
                 .catch(error => console.log(error))
 
 
@@ -131,9 +137,9 @@ export default function TicketDetail() {
             fetch(`http://127.0.0.1:8000/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
-                    setAssignedComments(data[0].comments)
+                    setSavedComments(data[0].comments)
                     setLoading(true)
-                    setAddComment(null)
+
 
 
                 })
@@ -144,13 +150,12 @@ export default function TicketDetail() {
 
     const assignedCommentData = () => {
         let assignedCommentDataArr = []
-        assignedComments.forEach(comment => {
+        savedComments.forEach(comment => {
             assignedCommentDataArr.push([
                 comment.created_by,
                 comment.content,
                 comment.created_on,
                 comment.id
-
             ])
         })
         return assignedCommentDataArr
@@ -177,13 +182,12 @@ export default function TicketDetail() {
     const attachedFiles = () => {
         let attachedFilesArr = []
 
-        fileAttachments.forEach(attachment => {
+        savedAttachments.forEach(attachment => {
             attachedFilesArr.push([
                 attachment.file_name,
                 attachment.uploaded_by,
-                attachment.created_on
-
-
+                attachment.created_on,
+                attachment.id
             ])
         })
 
@@ -195,7 +199,7 @@ export default function TicketDetail() {
         //append the id of the parent ticket
         let formData = new FormData();
 
-        const addAttachment = async () => {
+        const addAttachment =  () => {
 
             const requestOptions = {
                 method: 'POST',
@@ -220,12 +224,11 @@ export default function TicketDetail() {
                 formData.append('parent_ticket', ticketID.split('/')[2])
             }
 
-
             addAttachment()
             fetch(`http://127.0.0.1:8000/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
-                    setFileAttachments(data[0].attachments)
+                    setSavedAttachments(data[0].attachments)
                     setLoading(true)
                     setFiles(null)
 
@@ -245,8 +248,6 @@ export default function TicketDetail() {
                 ticket_edit.changed_field.charAt(0).toUpperCase() + ticket_edit.changed_field.slice(1),
                 ticket_edit.old_value,
                 ticket_edit.new_value
-
-
             ])
         })
 
@@ -356,7 +357,20 @@ export default function TicketDetail() {
                         {/*useeffect runs again when you remove the file because the state changes*/}
 
                         <MUIDataTable
-                            columns={['File', 'Uploader', 'Uploaded on']}
+                            columns={['File', 'Uploader', 'Uploaded on', {
+                                name: "",
+                                options: {
+                                    filter: false,
+                                    //makes the content of the column into a href
+                                    customBodyRender: (value) => {
+                                        return (
+                                            <a href={`http://127.0.0.1:8000/api/attachment-download/${value}`}>
+                                                Download attachment
+                                            </a>
+                                        );
+                                    }
+                                }
+                            }]}
                             data={attachedFiles()}
                             options={{
                                 print: false,
