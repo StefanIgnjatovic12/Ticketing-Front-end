@@ -20,6 +20,7 @@ export default function TicketDetail() {
         ['data1', 'data2', 'data3'],]
     const [assignedComments, setAssignedComments] = useState(null)
     const [fileAttachments, setFileAttachments] = useState(null)
+    const [ticketHistory, setTicketHistory] = useState(null)
     const [ticketInfo, setTicketInfo] = useState(null)
     const [ticketEditForm, setTicketEditForm] = useState(null)
     const [addComment, setAddComment] = useState(null)
@@ -41,6 +42,7 @@ export default function TicketDetail() {
                     setAssignedComments(data[0].comments)
                     setTicketInfo(data[0].ticket_info)
                     setFileAttachments(data[0].attachments)
+                    setTicketHistory(data[0].ticket_history)
                     setLoading(true)
 
                 })
@@ -83,6 +85,8 @@ export default function TicketDetail() {
                 .then(response => response.json())
                 .then(data => {
                     setTicketInfo(data[0].ticket_info)
+                    //set the ticket history so that that table is also updated
+                    setTicketHistory(data[0].ticket_history)
                     setLoading(true)
 
                 })
@@ -100,25 +104,25 @@ export default function TicketDetail() {
         const addCommentFetch = async () => {
             const time = await getTime()
 
-                let commentPayload = {
-                    'comment': addComment,
-                    'parent_ticket': ticketID.split('/')[2],
-                    'created_on': time
-                }
-                console.log(commentPayload)
-                const requestOptions = {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json, text/plain, */*',
-                        'Content-Type': 'application/json',
-                        'Authorization': `Token ${localStorage.getItem('token')}`
-                    },
-                    body: JSON.stringify(commentPayload)
+            let commentPayload = {
+                'comment': addComment,
+                'parent_ticket': ticketID.split('/')[2],
+                'created_on': time
+            }
+            console.log(commentPayload)
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(commentPayload)
 
-                }
-                fetch('http://127.0.0.1:8000/api/comment-create/', requestOptions)
-                    .then(response => console.log(response.json()))
-                    .catch(error => console.log(error))
+            }
+            fetch('http://127.0.0.1:8000/api/comment-create/', requestOptions)
+                .then(response => console.log(response.json()))
+                .catch(error => console.log(error))
 
 
         }
@@ -232,7 +236,22 @@ export default function TicketDetail() {
 
     }, [files])
 
+    //-----------TICKET HISTORY ------------
+    const attachedHistory = () => {
+        let attachedHistoryArr = []
 
+        ticketHistory.forEach(ticket_edit => {
+            attachedHistoryArr.push([
+                ticket_edit.changed_field.charAt(0).toUpperCase() + ticket_edit.changed_field.slice(1),
+                ticket_edit.old_value,
+                ticket_edit.new_value
+
+
+            ])
+        })
+
+        return attachedHistoryArr
+    }
     return (
         <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
             {/*first row*/}
@@ -312,21 +331,26 @@ export default function TicketDetail() {
 
             </Grid>
             {/*second row */}
+
             <Grid sx={{pt: 5}} container spacing={3} direction='row' justifyContent="space-between"
                   alignItems="flex-start">
-                {/*<Grid item xs={12} sm={12} md={6} lg={6}>*/}
-                {/*    <MUIDataTable*/}
-                {/*        columns={['Column1', 'Column2', 'Column3']}*/}
-                {/*        data={mockData}*/}
-                {/*        options={{*/}
-                {/*            print: false,*/}
-                {/*            download: false,*/}
-                {/*            viewColumns: false,*/}
 
-                {/*        }}*/}
-                {/*        title={'Ticket history'}*/}
-                {/*    />*/}
-                {/*</Grid>*/}
+                {loading
+                    ? <Grid item xs={12} sm={12} md={6} lg={6}>
+                        <MUIDataTable
+                            columns={['Field', 'Old value', 'New value']}
+                            data={attachedHistory()}
+                            options={{
+                                print: false,
+                                download: false,
+                                viewColumns: false,
+
+                            }}
+                            title={'Ticket history'}
+                        />
+                    </Grid>
+                    : null}
+
                 {loading
                     ? <Grid item xs={12} sm={12} md={6} lg={6}>
                         {/*useeffect runs again when you remove the file because the state changes*/}
