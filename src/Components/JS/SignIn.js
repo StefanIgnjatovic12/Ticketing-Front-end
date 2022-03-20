@@ -47,7 +47,11 @@ export default function SignIn() {
         }
         fetch('http://127.0.0.1:8000/api/login/', requestOptions)
             .then(response => response.json())
-            .then(data => localStorage.setItem('token', data['token']))
+            .then(data => {
+                localStorage.setItem('token', data['token'])
+                console.log(data)
+
+            })
             .catch(error => console.log(error))
     }
 

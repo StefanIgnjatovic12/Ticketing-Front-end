@@ -2,7 +2,8 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import MUIDataTable from "mui-datatables";
-import {useEffect, useState, useRef} from "react";
+import {useEffect, useState} from "react";
+import { useCurrentUser } from "./CurrentUserContext"
 import {useLocation} from "react-router";
 import {Typography} from "@mui/material";
 import TicketDetailContent from "./TicketDetailContent"
@@ -11,6 +12,8 @@ import Box from "@mui/material/Box";
 import UploadFile from './UploadFile'
 import AddComment from './AddComment'
 import {getTime} from './getTime'
+import {MuiThemeProvider} from '@material-ui/core/styles';
+import {getMuiTheme} from './getMuiTheme'
 
 export default function TicketDetail() {
 
@@ -18,6 +21,7 @@ export default function TicketDetail() {
     const mockData = [['data1', 'data2', 'data3'],
         ['data1', 'data2', 'data3'],
         ['data1', 'data2', 'data3'],]
+    const { currentUser, fetchCurrentUser } = useCurrentUser()
     const [savedComments, setSavedComments] = useState(null)
     const [savedAttachments, setSavedAttachments] = useState(null)
     const [ticketHistory, setTicketHistory] = useState(null)
@@ -48,7 +52,7 @@ export default function TicketDetail() {
                 })
                 .catch(error => console.log(error))
         }
-
+        fetchCurrentUser()
         fetchTicketData()
 
     }, [])
@@ -73,6 +77,7 @@ export default function TicketDetail() {
             }
             fetch(`http://127.0.0.1:8000/api/ticket-update/${ticketID.split('/')[2]}/`, requestOptions)
                 .then(response => console.log(response.json()))
+                .then(setTicketEditForm(null))
                 .catch(error => console.log(error))
 
         }
@@ -99,20 +104,18 @@ export default function TicketDetail() {
 
     //-----------ADD COMMENT ------------
     useEffect(() => {
-
-
-        const addCommentFetch =  () => {
+        const addCommentFetch = () => {
             getTime().then(time => {
-                    setCurrentTime(time)
-                    console.log(currentTime)
-                })
+                setCurrentTime(time)
+
+            })
 
             let commentPayload = {
                 'comment': addComment,
                 'parent_ticket': ticketID.split('/')[2],
                 'created_on': currentTime
             }
-            console.log(commentPayload)
+
             const requestOptions = {
                 method: 'POST',
                 headers: {
@@ -139,8 +142,6 @@ export default function TicketDetail() {
                 .then(data => {
                     setSavedComments(data[0].comments)
                     setLoading(true)
-
-
 
                 })
                 .catch(error => console.log(error))
@@ -199,7 +200,7 @@ export default function TicketDetail() {
         //append the id of the parent ticket
         let formData = new FormData();
 
-        const addAttachment =  () => {
+        const addAttachment = () => {
 
             const requestOptions = {
                 method: 'POST',
@@ -238,6 +239,21 @@ export default function TicketDetail() {
         }
 
     }, [files])
+    //-----------DELETE ATTACHMENT ------------
+    const deleteAttachmentFetch = (deleteAttachmentArray) => {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(deleteAttachmentArray)
+        }
+        fetch(`http://127.0.0.1:8000/api/attachment-delete/`, requestOptions)
+            .then(response => console.log(response))
+            .catch(error => console.log(error))
+    }
 
     //-----------TICKET HISTORY ------------
     const attachedHistory = () => {
@@ -253,6 +269,8 @@ export default function TicketDetail() {
 
         return attachedHistoryArr
     }
+    //-----------FETCH CURRENT USER ------------
+
     return (
         <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
             {/*first row*/}
@@ -301,32 +319,34 @@ export default function TicketDetail() {
                 {/*Ticket comment table*/}
 
                 {loading ? <Grid item xs={12} sm={12} md={6} lg={6}>
-                    <MUIDataTable
-                        columns={['Submitter', 'Message', 'Created on']}
-                        data={assignedCommentData()}
-                        options={{
-                            print: false,
-                            download: false,
-                            viewColumns: false,
-                            customToolbar: () => {
-                                return (
-                                    <AddComment
-                                        setAddComment={setAddComment}
-                                    />
-                                );
-                            },
-                            onRowsDelete: (rowsDeleted) => {
-                                // console.log(rowsDeleted.data)
-                                //on row delete get the user ID corresponding to the row and call the function
-                                let commentIds = []
-                                rowsDeleted.data.forEach(row => commentIds.push(assignedCommentData()[row.dataIndex][3]))
-                                deleteCommentFetch(commentIds)
+                    <MuiThemeProvider theme={getMuiTheme()}>
+                        <MUIDataTable
+                            columns={['Submitter', 'Message', 'Created on']}
+                            data={assignedCommentData()}
+                            options={{
+                                print: false,
+                                download: false,
+                                viewColumns: false,
+                                customToolbar: () => {
+                                    return (
+                                        <AddComment
+                                            setAddComment={setAddComment}
+                                        />
+                                    );
+                                },
+                                onRowsDelete: (rowsDeleted) => {
+                                    // console.log(rowsDeleted.data)
+                                    //on row delete get the user ID corresponding to the row and call the function
+                                    let deleteCommentIds = []
+                                    rowsDeleted.data.forEach(row => deleteCommentIds.push(assignedCommentData()[row.dataIndex][3]))
+                                    deleteCommentFetch(deleteCommentIds)
 
 
-                            }
-                        }}
-                        title={"Ticket comments"}
-                    />
+                                }
+                            }}
+                            title={"Ticket comments"}
+                        />
+                    </MuiThemeProvider>
 
                 </Grid> : null}
 
@@ -384,7 +404,18 @@ export default function TicketDetail() {
                                             setFiles={setFiles}
                                         />
                                     );
+                                },
+                                onRowsDelete: (rowsDeleted) => {
+                                    // console.log(rowsDeleted.data)
+                                    //on row delete get the user ID corresponding to the row and call the function
+                                    let deleteAttachmentIds = []
+                                    rowsDeleted.data.forEach(row => deleteAttachmentIds.push(attachedFiles()[row.dataIndex][3]))
+                                    // console.log(deleteAttachmentIds)
+                                    deleteAttachmentFetch(deleteAttachmentIds)
+
+
                                 }
+
                             }}
                             title={"Ticket attachments"}
 

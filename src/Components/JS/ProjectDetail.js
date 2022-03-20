@@ -3,16 +3,18 @@ import MUIDataTable from "mui-datatables";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import {useLocation} from "react-router";
-import {useDialog} from 'muibox'
+import { useCurrentUser } from "./CurrentUserContext"
 
 export default function ProjectDetail() {
 
+    const { currentUser, fetchCurrentUser } = useCurrentUser()
     const [assignedUsers, setAssignedUsers] = useState(null)
     const [assignedTickets, setAssignedTickets] = useState(null)
     const [loading, setLoading] = useState(null)
     //Get project ID from the location URL
     let location = useLocation();
     let projectID = location.pathname
+
 
     //get personnel attached to project
     useEffect(() => {
@@ -30,6 +32,7 @@ export default function ProjectDetail() {
         }
 
         // console.log('useEffect called')
+        fetchCurrentUser()
         fetchProjectPersonnel(projectID)
     }, [])
 
@@ -61,18 +64,11 @@ export default function ProjectDetail() {
 
             ])
         })
+
         return assignedTicketDataArr
     }
 
     //remove user or ticket from project
-    const requestOptions = {
-        method: 'DELETE',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${localStorage.getItem('token')}`
-        },
-    }
     //make it so that you can delete multiple users at once > look at how its done in role management
     const deleteProjectUser = (deleteUserIDArray) => {
         const requestOptions = {
@@ -106,7 +102,6 @@ export default function ProjectDetail() {
 
     return (
         <>
-
             {/*table containing personnel assigned to project*/}
             {loading
                 ? <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>

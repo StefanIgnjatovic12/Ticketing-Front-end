@@ -7,11 +7,11 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import MUIDataTable from "mui-datatables";
 import {useLocation} from "react-router";
+import { useCurrentUser } from "./CurrentUserContext"
 
 export default function RoleManagement() {
+    const { currentUser, fetchCurrentUser } = useCurrentUser()
     let location = useLocation();
-
-    // const csrftoken = Cookies.get('csrftoken');
     const [loading, setLoading] = useState(null)
     const [users, setUsers] = useState(null)
     //number of rows to display
@@ -19,6 +19,10 @@ export default function RoleManagement() {
     const [selectedUser, setSelectedUser] = useState([])
     const [selectedRole, setSelectedRole] = useState("")
     const [searchDone, setSearchDone] = useState(null)
+
+    useEffect(() => {
+        fetchCurrentUser()
+    },[])
 
     //Array to populate the User table
     const userData = () => {
