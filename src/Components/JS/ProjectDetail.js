@@ -4,10 +4,11 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import {useLocation} from "react-router";
 import { useCurrentUser } from "./CurrentUserContext"
+import { useAuth } from "./CurrentUserContext"
 
 export default function ProjectDetail() {
 
-    const { currentUser, fetchCurrentUser } = useCurrentUser()
+    // const { fetchCurrentUser } = useAuth()
     const [assignedUsers, setAssignedUsers] = useState(null)
     const [assignedTickets, setAssignedTickets] = useState(null)
     const [loading, setLoading] = useState(null)
@@ -32,7 +33,7 @@ export default function ProjectDetail() {
         }
 
         // console.log('useEffect called')
-        fetchCurrentUser()
+        // fetchCurrentUser()
         fetchProjectPersonnel(projectID)
     }, [])
 

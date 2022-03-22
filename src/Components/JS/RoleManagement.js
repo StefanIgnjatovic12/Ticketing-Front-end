@@ -8,9 +8,10 @@ import {useEffect, useState} from "react";
 import MUIDataTable from "mui-datatables";
 import {useLocation} from "react-router";
 import { useCurrentUser } from "./CurrentUserContext"
+import { useAuth } from "./CurrentUserContext"
 
 export default function RoleManagement() {
-    const { currentUser, fetchCurrentUser } = useCurrentUser()
+    // const { fetchCurrentUser } = useAuth()
     let location = useLocation();
     const [loading, setLoading] = useState(null)
     const [users, setUsers] = useState(null)
@@ -20,9 +21,9 @@ export default function RoleManagement() {
     const [selectedRole, setSelectedRole] = useState("")
     const [searchDone, setSearchDone] = useState(null)
 
-    useEffect(() => {
-        fetchCurrentUser()
-    },[])
+    // useEffect(() => {
+    //     // fetchCurrentUser()
+    // },[])
 
     //Array to populate the User table
     const userData = () => {
@@ -99,7 +100,7 @@ export default function RoleManagement() {
             ? fetch(`http://127.0.0.1:8000/api/update-role/${selectedUser}/`, requestOptions)
             : fetch(`http://127.0.0.1:8000/api/update-role/`, requestOptions)
 
-
+        // localStorage.setItem('role', createPayload()['assigned_role'])
     }
     //fetch user data to populate table
     useEffect(() => {

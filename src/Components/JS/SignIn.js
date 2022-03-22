@@ -12,23 +12,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
+import { useAuth } from "./CurrentUserContext"
 
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 const theme = createTheme();
 
 export default function SignIn() {
+
+    const { fetchCurrentUser } = useAuth()
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -49,10 +40,10 @@ export default function SignIn() {
             .then(response => response.json())
             .then(data => {
                 localStorage.setItem('token', data['token'])
-                console.log(data)
-
             })
+            .then(fetchCurrentUser)
             .catch(error => console.log(error))
+
     }
 
     return (
@@ -120,7 +111,6 @@ export default function SignIn() {
                         </Grid>
                     </Box>
                 </Box>
-                <Copyright sx={{mt: 8, mb: 4}}/>
             </Container>
         </ThemeProvider>
     );

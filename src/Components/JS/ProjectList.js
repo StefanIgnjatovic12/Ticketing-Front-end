@@ -1,16 +1,16 @@
 import {useEffect, useState} from "react";
 import MUIDataTable from "mui-datatables";
 import Container from "@mui/material/Container";
-import { useCurrentUser } from "./CurrentUserContext"
+import { useAuth } from "./CurrentUserContext"
 
 export default function ProjectList() {
     const [projects, setProjects] = useState(null)
     const [loading, setLoading] = useState(null)
-    const { currentUser, fetchCurrentUser } = useCurrentUser()
+    // const { fetchCurrentUser } = useAuth()
 
-    useEffect(() => {
-        fetchCurrentUser()
-    },[])
+    // useEffect(() => {
+    //     // fetchCurrentUser()
+    // },[])
     useEffect(() => {
 
         const fetchProjects = () => {

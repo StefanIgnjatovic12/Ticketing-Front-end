@@ -14,6 +14,7 @@ import AddComment from './AddComment'
 import {getTime} from './getTime'
 import {MuiThemeProvider} from '@material-ui/core/styles';
 import {getMuiTheme} from './getMuiTheme'
+import { useAuth } from "./CurrentUserContext"
 
 export default function TicketDetail() {
 
@@ -21,7 +22,7 @@ export default function TicketDetail() {
     const mockData = [['data1', 'data2', 'data3'],
         ['data1', 'data2', 'data3'],
         ['data1', 'data2', 'data3'],]
-    const { currentUser, fetchCurrentUser } = useCurrentUser()
+    // const { fetchCurrentUser } = useAuth()
     const [savedComments, setSavedComments] = useState(null)
     const [savedAttachments, setSavedAttachments] = useState(null)
     const [ticketHistory, setTicketHistory] = useState(null)
@@ -52,7 +53,7 @@ export default function TicketDetail() {
                 })
                 .catch(error => console.log(error))
         }
-        fetchCurrentUser()
+        // fetchCurrentUser()
         fetchTicketData()
 
     }, [])
@@ -231,7 +232,7 @@ export default function TicketDetail() {
                 .then(data => {
                     setSavedAttachments(data[0].attachments)
                     setLoading(true)
-                    setFiles(null)
+                    // setFiles(null)
 
                 })
                 .catch(error => console.log(error))
