@@ -1,5 +1,8 @@
-Make it so that you can delete multiple tickets, comments and projects
+Make it so that you can delete multiple tickets, comments and projects - done
 Make user permissions
 
-check why adding comment isnt auto refreshing
-make sure you dont have to edit all the fields of a ticket for the request to work
+check why date isnt being added when creating comment
+make sure you dont have to edit all the fields of a ticket for the request to work - done
+when ticket edit/add comment/add ticket form are closed, need to reset the state >
+currently if you close it and reopen it'll have the same values > also if you send the request
+

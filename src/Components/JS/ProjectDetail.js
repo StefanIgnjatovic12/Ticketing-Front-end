@@ -3,8 +3,11 @@ import MUIDataTable from "mui-datatables";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import {useLocation} from "react-router";
-import { useCurrentUser } from "./CurrentUserContext"
-import { useAuth } from "./CurrentUserContext"
+import AddTicket from "./AddTicket";
+import {useCurrentUser} from "./CurrentUserContext"
+import {useAuth} from "./CurrentUserContext"
+import AddComment from "./AddComment";
+import {getTime} from "./getTime";
 
 export default function ProjectDetail() {
 
@@ -12,6 +15,8 @@ export default function ProjectDetail() {
     const [assignedUsers, setAssignedUsers] = useState(null)
     const [assignedTickets, setAssignedTickets] = useState(null)
     const [loading, setLoading] = useState(null)
+    const [addTicket, setAddTicket] = useState(null)
+    const [currentTime, setCurrentTime] = useState(null)
     //Get project ID from the location URL
     let location = useLocation();
     let projectID = location.pathname
@@ -100,7 +105,47 @@ export default function ProjectDetail() {
             .catch(error => console.log(error))
     }
 
+      //-----------ADD TICKET ------------
+    useEffect(() => {
+        const addTicketFetch = () => {
 
+
+            let ticketPayload = {
+                'ticket': addTicket,
+                'parent_project': projectID.split('/')[2],
+                'created_on': getTime()
+            }
+
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(ticketPayload)
+
+            }
+            // console.log(JSON.stringify(ticketPayload))
+            fetch('http://127.0.0.1:8000/api/ticket-create/', requestOptions)
+                .then(response => console.log(response.json()))
+                .then(setAddTicket(null))
+                .catch(error => console.log(error))
+
+
+        }
+        if (addTicket) {
+            addTicketFetch()
+            fetch(`http://127.0.0.1:8000/api${projectID}`)
+                .then(response => response.json())
+                .then(data => {
+                    setAssignedTickets(data[0].assigned_tickets)
+                    setLoading(true)
+                })
+                .catch(error => console.log(error))
+        }
+
+    }, [addTicket])
     return (
         <>
             {/*table containing personnel assigned to project*/}
@@ -154,6 +199,7 @@ export default function ProjectDetail() {
                                     name: "",
                                     options: {
                                         filter: false,
+
                                         //makes the content of the column into a href
                                         customBodyRender: (value) => {
                                             return (
@@ -167,7 +213,13 @@ export default function ProjectDetail() {
                                 title={'Tickets assigned to project'}
                                 options={
                                     {
-
+                                        customToolbar: () => {
+                                            return (
+                                                <AddTicket
+                                                    setAddTicket={setAddTicket}
+                                                />
+                                            );
+                                        },
                                         onRowsDelete: (rowsDeleted) => {
                                             //on row delete get the ticket ID corresponding to the row and call the function
                                             // let deletedticketID = assignedTicketData()[rowsDeleted.data[0].dataIndex][4]

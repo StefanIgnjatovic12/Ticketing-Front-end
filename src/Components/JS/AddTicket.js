@@ -12,6 +12,9 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 
 export default function TicketEditForm(props) {
@@ -23,13 +26,15 @@ export default function TicketEditForm(props) {
     const handleClose = () => {
         setOpen(false);
     };
-    // const defaultValues = {
-    //     title: "",
-    //     description: "",
-    //     priority: ""
-    // }
+
+    const defaultValues = {
+        title: "",
+        description: "",
+        priority: ""
+    }
+
     //changed default state to empty in order to do partial edits
-    const [formValues, setFormValues] = useState({})
+    const [formValues, setFormValues] = useState(defaultValues)
     const handleInputChange = (e) => {
         const {name, value} = e.target;
         setFormValues({
@@ -40,20 +45,20 @@ export default function TicketEditForm(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        props.setTicketEditInfo(formValues)
+        props.setAddTicket(formValues)
         setOpen(false)
 
     };
     return (
         <>
-            {/*<a href="#" onClick={handleClickOpen}>Edit ticket</a>*/}
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Edit ticket
-            </Button>
-
+             <Tooltip title="Submit comment">
+                <IconButton onClick={handleClickOpen}>
+                    <AddCircleIcon/>
+                </IconButton>
+            </Tooltip>
             <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={"xs"}>
 
-                <DialogTitle sx={{pl: 4.6}}>Edit ticket information</DialogTitle>
+                <DialogTitle sx={{pl: 4.6}}>Submit new ticket</DialogTitle>
                 <DialogContent>
 
                     <Box p={2}>

@@ -11,6 +11,7 @@ import TicketEditForm from "./TicketEditForm";
 import Box from "@mui/material/Box";
 import UploadFile from './UploadFile'
 import AddComment from './AddComment'
+
 import {getTime} from './getTime'
 import {MuiThemeProvider} from '@material-ui/core/styles';
 import {getMuiTheme} from './getMuiTheme'
@@ -67,7 +68,7 @@ export default function TicketDetail() {
 
         const editTicketData = (ticketID) => {
             const requestOptions = {
-                method: 'PUT',
+                method: 'PATCH',
                 headers: {
                     'Accept': 'application/json, text/plain, */*',
                     'Content-Type': 'application/json',
@@ -76,6 +77,7 @@ export default function TicketDetail() {
                 body: JSON.stringify(ticketEditForm)
 
             }
+            console.log(ticketEditForm)
             fetch(`http://127.0.0.1:8000/api/ticket-update/${ticketID.split('/')[2]}/`, requestOptions)
                 .then(response => console.log(response.json()))
                 .then(setTicketEditForm(null))
@@ -106,15 +108,12 @@ export default function TicketDetail() {
     //-----------ADD COMMENT ------------
     useEffect(() => {
         const addCommentFetch = () => {
-            getTime().then(time => {
-                setCurrentTime(time)
-
-            })
+            // setCurrentTime(getTime)
 
             let commentPayload = {
                 'comment': addComment,
                 'parent_ticket': ticketID.split('/')[2],
-                'created_on': currentTime
+                'created_on': getTime()
             }
 
             const requestOptions = {
@@ -216,15 +215,10 @@ export default function TicketDetail() {
         }
 
         if (files) {
-            getTime().then(time => {
-                    setCurrentTime(time)
-                }
-            )
-            if (currentTime && files) {
-                formData.append('created_on', currentTime)
+                formData.append('created_on', getTime())
                 formData.append('file', files[0])
                 formData.append('parent_ticket', ticketID.split('/')[2])
-            }
+
 
             addAttachment()
             fetch(`http://127.0.0.1:8000/api${ticketID}`)
