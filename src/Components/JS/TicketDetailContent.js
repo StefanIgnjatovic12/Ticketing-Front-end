@@ -15,11 +15,11 @@ export default function TicketDetailContent(props) {
             "leftHeader": "Assigned developer",
             "leftSubtitle": "Demo assigned developer",
             "rightHeader": "Ticket submitter",
-            "rightSubtitle": "Demo ticket submitter"
+            "rightSubtitle": `${props.ticket_info.created_by}`
         },
         {
             "leftHeader": "Project",
-            "leftSubtitle": "Demo project title",
+            "leftSubtitle": `${props.ticket_info.parent_project}`,
             "rightHeader": "Ticket priority",
             "rightSubtitle": `${props.ticket_info.priority}`
         },
@@ -33,7 +33,7 @@ export default function TicketDetailContent(props) {
             "leftHeader": "Created",
             "leftSubtitle": `${props.ticket_info.created_on}`,
             "rightHeader": "Updated",
-            "rightSubtitle": "Demo ticket update time"
+            "rightSubtitle": `${props.ticket_info.update_time}`
         },
     ]
     const ticketDetailElements = ticketDetailData.map((entry) =>

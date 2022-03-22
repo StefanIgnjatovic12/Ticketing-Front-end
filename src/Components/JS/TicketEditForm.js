@@ -12,7 +12,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import {getTime} from "./getTime";
 
 export default function TicketEditForm(props) {
     const [open, setOpen] = useState(false)
@@ -35,6 +35,9 @@ export default function TicketEditForm(props) {
         setFormValues({
             ...formValues,
             [name]: value,
+            //add update time which populates field in Ticket model and is after fetched to
+            //populate the ticket detail content info
+            'update_time': getTime()
         })
     }
 

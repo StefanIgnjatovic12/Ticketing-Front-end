@@ -31,7 +31,6 @@ export default function TicketDetail() {
     const [ticketEditForm, setTicketEditForm] = useState(null)
     const [addComment, setAddComment] = useState(null)
     const [files, setFiles] = useState(null)
-    const [currentTime, setCurrentTime] = useState(null)
     const [loading, setLoading] = useState(null)
     let location = useLocation();
     let ticketID = location.pathname
@@ -258,7 +257,8 @@ export default function TicketDetail() {
             attachedHistoryArr.push([
                 ticket_edit.changed_field.charAt(0).toUpperCase() + ticket_edit.changed_field.slice(1),
                 ticket_edit.old_value,
-                ticket_edit.new_value
+                ticket_edit.new_value,
+                ticket_edit.update_time
             ])
         })
 

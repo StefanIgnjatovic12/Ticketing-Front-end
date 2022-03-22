@@ -16,7 +16,6 @@ export default function ProjectDetail() {
     const [assignedTickets, setAssignedTickets] = useState(null)
     const [loading, setLoading] = useState(null)
     const [addTicket, setAddTicket] = useState(null)
-    const [currentTime, setCurrentTime] = useState(null)
     //Get project ID from the location URL
     let location = useLocation();
     let projectID = location.pathname
