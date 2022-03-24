@@ -6,3 +6,20 @@ make sure you dont have to edit all the fields of a ticket for the request to wo
 when ticket edit/add comment/add ticket form are closed, need to reset the state >
 currently if you close it and reopen it'll have the same values > also if you send the request
 
+-Assign role
+-Assign project
+-Assign ticket >
+ *show tickets for projects that user is already assigned to
+ *if user is added to another project, refetch the ticket list corresponding to those projects
+ *if there are no possible tickets the user can be assigned, show popup instead of openning
+    the ticket dropdown letting the admin know they need to assign the user to a project
+ *if user is assigned projects but those projects have no tickets also do the popup thing
+ *problem > can only assign tickets to 1 user at a time because the projects they are assigned to
+ will be different
+
+ - when selecting ticket, have it be a nested list with the heading of each mini list being the project
+
+> can assign multiple users to 1 project
+>can assign 1 user to a ticket
+
+>give error if user already assigned to project or ticket

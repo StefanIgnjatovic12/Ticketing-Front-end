@@ -1,24 +1,24 @@
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import SelectMenu from "./SelectMenu";
+import RoleSelectMenu from "./RoleSelectMenu";
 import Container from "@mui/material/Container";
 import * as React from "react";
-// import Cookies from "js-cookie";
 import {useEffect, useState} from "react";
 import MUIDataTable from "mui-datatables";
 import {useLocation} from "react-router";
-import { useCurrentUser } from "./CurrentUserContext"
-import { useAuth } from "./CurrentUserContext"
 
 export default function RoleManagement() {
-    // const { fetchCurrentUser } = useAuth()
     let location = useLocation();
     const [loading, setLoading] = useState(null)
     const [users, setUsers] = useState(null)
     //number of rows to display
     const [personName, setPersonName] = useState([])
+    //Roles
     const [selectedUser, setSelectedUser] = useState([])
     const [selectedRole, setSelectedRole] = useState("")
+    //Projects
+    const [allProjects, setAllProjects] = useState([])
+    const [selectedProject, setSelectedProject] = useState("")
     const [searchDone, setSearchDone] = useState(null)
 
     // useEffect(() => {
@@ -39,7 +39,7 @@ export default function RoleManagement() {
         return userDataArr
 
     }
-    //handle change for selecting names in SelectMenu component
+    //handle change for selecting names in RoleSelectMenu component
     const handleChangeMultiple = (event) => {
         const {options} = event.target;
 
@@ -62,8 +62,12 @@ export default function RoleManagement() {
 
 
     }
-    //edit role of user based on SelectMenu component inputs
-    const createPayload = () => {
+
+    const handleProjectChange = (event) => {
+        setSelectedProject(event.target.value)
+    }
+    //edit role of user based on RoleSelectMenu component inputs
+    const createRolePayload = () => {
         let putPayload = []
         if (selectedUser.length > 0 && selectedRole.length > 0) {
             for (let i = 0; i < selectedUser.length; i++) {
@@ -91,7 +95,7 @@ export default function RoleManagement() {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${localStorage.getItem('token')}`
             },
-            body: createPayload()
+            body: createRolePayload()
 
         }
         //if only 1 user selected, request sent to endpoint for updating single object in db
@@ -100,7 +104,7 @@ export default function RoleManagement() {
             ? fetch(`http://127.0.0.1:8000/api/update-role/${selectedUser}/`, requestOptions)
             : fetch(`http://127.0.0.1:8000/api/update-role/`, requestOptions)
 
-        // localStorage.setItem('role', createPayload()['assigned_role'])
+        // localStorage.setItem('role', createRolePayload()['assigned_role'])
     }
     //fetch user data to populate table
     useEffect(() => {
@@ -121,7 +125,26 @@ export default function RoleManagement() {
 
         , [searchDone])
 
-
+    //API call to assign users to project
+    const assignToProject = () => {
+        setSearchDone(Math.floor(Math.random() * 1000))
+        let assigntoProjectPayload = {
+            project: selectedProject,
+            user: selectedUser
+        }
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(assigntoProjectPayload)
+        }
+        fetch(`http://127.0.0.1:8000/api/assigned-user-add/projects/`, requestOptions)
+            .then(response => console.log(response))
+            .catch(error => console.log(error))
+    }
     return (
 
         <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
@@ -135,7 +158,8 @@ export default function RoleManagement() {
                                 p: 2, display: 'flex', flexDirection: 'column',
                             }}
                         >
-                            <SelectMenu
+
+                            <RoleSelectMenu
                                 users={users}
                                 loading={loading}
                                 personName={personName}
@@ -143,11 +167,20 @@ export default function RoleManagement() {
                                 editRole={editRole}
                                 selectedRole={selectedRole}
                                 handleRoleChange={handleRoleChange}
-                                createPayload={createPayload}
+                                createRolePayload={createRolePayload}
+                                //projects
+                                allProjects={allProjects}
+                                setAllProjects={setAllProjects}
+                                selectedProject={selectedProject}
+                                handleProjectChange={handleProjectChange}
+                                assignToProject={assignToProject}
                             />
+
+
                         </Paper>
                         : null
                     }
+
                 </Grid>
                 {/* Recent UserTable */}
                 <Grid item xs={12} sm={12} md={8} lg={8}>
