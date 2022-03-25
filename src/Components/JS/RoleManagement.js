@@ -20,6 +20,8 @@ export default function RoleManagement() {
     const [allProjects, setAllProjects] = useState([])
     const [selectedProject, setSelectedProject] = useState("")
     const [searchDone, setSearchDone] = useState(null)
+    //Tickets
+    const [selectedUserTickets, setSelectedUserTickets] = useState([])
 
     // useEffect(() => {
     //     // fetchCurrentUser()
@@ -127,6 +129,7 @@ export default function RoleManagement() {
 
     //API call to assign users to project
     const assignToProject = () => {
+        console.log(typeof selectedProject)
         setSearchDone(Math.floor(Math.random() * 1000))
         let assigntoProjectPayload = {
             project: selectedProject,
@@ -163,6 +166,7 @@ export default function RoleManagement() {
                                 users={users}
                                 loading={loading}
                                 personName={personName}
+                                selectedUser={selectedUser}
                                 handleChangeMultiple={handleChangeMultiple}
                                 editRole={editRole}
                                 selectedRole={selectedRole}
@@ -174,6 +178,10 @@ export default function RoleManagement() {
                                 selectedProject={selectedProject}
                                 handleProjectChange={handleProjectChange}
                                 assignToProject={assignToProject}
+                                //tickets
+                                selectedUserTickets={selectedUserTickets}
+                                setSelectedUserTickets={setSelectedUserTickets}
+
                             />
 
 
