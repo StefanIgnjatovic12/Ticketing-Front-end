@@ -21,8 +21,8 @@ export default function RoleManagement() {
     const [selectedProject, setSelectedProject] = useState("")
     const [searchDone, setSearchDone] = useState(null)
     //Tickets
-    const [selectedUserTickets, setSelectedUserTickets] = useState([])
-
+    const [assignableTickets, setAssignableTickets] = useState([])
+    const [selectedTicket, setSelectedTicket] = useState(null)
     // useEffect(() => {
     //     // fetchCurrentUser()
     // },[])
@@ -68,6 +68,11 @@ export default function RoleManagement() {
     const handleProjectChange = (event) => {
         setSelectedProject(event.target.value)
     }
+
+    const handleTicketChange = (event) => {
+        setSelectedTicket(event.target.value)
+    }
+
     //edit role of user based on RoleSelectMenu component inputs
     const createRolePayload = () => {
         let putPayload = []
@@ -129,7 +134,6 @@ export default function RoleManagement() {
 
     //API call to assign users to project
     const assignToProject = () => {
-        console.log(typeof selectedProject)
         setSearchDone(Math.floor(Math.random() * 1000))
         let assigntoProjectPayload = {
             project: selectedProject,
@@ -145,6 +149,27 @@ export default function RoleManagement() {
             body: JSON.stringify(assigntoProjectPayload)
         }
         fetch(`http://127.0.0.1:8000/api/assigned-user-add/projects/`, requestOptions)
+            .then(response => console.log(response))
+            .catch(error => console.log(error))
+    }
+
+    //API call to assign users to project
+    const assignToTicket = () => {
+        setSearchDone(Math.floor(Math.random() * 1000))
+        let assigntoTicketPayload = {
+            ticket: selectedTicket,
+            user: selectedUser
+        }
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(assigntoTicketPayload)
+        }
+        fetch(`http://127.0.0.1:8000/api/assigned-user-add/tickets/`, requestOptions)
             .then(response => console.log(response))
             .catch(error => console.log(error))
     }
@@ -168,6 +193,7 @@ export default function RoleManagement() {
                                 personName={personName}
                                 selectedUser={selectedUser}
                                 handleChangeMultiple={handleChangeMultiple}
+                                //roles
                                 editRole={editRole}
                                 selectedRole={selectedRole}
                                 handleRoleChange={handleRoleChange}
@@ -179,9 +205,12 @@ export default function RoleManagement() {
                                 handleProjectChange={handleProjectChange}
                                 assignToProject={assignToProject}
                                 //tickets
-                                selectedUserTickets={selectedUserTickets}
-                                setSelectedUserTickets={setSelectedUserTickets}
-
+                                assignableTickets={assignableTickets}
+                                setAssignableTickets={setAssignableTickets}
+                                selectedTicket={selectedTicket}
+                                setSelectedTicket={setSelectedTicket}
+                                handleTicketChange={handleTicketChange}
+                                assignToTicket={assignToTicket}
                             />
 
 

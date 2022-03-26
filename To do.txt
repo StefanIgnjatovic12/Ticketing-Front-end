@@ -23,3 +23,5 @@ currently if you close it and reopen it'll have the same values > also if you se
 >can assign 1 user to a ticket
 
 >give error if user already assigned to project or ticket
+
+MAKE IT SO THAT IF TRIES TO ASSIGN USER TO PROJECT IT SAYS HES ALREADY ASSIGNED TO IT

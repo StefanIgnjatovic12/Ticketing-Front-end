@@ -9,23 +9,41 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {Popover} from "@mui/material";
+import {v4 as uuidv4} from 'uuid';
+import ListSubheader from "@mui/material/ListSubheader";
 
 export default function RoleSelectMenu(props) {
-    let list = [
-        {
-            "Test project": [
-                "Edited",
-                "te",
-                "test ticket",
-                "testticket2"
-            ]
-        },
-        {
-            "Project 2": [
-                "asd"
-            ]
+
+    function makeItems(data) {
+        const items = [];
+        for (let project of data) {
+            items.push(
+                <ListSubheader
+                    key={uuidv4()}
+                    sx={{
+                        ml: 0,
+                        color: 'black',
+                        opacity: 1,
+                        fontWeight: 'bold',
+                        fontSize: 17
+                    }}
+
+                >
+                    {project.project}
+                </ListSubheader>);
+            for (let ticket of project.tickets) {
+                items.push(
+                    <MenuItem
+                        key={uuidv4()}
+                        sx={{ml: 1.25}}
+                        value={ticket}>
+                        {ticket}
+                    </MenuItem>
+                );
+            }
         }
-    ]
+        return items;
+    }
 
     //popover
     const [anchorEl, setAnchorEl] = useState(null)
@@ -40,9 +58,7 @@ export default function RoleSelectMenu(props) {
     }
     const open = Boolean(anchorEl);
     //
-    //tickets
 
-    //
     const requestOptions = {
         method: 'GET',
         headers: {
@@ -56,12 +72,12 @@ export default function RoleSelectMenu(props) {
     useEffect(() => {
         //only fetch data to populate ticket dropdown if 1 user is selected
         if (props.selectedUser.length === 1) {
-            console.log('ran')
+
             fetch(`http://127.0.0.1:8000/api/project-users/${props.selectedUser}`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
-                    props.setSelectedUserTickets(data)
+                    console.log(data.length)
+                    props.setAssignableTickets(data)
                 })
 
         }
@@ -107,7 +123,7 @@ export default function RoleSelectMenu(props) {
                         id can be passed to the backend to edit role*/}
 
                         {props.users.map((user) => (
-                            <option id={user.id} key={user.id} value={user.username}>
+                            <option id={user.id} key={uuidv4()} value={user.username}>
                                 {`${user.first_name} ${user.last_name}`}
                             </option>
                         ))}
@@ -128,7 +144,7 @@ export default function RoleSelectMenu(props) {
                         id="demo-simple-select"
                         size="medium"
                         label="Role"
-                        value={props.selectedRole}
+                        value={props.selectedRole ? props.selectedRole : ""}
                         onChange={props.handleRoleChange}
                         //if user isn't selected open popover and disable dropdown
                         onClick={props.selectedUser.length === 0 ? handlePopoverOpen : null}
@@ -167,7 +183,7 @@ export default function RoleSelectMenu(props) {
                         id="demo-simple-select"
                         size="medium"
                         label="Role"
-                        value={props.selectedProject}
+                        value={props.selectedProject ? props.selectedProject : ""}
                         onChange={props.handleProjectChange}
                         onMouseLeave={handlePopoverClose}
                         //if user isn't selected open popover and disable dropdown
@@ -176,7 +192,8 @@ export default function RoleSelectMenu(props) {
                     >
                         {/*map over all projects and display title in dropdown*/}
                         {props.allProjects.map(project =>
-                            <MenuItem value={project.title}>{project.title}</MenuItem>
+                            <MenuItem key={uuidv4()}
+                                      value={project.title ? project.title : ""}>{project.title}</MenuItem>
                         )}
 
                     </Select>
@@ -209,30 +226,19 @@ export default function RoleSelectMenu(props) {
                         id="demo-simple-select"
                         size="medium"
                         label="Role"
-                        value={props.selectedRole}
-                        onChange={props.handleRoleChange}
-
+                        value={props.selectedTicket ? props.selectedTicket : ""}
+                        onChange={props.handleTicketChange}
                         //if user isnt selected or project isnt selected
-                        // onClick={props.selectedUser.length === 0 || !props.selectedProject ? handlePopoverOpen : null}
-                        // onMouseLeave={handlePopoverClose}
+                        onClick={props.selectedUser.length === 0 || props.assignableTickets.length === 0 ? handlePopoverOpen : null}
+                        onMouseLeave={handlePopoverClose}
                         //if project isn't selected, disable select dropdown menu
-                        // disabled={props.selectedUser.length === 0 || !props.selectedProject}
+                        disabled={props.selectedUser.length === 0 || props.assignableTickets.length === 0}
                     >
+                        {/*Render ticket select dropdown */}
+                        {props.assignableTickets
+                            ? makeItems(props.assignableTickets)
+                            : null}
 
-
-                        {
-                            props.selectedUserTickets.map(project =>
-                                <Box>
-                                    <Typography variant="subtitle1" sx={{fontWeight: 'bold', ml: 2}}
-                                                value={Object.keys(project)[0]}>{Object.keys(project)[0]}</Typography>
-                                    {
-                                        Object.entries(project)[0][1].map(ticket =>
-
-                                            <MenuItem sx={{ml: 3}} value={ticket}>{ticket}</MenuItem>)
-                                    }
-                                </Box>
-                            )
-                        }
 
                     </Select>
                 </FormControl>
@@ -241,8 +247,9 @@ export default function RoleSelectMenu(props) {
                     variant="contained"
                     href="#contained-buttons"
                     sx={{width: "40%"}}
-                    // onClick={props.selectedProject? props.assignToProject : handlePopoverOpen}
-                    // onMouseLeave={handlePopoverClose}
+                    //if no user selected or no ticket selected open popover
+                    onClick={props.selectedUser.length === 0 || !props.selectedTicket ? handlePopoverOpen : props.assignToTicket}
+                    onMouseLeave={handlePopoverClose}
 
                 >
                     Assign ticket
@@ -280,7 +287,9 @@ export default function RoleSelectMenu(props) {
                                     : elementClicked === 'ticket'
                                         ? "Please select a ticket first"
                                         //case when user clicks the dropdown menu for the ticket and not the button
-                                        : "Please select a project first"
+                                        : props.assignableTickets.length === 0
+                                            ? 'User is not currently assigned to any projects. Please assign them to a project first.'
+                                            : null
                         }
                     </Typography>
                 </Popover>

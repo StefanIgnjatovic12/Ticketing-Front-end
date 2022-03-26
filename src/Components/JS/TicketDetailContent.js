@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import * as React from "react";
+import {v4 as uuidv4} from 'uuid';
 
 export default function TicketDetailContent(props) {
     const ticketDetailData = [
@@ -37,9 +38,9 @@ export default function TicketDetailContent(props) {
         },
     ]
     const ticketDetailElements = ticketDetailData.map((entry) =>
-        <div key={Math.floor(Math.random() * 10000)}>
+        <div key={uuidv4()}>
             {/*box that contains both columns*/}
-            <Divider />
+            <Divider/>
             <Box sx={{
                 display: "flex",
                 flexDirection: 'row',
