@@ -1,27 +1,9 @@
-Make it so that you can delete multiple tickets, comments and projects - done
-Make user permissions
+make it so that projects user is already assigned to dont appear in project menu
+make it so that tickets already assigned to user don't appear in ticket menu
 
-check why date isnt being added when creating comment
-make sure you dont have to edit all the fields of a ticket for the request to work - done
-when ticket edit/add comment/add ticket form are closed, need to reset the state >
-currently if you close it and reopen it'll have the same values > also if you send the request
-
--Assign role
--Assign project
--Assign ticket >
- *show tickets for projects that user is already assigned to
- *if user is added to another project, refetch the ticket list corresponding to those projects
- *if there are no possible tickets the user can be assigned, show popup instead of openning
-    the ticket dropdown letting the admin know they need to assign the user to a project
- *if user is assigned projects but those projects have no tickets also do the popup thing
- *problem > can only assign tickets to 1 user at a time because the projects they are assigned to
- will be different
-
- - when selecting ticket, have it be a nested list with the heading of each mini list being the project
-
-> can assign multiple users to 1 project
->can assign 1 user to a ticket
-
->give error if user already assigned to project or ticket
-
-MAKE IT SO THAT IF TRIES TO ASSIGN USER TO PROJECT IT SAYS HES ALREADY ASSIGNED TO IT
+make it so that assigned developer on ticket page works
+add ticket type to everything
+make assigned developer excluded field from ticket history
+add _ to django function names
+make it so that you cant assign someone a ticket if they arent a developer
+handle case when user is assigned to projects but projects do not have any tickets

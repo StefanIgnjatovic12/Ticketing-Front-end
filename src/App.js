@@ -16,7 +16,7 @@ export default function App() {
                 <Router>
                     <Routes>
                         <Route element={<RequireAuth allowedRole={'Admin'}/>}>
-                            <Route path="roles" element={<DashboardContent role={true}/>}/>
+                            <Route path="manage" element={<DashboardContent role={true}/>}/>
                             <Route path="projects" element={<DashboardContent project={true}/>}/>
                             <Route path="projects/:projectId" element={<DashboardContent projectDetail={true}/>}/>
                             <Route path="tickets/:ticketId" element={<DashboardContent ticketDetail={true}/>}/>

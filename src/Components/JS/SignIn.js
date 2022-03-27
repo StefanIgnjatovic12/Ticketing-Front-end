@@ -12,14 +12,26 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import { useAuth } from "./CurrentUserContext"
-
+import {useAuth} from "./CurrentUserContext"
+import {useState} from "react";
+import {Alert, AlertTitle} from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
-export default function SignIn() {
 
-    const { fetchCurrentUser } = useAuth()
+export default function SignIn() {
+    const navigate = useNavigate();
+    const [failedLogin, setFailedLogin] = useState(false)
+    const [successfulLogin, setSuccessfulLogin] = useState(false)
+    const {fetchCurrentUser} = useAuth()
+
+    const handleRedirect = () => {
+        if (successfulLogin){
+            console.log(successfulLogin)
+            navigate("/manage")
+        }
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -37,8 +49,14 @@ export default function SignIn() {
 
         }
         fetch('http://127.0.0.1:8000/api/login/', requestOptions)
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 401) {
+                    setFailedLogin(true)
+                }
+                return response.json()
+            })
             .then(data => {
+                setSuccessfulLogin(true)
                 localStorage.setItem('token', data['token'])
             })
             .then(fetchCurrentUser)
@@ -46,10 +64,23 @@ export default function SignIn() {
 
     }
 
+    // fetch("some-url")
+    // .then(function(response)
+    //  {
+    //   if(response.status!==200)
+    //    {
+    //       throw new Error(response.status)
+    //    }
+    //  })
+    // .catch(function(error)
+    // {
+    //   ///if status code 401...
+    // });
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>
+
                 <Box
                     sx={{
                         marginTop: 8,
@@ -109,6 +140,28 @@ export default function SignIn() {
                                 </Link>
                             </Grid>
                         </Grid>
+                        {failedLogin
+                            ? <Alert
+                                severity="error"
+                                action={
+                                    <Button
+                                        color="inherit"
+                                        size="small"
+                                        onClick={() => {
+                                            setFailedLogin(false);
+                                        }}
+                                    >
+                                        x
+                                    </Button>
+                                }
+
+                            >
+
+                                <AlertTitle>Error</AlertTitle>
+                                Incorrect credentials, please try again
+                            </Alert>
+                            : null
+                        }
                     </Box>
                 </Box>
             </Container>

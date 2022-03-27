@@ -61,8 +61,6 @@ export default function RoleManagement() {
     };
     const handleRoleChange = (event) => {
         setSelectedRole(event.target.value)
-
-
     }
 
     const handleProjectChange = (event) => {
@@ -111,6 +109,8 @@ export default function RoleManagement() {
             ? fetch(`http://127.0.0.1:8000/api/update-role/${selectedUser}/`, requestOptions)
             : fetch(`http://127.0.0.1:8000/api/update-role/`, requestOptions)
 
+        setSelectedRole(null)
+
         // localStorage.setItem('role', createRolePayload()['assigned_role'])
     }
     //fetch user data to populate table
@@ -150,10 +150,11 @@ export default function RoleManagement() {
         }
         fetch(`http://127.0.0.1:8000/api/assigned-user-add/projects/`, requestOptions)
             .then(response => console.log(response))
+            .then(setSelectedProject(null))
             .catch(error => console.log(error))
     }
 
-    //API call to assign users to project
+    //API call to assign users to ticket
     const assignToTicket = () => {
         setSearchDone(Math.floor(Math.random() * 1000))
         let assigntoTicketPayload = {
@@ -171,6 +172,7 @@ export default function RoleManagement() {
         }
         fetch(`http://127.0.0.1:8000/api/assigned-user-add/tickets/`, requestOptions)
             .then(response => console.log(response))
+            .then(setSelectedTicket(null))
             .catch(error => console.log(error))
     }
     return (

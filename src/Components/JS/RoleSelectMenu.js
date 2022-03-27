@@ -29,7 +29,7 @@ export default function RoleSelectMenu(props) {
                     }}
 
                 >
-                    {project.project}
+                    Project: {project.project}
                 </ListSubheader>);
             for (let ticket of project.tickets) {
                 items.push(
@@ -76,7 +76,6 @@ export default function RoleSelectMenu(props) {
             fetch(`http://127.0.0.1:8000/api/project-users/${props.selectedUser}`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data.length)
                     props.setAssignableTickets(data)
                 })
 
@@ -286,7 +285,8 @@ export default function RoleSelectMenu(props) {
                                     //user selected but ticket isnt
                                     : elementClicked === 'ticket'
                                         ? "Please select a ticket first"
-                                        //case when user clicks the dropdown menu for the ticket and not the button
+                                        //if user isnt assigned to a project/has no tickets that can be assigned to them
+
                                         : props.assignableTickets.length === 0
                                             ? 'User is not currently assigned to any projects. Please assign them to a project first.'
                                             : null
