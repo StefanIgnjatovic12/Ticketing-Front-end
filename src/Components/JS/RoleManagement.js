@@ -8,6 +8,7 @@ import MUIDataTable from "mui-datatables";
 import {useLocation} from "react-router";
 import {Alert, AlertTitle} from "@mui/material";
 import Button from "@mui/material/Button";
+import ListItemText from '@mui/material/ListItemText';
 
 export default function RoleManagement() {
     let location = useLocation();
@@ -32,13 +33,22 @@ export default function RoleManagement() {
     const userData = () => {
         let userDataArr = []
         users.forEach(user => {
+
             userDataArr.push([
                 `${user.first_name} ${user.last_name}`,
                 user.email,
-                user.roles.assigned_role
+                user.roles.assigned_role,
+                //if user has assigned projects/ticket map them to a list within the cell
+                user.assigned_projects !== null
+                    ? user.assigned_projects.map(project => <li>{project}</li>)
+                    : "",
+
+                user.assigned_tickets !== null
+                    ? user.assigned_tickets.map(ticket => <li>{ticket}</li>)
+                    : ""
             ])
         })
-
+        console.log(userDataArr)
         return userDataArr
 
     }
@@ -232,43 +242,43 @@ export default function RoleManagement() {
                         </Paper>
                         : null
                     }
-                    {/*if user is already assigned to project open alert*/}
+                    {/*if user is already assigned to project or ticket open alert*/}
                     {userAlreadyAssignedToProject || userAlreadyAssignedToTicket
-                            ? <Alert
-                                severity="error"
-                                action={
-                                    <Button
-                                        color="inherit"
-                                        size="small"
-                                        onClick={() => {
+                        ? <Alert
+                            severity="error"
+                            action={
+                                <Button
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
 
-                                            setUserAlreadyAssignedToProject(false)
-                                            setUserAlreadyAssignedToTicket(false)
+                                        setUserAlreadyAssignedToProject(false)
+                                        setUserAlreadyAssignedToTicket(false)
 
-                                        }}
-                                    >
-                                        x
-                                    </Button>
-                                }
-
-                            >
-
-                                <AlertTitle>Error</AlertTitle>
-                            {userAlreadyAssignedToProject
-                            ? 'The selected user is already assigned to that project'
-                            : 'The selected user is already assigned to that ticket'
+                                    }}
+                                >
+                                    x
+                                </Button>
                             }
 
-                            </Alert>
-                            : null
-                        }
+                        >
+
+                            <AlertTitle>Error</AlertTitle>
+                            {userAlreadyAssignedToProject
+                                ? 'The selected user is already assigned to that project'
+                                : 'The selected user is already assigned to that ticket'
+                            }
+
+                        </Alert>
+                        : null
+                    }
 
                 </Grid>
                 {/* Recent UserTable */}
                 <Grid item xs={12} sm={12} md={8} lg={8}>
                     {loading
                         ? <MUIDataTable
-                            columns={['Name', 'Email', 'Role']}
+                            columns={['Name', 'Email', 'Role', 'Assigned projects', 'Assigned tickets']}
                             data={userData()}
                             title={"Users"}
                             options={
