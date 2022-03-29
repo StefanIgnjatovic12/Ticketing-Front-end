@@ -286,7 +286,6 @@ export default function RoleSelectMenu(props) {
                                     : elementClicked === 'ticket'
                                         ? "Please select a ticket first"
                                         //if user isnt assigned to a project/has no tickets that can be assigned to them
-
                                         : props.assignableTickets.length === 0
                                             ? 'User is not currently assigned to any projects. Please assign them to a project first.'
                                             : null

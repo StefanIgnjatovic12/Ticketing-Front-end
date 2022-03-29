@@ -6,6 +6,8 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import MUIDataTable from "mui-datatables";
 import {useLocation} from "react-router";
+import {Alert, AlertTitle} from "@mui/material";
+import Button from "@mui/material/Button";
 
 export default function RoleManagement() {
     let location = useLocation();
@@ -20,12 +22,11 @@ export default function RoleManagement() {
     const [allProjects, setAllProjects] = useState([])
     const [selectedProject, setSelectedProject] = useState("")
     const [searchDone, setSearchDone] = useState(null)
+    const [userAlreadyAssignedToProject, setUserAlreadyAssignedToProject] = useState(false)
+    const [userAlreadyAssignedToTicket, setUserAlreadyAssignedToTicket] = useState(false)
     //Tickets
     const [assignableTickets, setAssignableTickets] = useState([])
     const [selectedTicket, setSelectedTicket] = useState(null)
-    // useEffect(() => {
-    //     // fetchCurrentUser()
-    // },[])
 
     //Array to populate the User table
     const userData = () => {
@@ -88,7 +89,7 @@ export default function RoleManagement() {
 
     }
 
-    //need to make this so you don't need to refresh the page to see the change
+
     const editRole = () => {
         //changes the state of search done because it is a dependency of the useState used to fetch data
         //ie the user data gets refetched after the edit automatically without reloading the page
@@ -149,7 +150,13 @@ export default function RoleManagement() {
             body: JSON.stringify(assigntoProjectPayload)
         }
         fetch(`http://127.0.0.1:8000/api/assigned-user-add/projects/`, requestOptions)
-            .then(response => console.log(response))
+            .then(response => response.json())
+            .then(data => {
+                if (data == "User already assigned to project") {
+                    setUserAlreadyAssignedToProject(true)
+                }
+                return data
+            })
             .then(setSelectedProject(null))
             .catch(error => console.log(error))
     }
@@ -171,7 +178,13 @@ export default function RoleManagement() {
             body: JSON.stringify(assigntoTicketPayload)
         }
         fetch(`http://127.0.0.1:8000/api/assigned-user-add/tickets/`, requestOptions)
-            .then(response => console.log(response))
+            .then(response => response.json())
+            .then(data => {
+                if (data == "Ticket already assigned to user") {
+                    setUserAlreadyAssignedToTicket(true)
+                }
+                return data
+            })
             .then(setSelectedTicket(null))
             .catch(error => console.log(error))
     }
@@ -219,6 +232,36 @@ export default function RoleManagement() {
                         </Paper>
                         : null
                     }
+                    {/*if user is already assigned to project open alert*/}
+                    {userAlreadyAssignedToProject || userAlreadyAssignedToTicket
+                            ? <Alert
+                                severity="error"
+                                action={
+                                    <Button
+                                        color="inherit"
+                                        size="small"
+                                        onClick={() => {
+
+                                            setUserAlreadyAssignedToProject(false)
+                                            setUserAlreadyAssignedToTicket(false)
+
+                                        }}
+                                    >
+                                        x
+                                    </Button>
+                                }
+
+                            >
+
+                                <AlertTitle>Error</AlertTitle>
+                            {userAlreadyAssignedToProject
+                            ? 'The selected user is already assigned to that project'
+                            : 'The selected user is already assigned to that ticket'
+                            }
+
+                            </Alert>
+                            : null
+                        }
 
                 </Grid>
                 {/* Recent UserTable */}

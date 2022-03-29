@@ -23,15 +23,8 @@ const theme = createTheme();
 export default function SignIn() {
     const navigate = useNavigate();
     const [failedLogin, setFailedLogin] = useState(false)
-    const [successfulLogin, setSuccessfulLogin] = useState(false)
     const {fetchCurrentUser} = useAuth()
 
-    const handleRedirect = () => {
-        if (successfulLogin){
-            console.log(successfulLogin)
-            navigate("/manage")
-        }
-    }
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -56,7 +49,6 @@ export default function SignIn() {
                 return response.json()
             })
             .then(data => {
-                setSuccessfulLogin(true)
                 localStorage.setItem('token', data['token'])
             })
             .then(fetchCurrentUser)
@@ -64,18 +56,6 @@ export default function SignIn() {
 
     }
 
-    // fetch("some-url")
-    // .then(function(response)
-    //  {
-    //   if(response.status!==200)
-    //    {
-    //       throw new Error(response.status)
-    //    }
-    //  })
-    // .catch(function(error)
-    // {
-    //   ///if status code 401...
-    // });
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
