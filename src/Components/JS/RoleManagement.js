@@ -5,13 +5,12 @@ import Container from "@mui/material/Container";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import MUIDataTable from "mui-datatables";
-import {useLocation} from "react-router";
+// import {useLocation} from "react-router";
 import {Alert, AlertTitle} from "@mui/material";
 import Button from "@mui/material/Button";
-import ListItemText from '@mui/material/ListItemText';
 
 export default function RoleManagement() {
-    let location = useLocation();
+    // let location = useLocation();
     const [loading, setLoading] = useState(null)
     const [users, setUsers] = useState(null)
     //number of rows to display
@@ -48,7 +47,6 @@ export default function RoleManagement() {
                     : ""
             ])
         })
-        console.log(userDataArr)
         return userDataArr
 
     }

@@ -4,9 +4,6 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import {useLocation} from "react-router";
 import AddTicket from "./AddTicket";
-import {useCurrentUser} from "./CurrentUserContext"
-import {useAuth} from "./CurrentUserContext"
-import AddComment from "./AddComment";
 import {getTime} from "./getTime";
 
 export default function ProjectDetail() {

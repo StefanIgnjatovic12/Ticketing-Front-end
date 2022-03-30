@@ -1,16 +1,16 @@
 import {useEffect, useState} from "react";
 import MUIDataTable from "mui-datatables";
 import Container from "@mui/material/Container";
-import { useAuth } from "./CurrentUserContext"
+import AddProject from "./AddProject";
+import {getTime} from "./getTime";
+
 
 export default function ProjectList() {
     const [projects, setProjects] = useState(null)
     const [loading, setLoading] = useState(null)
-    // const { fetchCurrentUser } = useAuth()
+    const [addProject, setAddProject] = useState(null)
+    const [selectedUser, setSelectedUser] = useState(null)
 
-    // useEffect(() => {
-    //     // fetchCurrentUser()
-    // },[])
     useEffect(() => {
 
         const fetchProjects = () => {
@@ -23,6 +23,45 @@ export default function ProjectList() {
         }
         fetchProjects()
     }, [])
+    useEffect(() => {
+        const addProjectFetch = () => {
+
+
+            let projectPayload = {
+                'project': addProject,
+                'selected_users': selectedUser,
+                'created_on': getTime()
+            }
+
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(projectPayload)
+
+            }
+            // console.log(JSON.stringify(ticketPayload))
+            fetch('http://127.0.0.1:8000/api/project-create/', requestOptions)
+                .then(response => console.log(response.json()))
+                .then(setAddProject(null))
+                .catch(error => console.log(error))
+
+
+        }
+        if (addProject) {
+            addProjectFetch()
+            fetch('http://127.0.0.1:8000/api/projects')
+                .then(response => response.json())
+                .then(data => {
+                    setProjects(data)
+                    setLoading(true)
+                })
+        }
+
+    }, [addProject])
 
     const projectData = () => {
         let projectDataArr = []
@@ -74,6 +113,15 @@ export default function ProjectList() {
                         title={'Projects'}
                         options={
                             {
+                                customToolbar: () => {
+                                            return (
+                                                <AddProject
+                                                    setAddProject={setAddProject}
+                                                    setSelectedUser={setSelectedUser}
+                                                    selectedUser={selectedUser}
+                                                />
+                                            );
+                                        },
                                 print: false,
                                 download: false,
                                 viewColumns: false,

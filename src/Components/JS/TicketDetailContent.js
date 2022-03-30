@@ -14,7 +14,7 @@ export default function TicketDetailContent(props) {
         },
         {
             "leftHeader": "Assigned developer",
-            "leftSubtitle": "Demo assigned developer",
+            "leftSubtitle": `${props.ticket_info.assigned_developer}`,
             "rightHeader": "Ticket submitter",
             "rightSubtitle": `${props.ticket_info.created_by}`
         },

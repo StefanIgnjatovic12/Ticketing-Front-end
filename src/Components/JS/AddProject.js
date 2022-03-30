@@ -1,11 +1,8 @@
 import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-// import Button from "@mui/material/Button";
 import Button from '@mui/material/Button'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {InputLabel} from "@mui/material";
 import Box from "@mui/material/Box";
 import Dialog from '@mui/material/Dialog';
@@ -15,10 +12,30 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import {v4 as uuidv4} from "uuid";
 
 
 export default function TicketEditForm(props) {
+    const [users, setUsers] = useState(null)
     const [open, setOpen] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [personName, setPersonName] = useState([])
+    // const [selectedUsers, setSelectedUsers] = useState([])
+    useEffect(() => {
+            const fetchUsers = (num) => {
+                fetch(`http://127.0.0.1:8000/api/users/?limit=${num}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        setUsers(data)
+                        setLoading(true)
+                    })
+                    .catch(error => console.log(error))
+            }
+
+            fetchUsers(20)
+        }
+
+        , [])
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -31,10 +48,27 @@ export default function TicketEditForm(props) {
         title: "",
         description: "",
     }
+    const handleChangeMultiple = (event) => {
+        const {options} = event.target;
 
+        const value = [];
+        const selectedID = []
+        for (let i = 0, l = options.length; i < l; i += 1) {
+            if (options[i].selected) {
+                value.push(options[i].value);
+                selectedID.push(options[i].getAttribute('id'))
+            }
+        }
+
+        setPersonName(value);
+        props.setSelectedUser(selectedID)
+
+
+    };
     //changed default state to empty in order to do partial edits
     const [formValues, setFormValues] = useState(defaultValues)
     const handleInputChange = (e) => {
+
         const {name, value} = e.target;
         setFormValues({
             ...formValues,
@@ -44,31 +78,31 @@ export default function TicketEditForm(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        props.setAddTicket(formValues)
+        props.setAddProject(formValues)
         setOpen(false)
 
     };
     return (
         <>
-             <Tooltip title="Submit comment">
+            <Tooltip title="Create a new project">
                 <IconButton onClick={handleClickOpen}>
                     <AddCircleIcon/>
                 </IconButton>
             </Tooltip>
             <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={"xs"}>
 
-                <DialogTitle sx={{pl: 4.6}}>Submit new ticket</DialogTitle>
+                <DialogTitle sx={{pl: 4.6}}>Create a new project</DialogTitle>
                 <DialogContent>
 
                     <Box p={2}>
                         {/*<form*/}
-                        <Box pb={3} >
+                        <Box pb={3}>
                             <TextField
                                 fullWidth
                                 id="standard-multiline-static"
                                 variant="standard"
                                 name="title"
-                                label="Ticket title"
+                                label="Project title"
                                 type="text"
                                 multiline
                                 maxRows={4}
@@ -76,13 +110,13 @@ export default function TicketEditForm(props) {
                                 onChange={handleInputChange}
                             />
                         </Box>
-                        <Box pb={5} >
+                        <Box pb={5}>
                             <TextField
                                 fullWidth
                                 id="standard-multiline-static"
                                 variant="standard"
                                 name="description"
-                                label="Ticket description"
+                                label="Project description"
                                 type="text"
                                 multiline
                                 maxRows={4}
@@ -93,21 +127,35 @@ export default function TicketEditForm(props) {
 
                         </Box>
 
-                        <Box pb={3}>
-                            <FormControl variant="standard" fullWidth>
-                                <InputLabel id="demo-simple-select-standard-label">Priority</InputLabel>
+                        <Box sx={{mb: 2}}>
+                            {/*Select user form*/}
+                            <FormControl sx={{m: 1, minWidth: 300, maxWidth: 450}}>
+                                <InputLabel shrink htmlFor="select-multiple-native">
+                                    Select users to assign to project
+                                </InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-standard-label"
-                                    id="demo-simple-select-standard"
-                                    name="priority"
-                                    value={formValues.priority}
-                                    label="Priority"
-                                    onChange={handleInputChange}
+                                    multiple
+                                    native
+                                    value={personName}
+                                    // @ts-ignore Typings are not considering `native`
+                                    onChange={handleChangeMultiple}
+                                    label="Native"
+                                    inputProps={{
+                                        id: 'select-multiple-native',
+                                    }}
+                                    sx={{p: 0.5}}
+
                                 >
-                                    <MenuItem key="Low" value="Low">Low</MenuItem>
-                                    <MenuItem key="Medium" value="Medium">Medium</MenuItem>
-                                    <MenuItem key="High" value="High">High</MenuItem>
-                                    <MenuItem key="Urgent" value="Urgent">Urgent</MenuItem>
+                                    {/*id on option is set so that when name is selected, its
+                        id can be passed to the backend to edit role*/}
+
+                                    {loading
+                                        ?users.map((user) => (
+                                        <option id={user.id} key={uuidv4()} value={user.username}>
+                                            {`${user.first_name} ${user.last_name}`}
+                                        </option>
+                                    ))
+                                    :null}
                                 </Select>
                             </FormControl>
                         </Box>
