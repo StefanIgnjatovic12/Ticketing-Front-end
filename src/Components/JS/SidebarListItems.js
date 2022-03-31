@@ -9,48 +9,61 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 export const mainListItems = (
-  <>
-    <ListItemButton>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-       <Link to="/manage" style={{ textDecoration: 'none' }}>User Administration</Link>
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <Link to="/projects" style={{ textDecoration: 'none' }}>Projects</Link>
-    </ListItemButton>
+    <>
+        <ListItemButton>
+            <ListItemIcon>
+                <DashboardIcon/>
+            </ListItemIcon>
+            <Link to="/manage" style={{textDecoration: 'none'}}>User Administration</Link>
+        </ListItemButton>
+        <ListItemButton>
+            <ListItemIcon>
+                <ShoppingCartIcon/>
+            </ListItemIcon>
+            <Link to="/projects" style={{textDecoration: 'none'}}>All Projects</Link>
+        </ListItemButton>
+        <ListItemButton>
+            <ListItemIcon>
+                <DashboardIcon/>
+            </ListItemIcon>
+            <Link to="/alltickets" style={{textDecoration: 'none'}}>All Tickets</Link>
+        </ListItemButton>
+        <ListItemButton>
+            <ListItemIcon>
+                <DashboardIcon/>
+            </ListItemIcon>
+            <Link to="/signout" style={{textDecoration: 'none'}}>Sign out</Link>
+        </ListItemButton>
 
-  </>
+
+    </>
 );
 
 export const secondaryListItems = (
-  <>
-    {/*<ListSubheader component="div" inset>*/}
-    {/*  Saved reports*/}
-    {/*</ListSubheader>*/}
-    {/*<ListItemButton>*/}
-    {/*  <ListItemIcon>*/}
-    {/*    <AssignmentIcon />*/}
-    {/*  </ListItemIcon>*/}
-    {/*  <ListItemText primary="Current month" />*/}
-    {/*</ListItemButton>*/}
-    {/*<ListItemButton>*/}
-    {/*  <ListItemIcon>*/}
-    {/*    <AssignmentIcon />*/}
-    {/*  </ListItemIcon>*/}
-    {/*  <ListItemText primary="Last quarter" />*/}
-    {/*</ListItemButton>*/}
-    {/*<ListItemButton>*/}
-    {/*  <ListItemIcon>*/}
-    {/*    <AssignmentIcon />*/}
-    {/*  </ListItemIcon>*/}
-    {/*  <ListItemText primary="Year-end sale" />*/}
-    {/*</ListItemButton>*/}
-  </>
+    <>
+        {/*<ListSubheader component="div" inset>*/}
+        {/*  Saved reports*/}
+        {/*</ListSubheader>*/}
+        {/*<ListItemButton>*/}
+        {/*  <ListItemIcon>*/}
+        {/*    <AssignmentIcon />*/}
+        {/*  </ListItemIcon>*/}
+        {/*  <ListItemText primary="Current month" />*/}
+        {/*</ListItemButton>*/}
+        {/*<ListItemButton>*/}
+        {/*  <ListItemIcon>*/}
+        {/*    <AssignmentIcon />*/}
+        {/*  </ListItemIcon>*/}
+        {/*  <ListItemText primary="Last quarter" />*/}
+        {/*</ListItemButton>*/}
+        {/*<ListItemButton>*/}
+        {/*  <ListItemIcon>*/}
+        {/*    <AssignmentIcon />*/}
+        {/*  </ListItemIcon>*/}
+        {/*  <ListItemText primary="Year-end sale" />*/}
+        {/*</ListItemButton>*/}
+    </>
 );

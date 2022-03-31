@@ -12,10 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {useAuth} from "./CurrentUserContext"
+import {useAuth} from "../UserManagement/CurrentUserContext"
 import {useState} from "react";
 import {Alert, AlertTitle} from "@mui/material";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const theme = createTheme();
 
@@ -50,8 +50,12 @@ export default function SignIn() {
             })
             .then(data => {
                 localStorage.setItem('token', data['token'])
+                console.log(localStorage.getItem('token'))
             })
             .then(fetchCurrentUser)
+            .then(() => {
+                navigate("/manage");
+            })
             .catch(error => console.log(error))
 
     }

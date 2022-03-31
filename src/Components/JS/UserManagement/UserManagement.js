@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import RoleSelectMenu from "./RoleSelectMenu";
+import UserSelectMenus from "./UserSelectMenus";
 import Container from "@mui/material/Container";
 import * as React from "react";
 import {useEffect, useState} from "react";
@@ -8,8 +8,9 @@ import MUIDataTable from "mui-datatables";
 // import {useLocation} from "react-router";
 import {Alert, AlertTitle} from "@mui/material";
 import Button from "@mui/material/Button";
+import {v4 as uuidv4} from "uuid";
 
-export default function RoleManagement() {
+export default function UserManagement() {
     // let location = useLocation();
     const [loading, setLoading] = useState(null)
     const [users, setUsers] = useState(null)
@@ -39,18 +40,18 @@ export default function RoleManagement() {
                 user.roles.assigned_role,
                 //if user has assigned projects/ticket map them to a list within the cell
                 user.assigned_projects !== null
-                    ? user.assigned_projects.map(project => <li>{project}</li>)
+                    ? user.assigned_projects.map(project => <li key={uuidv4()}>{project}</li>)
                     : "",
 
                 user.assigned_tickets !== null
-                    ? user.assigned_tickets.map(ticket => <li>{ticket}</li>)
+                    ? user.assigned_tickets.map(ticket => <li key={uuidv4()}>{ticket}</li>)
                     : ""
             ])
         })
         return userDataArr
 
     }
-    //handle change for selecting names in RoleSelectMenu component
+    //handle change for selecting names in UserSelectMenus component
     const handleChangeMultiple = (event) => {
         const {options} = event.target;
 
@@ -80,7 +81,7 @@ export default function RoleManagement() {
         setSelectedTicket(event.target.value)
     }
 
-    //edit role of user based on RoleSelectMenu component inputs
+    //edit role of user based on UserSelectMenus component inputs
     const createRolePayload = () => {
         let putPayload = []
         if (selectedUser.length > 0 && selectedRole.length > 0) {
@@ -210,7 +211,7 @@ export default function RoleManagement() {
                             }}
                         >
 
-                            <RoleSelectMenu
+                            <UserSelectMenus
                                 users={users}
                                 loading={loading}
                                 personName={personName}

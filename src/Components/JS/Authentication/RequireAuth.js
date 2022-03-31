@@ -1,13 +1,14 @@
 import { useLocation, Navigate, Outlet } from "react-router";
-import { useAuth } from "./CurrentUserContext"
+import { useAuth } from "../UserManagement/CurrentUserContext"
 
 const RequireAuth = ({allowedRole}) => {
 
     // const { currentUser, currentUserRole } = useAuth()
     const currentUser = localStorage.getItem('user')
     const currentUserRole = localStorage.getItem('role')
+    // const { currentUser, currentUserRole } = useAuth();
     const location = useLocation()
-    console.log(currentUserRole)
+    // console.log(currentUserRole)
     return (
 
         // if allowedRole for that route is current role, ok

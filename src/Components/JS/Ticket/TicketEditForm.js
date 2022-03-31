@@ -12,7 +12,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import {getTime} from "./getTime";
+import {getTime} from "../getTime";
 
 export default function TicketEditForm(props) {
     const [open, setOpen] = useState(false)

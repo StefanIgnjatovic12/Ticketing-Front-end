@@ -4,10 +4,12 @@ import {
     BrowserRouter as Router, Routes, Route,
 } from "react-router-dom";
 import DashboardContent from "./Components/JS/Dashboard";
-import SignUp from "./Components/JS/SignUp";
-import SignIn from "./Components/JS/SignIn";
-import {CurrentUserProvider} from "./Components/JS/CurrentUserContext";
-import RequireAuth from "./Components/JS/RequireAuth";
+import SignUp from "./Components/JS/Authentication/SignUp";
+import SignIn from "./Components/JS/Authentication/SignIn";
+import SignOut from "./Components/JS/Authentication/SignOut";
+import AllTicketList from "./Components/JS/Ticket/AllTicketList";
+import {CurrentUserProvider} from "./Components/JS/UserManagement/CurrentUserContext";
+import RequireAuth from "./Components/JS/Authentication/RequireAuth";
 
 export default function App() {
     return (
@@ -23,6 +25,9 @@ export default function App() {
                         </Route>
                         <Route path="/" element={<SignIn/>}/>
                         <Route path="signup" element={<SignUp/>}/>
+                        <Route path="signout" element={<SignOut/>}/>
+                        <Route path="alltickets" element={<DashboardContent allTickets={true}/>}/>
+                        <Route path="devdash" element={<DashboardContent devDash={true}/>}/>
                     </Routes>
                 </Router>
             </DialogProvider>

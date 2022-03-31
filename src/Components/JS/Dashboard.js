@@ -15,10 +15,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import {mainListItems, secondaryListItems} from './SidebarListItems';
-import RoleManagement from "./RoleManagement";
-import ProjectList from "./ProjectList";
-import ProjectDetail from "./ProjectDetail";
-import TicketDetail from "./TicketDetail";
+import UserManagement from "./UserManagement/UserManagement";
+import ProjectList from "./Project/ProjectList";
+import ProjectDetail from "./Project/ProjectDetail";
+import TicketDetail from "./Ticket/TicketDetail";
+import AllTicketList from "./Ticket/AllTicketList";
+import DeveloperDashboard from "./DeveloperDashboard/DeveloperDashboard";
 
 
 const drawerWidth = 240;
@@ -124,10 +126,12 @@ export default function DashboardContent(props) {
                 }}
             >
                 <Toolbar/>
-                {props.role && <RoleManagement/> }
+                {props.role && <UserManagement/> }
                 {props.project && <ProjectList/>}
                 {props.projectDetail && <ProjectDetail/>}
                 {props.ticketDetail && <TicketDetail/> }
+                {props.allTickets && <AllTicketList/>}
+                {props.devDash && <DeveloperDashboard/>}
 
             </Box>
         </Box>

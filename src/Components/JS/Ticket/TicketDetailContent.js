@@ -19,22 +19,22 @@ export default function TicketDetailContent(props) {
             "rightSubtitle": `${props.ticket_info.created_by}`
         },
         {
-            "leftHeader": "Project",
+            "leftHeader": "Parent project",
             "leftSubtitle": `${props.ticket_info.parent_project}`,
             "rightHeader": "Ticket priority",
             "rightSubtitle": `${props.ticket_info.priority}`
         },
         {
             "leftHeader": "Ticket status",
-            "leftSubtitle": "Demo ticket status",
+            "leftSubtitle": `${props.ticket_info.status}`,
             "rightHeader": "Ticket type",
-            "rightSubtitle": "Demo ticket type"
+            "rightSubtitle": `${props.ticket_info.type}`,
         },
         {
             "leftHeader": "Created",
             "leftSubtitle": `${props.ticket_info.created_on}`,
             "rightHeader": "Updated",
-            "rightSubtitle": `${props.ticket_info.update_time}`
+            "rightSubtitle": `${props.ticket_info.update_time ? props.ticket_info.update_time : 'No updates yet'}`
         },
     ]
     const ticketDetailElements = ticketDetailData.map((entry) =>

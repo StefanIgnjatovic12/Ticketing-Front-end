@@ -2,7 +2,7 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {useEffect, useState} from 'react';
-import Title from './Title';
+import Title from '../Title';
 import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
 import Grid from "@mui/material/Grid";
@@ -12,8 +12,7 @@ import {Popover} from "@mui/material";
 import {v4 as uuidv4} from 'uuid';
 import ListSubheader from "@mui/material/ListSubheader";
 
-export default function RoleSelectMenu(props) {
-
+export default function UserSelectMenus(props) {
     function makeItems(data) {
         const items = [];
         for (let project of data) {
@@ -81,7 +80,7 @@ export default function RoleSelectMenu(props) {
 
         }
 
-    }, [props.selectedUser])
+    }, [props.selectedUser ])
 
     //load projects for dropdown
     useEffect(() => {

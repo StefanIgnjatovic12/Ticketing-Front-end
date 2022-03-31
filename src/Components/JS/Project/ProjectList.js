@@ -2,7 +2,8 @@ import {useEffect, useState} from "react";
 import MUIDataTable from "mui-datatables";
 import Container from "@mui/material/Container";
 import AddProject from "./AddProject";
-import {getTime} from "./getTime";
+import {getTime} from "../getTime";
+import ProjectEditForm from "./ProjectEditForm";
 
 
 export default function ProjectList() {
@@ -114,26 +115,29 @@ export default function ProjectList() {
                         options={
                             {
                                 customToolbar: () => {
-                                            return (
-                                                <AddProject
-                                                    setAddProject={setAddProject}
-                                                    setSelectedUser={setSelectedUser}
-                                                    selectedUser={selectedUser}
-                                                />
-                                            );
-                                        },
+                                    return (
+                                            <AddProject
+                                                setAddProject={setAddProject}
+                                                setSelectedUser={setSelectedUser}
+                                                selectedUser={selectedUser}
+                                            />
+                                    );
+                                },
+                                // customToolbarSelect: () => <ProjectEditForm/>,
+
+
                                 print: false,
                                 download: false,
                                 viewColumns: false,
                                 onRowsDelete: (rowsDeleted) => {
-                                // console.log(rowsDeleted.data)
-                                //on row delete get the user ID corresponding to the row and call the function
-                                let deleteProjectArray = []
-                                rowsDeleted.data.forEach(row => deleteProjectArray.push(projectData()[row.dataIndex][4]))
-                                deleteProjectFetch(deleteProjectArray)
-                                // console.log(deleteProjectArray)
+                                    // console.log(rowsDeleted.data)
+                                    //on row delete get the user ID corresponding to the row and call the function
+                                    let deleteProjectArray = []
+                                    rowsDeleted.data.forEach(row => deleteProjectArray.push(projectData()[row.dataIndex][4]))
+                                    deleteProjectFetch(deleteProjectArray)
+                                    // console.log(deleteProjectArray)
 
-                            }
+                                }
 
                             }
                         }

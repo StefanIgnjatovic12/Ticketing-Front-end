@@ -3,19 +3,19 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import MUIDataTable from "mui-datatables";
 import {useEffect, useState} from "react";
-import { useCurrentUser } from "./CurrentUserContext"
+import { useCurrentUser } from "../UserManagement/CurrentUserContext"
 import {useLocation} from "react-router";
 import {Typography} from "@mui/material";
 import TicketDetailContent from "./TicketDetailContent"
 import TicketEditForm from "./TicketEditForm";
 import Box from "@mui/material/Box";
-import UploadFile from './UploadFile'
-import AddComment from './AddComment'
+import UploadFile from '../UploadFile'
+import AddComment from '../Comment/AddComment'
 
-import {getTime} from './getTime'
+import {getTime} from '../getTime'
 import {MuiThemeProvider} from '@material-ui/core/styles';
-import {getMuiTheme} from './getMuiTheme'
-import { useAuth } from "./CurrentUserContext"
+import {getMuiTheme} from '../getMuiTheme'
+import { useAuth } from "../UserManagement/CurrentUserContext"
 
 export default function TicketDetail() {
 

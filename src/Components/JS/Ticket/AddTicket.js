@@ -15,6 +15,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import {v4 as uuidv4} from "uuid";
 
 
 export default function TicketEditForm(props) {
@@ -95,7 +96,7 @@ export default function TicketEditForm(props) {
 
                         <Box pb={3}>
                             <FormControl variant="standard" fullWidth>
-                                <InputLabel id="demo-simple-select-standard-label">Priority</InputLabel>
+                                <InputLabel id="demo-simple-select-standard-label">Ticket priority</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-standard-label"
                                     id="demo-simple-select-standard"
@@ -111,6 +112,25 @@ export default function TicketEditForm(props) {
                                 </Select>
                             </FormControl>
                         </Box>
+                        <Box pb={3}>
+                            <FormControl variant="standard" fullWidth>
+                                <InputLabel id="demo-simple-select-standard-label">Ticket type</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    name="type"
+                                    value={formValues.type}
+                                    label="Type"
+                                    onChange={handleInputChange}
+                                    defaultValue="Not specified"
+                                >
+                                    <MenuItem key={uuidv4()} value="Bug report">Bug report</MenuItem>
+                                    <MenuItem key={uuidv4()} value="Feature request">Feature request</MenuItem>
+                                    <MenuItem key={uuidv4()} value="Other">Other</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+
                         {/*</form>*/}
                     </Box>
                 </DialogContent>

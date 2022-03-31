@@ -3,8 +3,8 @@ import MUIDataTable from "mui-datatables";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import {useLocation} from "react-router";
-import AddTicket from "./AddTicket";
-import {getTime} from "./getTime";
+import AddTicket from "../Ticket/AddTicket";
+import {getTime} from "../getTime";
 
 export default function ProjectDetail() {
 
@@ -64,6 +64,7 @@ export default function ProjectDetail() {
                 ticket.created_by,
                 ticket.id
 
+
             ])
         })
 
@@ -104,7 +105,6 @@ export default function ProjectDetail() {
       //-----------ADD TICKET ------------
     useEffect(() => {
         const addTicketFetch = () => {
-
 
             let ticketPayload = {
                 'ticket': addTicket,
