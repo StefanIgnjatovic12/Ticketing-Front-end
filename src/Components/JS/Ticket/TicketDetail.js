@@ -298,7 +298,7 @@ export default function TicketDetail() {
                             </Typography>
 
                             <TicketEditForm
-                                setTicketEditInfo={setTicketEditForm}
+                                setTicketEditForm={setTicketEditForm}
                             />
 
                         </Box>

@@ -5,10 +5,13 @@ import Grid from "@mui/material/Grid";
 import {useLocation} from "react-router";
 import AddTicket from "../Ticket/AddTicket";
 import {getTime} from "../getTime";
+import ProjectEditForm from "./ProjectEditForm";
 
 export default function ProjectDetail() {
 
     // const { fetchCurrentUser } = useAuth()
+    const [projectInfo, setProjectInfo] = useState(null)
+    const [projectEditForm, setProjectEditForm] = useState(null)
     const [assignedUsers, setAssignedUsers] = useState(null)
     const [assignedTickets, setAssignedTickets] = useState(null)
     const [loading, setLoading] = useState(null)
@@ -25,7 +28,7 @@ export default function ProjectDetail() {
             fetch(`http://127.0.0.1:8000/api${ID}`)
                 .then(response => response.json())
                 .then(data => {
-
+                    setProjectInfo(data[0].project_info)
                     setAssignedUsers(data[0].assigned_users)
                     setAssignedTickets(data[0].assigned_tickets)
                     setLoading(true)
@@ -37,6 +40,44 @@ export default function ProjectDetail() {
         // fetchCurrentUser()
         fetchProjectPersonnel(projectID)
     }, [])
+
+    //Project update
+    useEffect(() => {
+
+        const editProjectData = (projectID) => {
+            const requestOptions = {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(projectEditForm)
+
+            }
+            console.log(projectEditForm)
+            fetch(`http://127.0.0.1:8000/api/project-update/${projectID.split('/')[2]}/`, requestOptions)
+                .then(response => console.log(response.json()))
+                .then(setProjectEditForm(null))
+                .catch(error => console.log(error))
+
+        }
+
+        if (projectEditForm) {
+            editProjectData(projectID)
+            fetch(`http://127.0.0.1:8000/api${projectID}`)
+                .then(response => response.json())
+                .then(data => {
+                    setProjectInfo(data[0].project_info)
+                    setAssignedUsers(data[0].assigned_users)
+                    setAssignedTickets(data[0].assigned_tickets)
+                    setLoading(true)
+
+                })
+                .catch(error => console.log(error))
+
+        }
+    }, [projectEditForm])
 
     //convert assigned user data to array format required by the datatable
     const assignedUserData = () => {
@@ -67,12 +108,11 @@ export default function ProjectDetail() {
 
             ])
         })
-
         return assignedTicketDataArr
     }
 
+
     //remove user or ticket from project
-    //make it so that you can delete multiple users at once > look at how its done in role management
     const deleteProjectUser = (deleteUserIDArray) => {
         const requestOptions = {
             method: 'DELETE',
@@ -102,7 +142,7 @@ export default function ProjectDetail() {
             .catch(error => console.log(error))
     }
 
-      //-----------ADD TICKET ------------
+    //-----------ADD TICKET ------------
     useEffect(() => {
         const addTicketFetch = () => {
 
@@ -147,8 +187,41 @@ export default function ProjectDetail() {
             {/*table containing personnel assigned to project*/}
             {loading
                 ? <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
+                    {/*PROJECT DETAILS TABLE*/}
                     <Grid container spacing={3} direction='row' justifyContent="space-between"
                           alignItems="flex-start">
+
+                        <Grid item xs={12} sm={12} md={12} lg={12} sx={{mb: 4}}>
+                            <MUIDataTable
+                                columns={['Project title', 'Project description', 'Created by', 'Created on']}
+                                data={loading ? [Object.values(projectInfo)] : null}
+                                title={`Details for project ${projectInfo.title}`}
+                                options={
+                                    {
+                                        customToolbar: () => {
+                                            return (
+                                                <ProjectEditForm
+                                                    setProjectEditForm={setProjectEditForm}
+                                                />
+                                            );
+                                        },
+                                        print: false,
+                                        download: false,
+                                        search: false,
+                                        filter: false,
+                                        viewColumns: false
+                                    }
+
+                                }
+                            >
+                            </MUIDataTable>
+                        </Grid>
+                    </Grid>
+
+
+                    <Grid container spacing={3} direction='row' justifyContent="space-between"
+                          alignItems="flex-start">
+                        {/*PERSONNEL TABLE*/}
                         <Grid item xs={12} sm={12} md={5} lg={5}>
                             <MUIDataTable
                                 columns={['User name', 'Email', 'Role']}
@@ -188,7 +261,7 @@ export default function ProjectDetail() {
 
 
                         </Grid>
-
+                        {/*TICKETS TABLE*/}
                         <Grid item xs={12} sm={12} md={7} lg={7}>
                             <MUIDataTable
                                 columns={['Ticket title', 'Description', 'Priority', 'Created by', {

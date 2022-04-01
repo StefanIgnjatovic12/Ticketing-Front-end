@@ -43,7 +43,7 @@ export default function TicketEditForm(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        props.setTicketEditInfo(formValues)
+        props.setTicketEditForm(formValues)
         setOpen(false)
 
     };

@@ -45,17 +45,15 @@ export default function ProjectEditForm(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        props.setTicketEditInfo(formValues)
+        props.setProjectEditForm(formValues)
         setOpen(false)
 
     };
     return (
         <>
-             <Tooltip title="Edit project details">
-                <EditIcon onClick={handleClickOpen}>
-                    <AddCircleIcon/>
-                </EditIcon>
-            </Tooltip>
+             <Button variant="outlined" onClick={handleClickOpen}>
+                Edit project
+            </Button>
 
             <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={"xs"}>
 
@@ -70,7 +68,7 @@ export default function ProjectEditForm(props) {
                                 id="standard-multiline-static"
                                 variant="standard"
                                 name="title"
-                                label="Ticket title"
+                                label="Project title"
                                 type="text"
                                 multiline
                                 maxRows={4}
@@ -84,7 +82,7 @@ export default function ProjectEditForm(props) {
                                 id="standard-multiline-static"
                                 variant="standard"
                                 name="description"
-                                label="Ticket description"
+                                label="Project description"
                                 type="text"
                                 multiline
                                 maxRows={4}

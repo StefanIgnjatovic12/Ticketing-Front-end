@@ -18,7 +18,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {v4 as uuidv4} from "uuid";
 
 
-export default function TicketEditForm(props) {
+export default function AddTicket(props) {
     const [open, setOpen] = useState(false)
     const handleClickOpen = () => {
         setOpen(true);
