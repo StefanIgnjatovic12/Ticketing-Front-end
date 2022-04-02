@@ -209,7 +209,8 @@ export default function ProjectDetail() {
                                         download: false,
                                         search: false,
                                         filter: false,
-                                        viewColumns: false
+                                        viewColumns: false,
+                                        selectableRows: 'none'
                                     }
 
                                 }

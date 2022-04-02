@@ -20,7 +20,8 @@ import ProjectList from "./Project/ProjectList";
 import ProjectDetail from "./Project/ProjectDetail";
 import TicketDetail from "./Ticket/TicketDetail";
 import AllTicketList from "./Ticket/AllTicketList";
-import DeveloperDashboard from "./DeveloperDashboard/DeveloperDashboard";
+import DeveloperTicketsAndProjects from "./DeveloperDashboard/DeveloperTicketsAndProjects";
+import TicketBreakdown from "./DeveloperDashboard/TicketBreakdown";
 
 
 const drawerWidth = 240;
@@ -131,7 +132,7 @@ export default function DashboardContent(props) {
                 {props.projectDetail && <ProjectDetail/>}
                 {props.ticketDetail && <TicketDetail/> }
                 {props.allTickets && <AllTicketList/>}
-                {props.devDash && <DeveloperDashboard/>}
+                {props.devDash && <DeveloperTicketsAndProjects/>}
 
             </Box>
         </Box>

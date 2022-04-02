@@ -3,8 +3,9 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import MUIDataTable from "mui-datatables";
 import AddTicket from "../Ticket/AddTicket";
+import TicketBreakdown from "./TicketBreakdown";
 
-export default function DeveloperDashboard() {
+export default function DeveloperTicketsAndProjects() {
     const [ticketsAndProjects, setTicketsAndProjects] = useState(null)
     const [loading, setLoading] = useState(false)
     useEffect(() => {
@@ -29,8 +30,7 @@ export default function DeveloperDashboard() {
     const formatTicketProject = () => {
         let ticketArray = []
         let projectArray = []
-        // console.log(ticketsAndProjects)
-        console.log(ticketsAndProjects[0]['projects'])
+
         ticketsAndProjects[0]['tickets'].forEach(ticket => {
             ticketArray.push([
                 ticket.title,
@@ -53,13 +53,12 @@ export default function DeveloperDashboard() {
                 project.id
             ])
         })
-        console.log(projectArray)
-        console.log(ticketArray)
         return [projectArray, ticketArray]
 
     }
     return (<>
         {/*table containing personnel assigned to project*/}
+        <TicketBreakdown/>
         {loading ? <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
             <Grid container spacing={3} direction='row' justifyContent="space-between"
                   alignItems="flex-start">

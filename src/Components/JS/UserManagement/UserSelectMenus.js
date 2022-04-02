@@ -1,7 +1,7 @@
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import Title from '../Title';
 import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
@@ -13,36 +13,38 @@ import {v4 as uuidv4} from 'uuid';
 import ListSubheader from "@mui/material/ListSubheader";
 
 export default function UserSelectMenus(props) {
-    function makeItems(data) {
-        const items = [];
-        for (let project of data) {
-            items.push(
-                <ListSubheader
-                    key={uuidv4()}
-                    sx={{
-                        ml: 0,
-                        color: 'black',
-                        opacity: 1,
-                        fontWeight: 'bold',
-                        fontSize: 17
-                    }}
-
-                >
-                    Project: {project.project}
-                </ListSubheader>);
-            for (let ticket of project.tickets) {
+    const makeItems = useCallback(
+        (data) => {
+            const items = [];
+            for (let project of data) {
                 items.push(
-                    <MenuItem
+                    <ListSubheader
                         key={uuidv4()}
-                        sx={{ml: 1.25}}
-                        value={ticket}>
-                        {ticket}
-                    </MenuItem>
-                );
+                        sx={{
+                            ml: 0,
+                            color: 'black',
+                            opacity: 1,
+                            fontWeight: 'bold',
+                            fontSize: 17
+                        }}
+
+                    >
+                        Project: {project.project}
+                    </ListSubheader>);
+                for (let ticket of project.tickets) {
+                    items.push(
+                        <MenuItem
+                            key={uuidv4()}
+                            sx={{ml: 1.25}}
+                            value={ticket}>
+                            {ticket}
+                        </MenuItem>
+                    );
+                }
             }
-        }
-        return items;
-    }
+            return items;
+        }, []
+    )
 
     //popover
     const [anchorEl, setAnchorEl] = useState(null)
@@ -80,7 +82,7 @@ export default function UserSelectMenus(props) {
 
         }
 
-    }, [props.selectedUser ])
+    }, [props.selectedUser, makeItems])
 
     //load projects for dropdown
     useEffect(() => {
