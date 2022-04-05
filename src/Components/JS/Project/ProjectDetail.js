@@ -6,6 +6,7 @@ import {useLocation} from "react-router";
 import AddTicket from "../Ticket/AddTicket";
 import {getTime} from "../getTime";
 import ProjectEditForm from "./ProjectEditForm";
+import ShowMoreText from "react-show-more-text";
 
 export default function ProjectDetail() {
 
@@ -100,7 +101,14 @@ export default function ProjectDetail() {
         assignedTickets.forEach(ticket => {
             assignedTicketDataArr.push([
                 ticket.title,
-                ticket.description,
+                <ShowMoreText
+                    lines={2}
+                    more="more"
+                    less="less"
+
+                >
+                    {ticket.description}
+                </ShowMoreText>,
                 ticket.priority,
                 ticket.created_by,
                 ticket.id

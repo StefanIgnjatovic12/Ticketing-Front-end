@@ -16,6 +16,7 @@ import {useAuth} from "../UserManagement/CurrentUserContext"
 import {useState} from "react";
 import {Alert, AlertTitle} from "@mui/material";
 import {useNavigate} from 'react-router-dom';
+import DemoSignIn from "./DemoSignIn";
 
 const theme = createTheme();
 
@@ -29,7 +30,6 @@ export default function SignIn() {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const credentials = btoa(`${data.get('username')}:${data.get('password')}`);
-
         const requestOptions = {
             method: "POST",
             credentials: 'include',
@@ -50,11 +50,13 @@ export default function SignIn() {
             })
             .then(data => {
                 localStorage.setItem('token', data['token'])
-                console.log(localStorage.getItem('token'))
             })
             .then(fetchCurrentUser)
             .then(() => {
-                navigate("/manage");
+                localStorage.getItem('role') == "Admin"
+                    ? navigate("/manage")
+                    : navigate("/maindash")
+
             })
             .catch(error => console.log(error))
 
@@ -112,16 +114,21 @@ export default function SignIn() {
                         >
                             Sign In
                         </Button>
-                        <Grid container>
-                            <Grid item xs>
+                        <Grid container direction="column">
+                            <Grid item>
                                 <Link href="#" variant="body2">
                                     Forgot password?
                                 </Link>
                             </Grid>
                             <Grid item>
                                 <Link href="#" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                    Don't have an account? Sign Up
                                 </Link>
+                            </Grid>
+                            <Grid container justifyContent="flex-start">
+                                <Grid item>
+                                    <DemoSignIn/>
+                                </Grid>
                             </Grid>
                         </Grid>
                         {failedLogin
@@ -146,6 +153,7 @@ export default function SignIn() {
                             </Alert>
                             : null
                         }
+
                     </Box>
                 </Box>
             </Container>

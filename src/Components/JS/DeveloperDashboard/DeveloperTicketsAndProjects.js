@@ -4,8 +4,10 @@ import Grid from "@mui/material/Grid";
 import MUIDataTable from "mui-datatables";
 import AddTicket from "../Ticket/AddTicket";
 import TicketBreakdown from "./TicketBreakdown";
+import ShowMoreText from "react-show-more-text";
 
 export default function DeveloperTicketsAndProjects() {
+    const currentUserRole = localStorage.getItem('role')
     const [ticketsAndProjects, setTicketsAndProjects] = useState(null)
     const [loading, setLoading] = useState(false)
     useEffect(() => {
@@ -17,7 +19,7 @@ export default function DeveloperTicketsAndProjects() {
                 'Authorization': `Token ${localStorage.getItem('token')}`
             }
         }
-        fetch(`http://127.0.0.1:8000/api/users-tickets-projects/${current_user_id}`, requestOption)
+        fetch(`http://127.0.0.1:8000/api/developers-tickets-projects/${current_user_id}`, requestOption)
             .then(request => request.json())
             .then(data => {
                 setTicketsAndProjects(data)
@@ -34,7 +36,14 @@ export default function DeveloperTicketsAndProjects() {
         ticketsAndProjects[0]['tickets'].forEach(ticket => {
             ticketArray.push([
                 ticket.title,
-                ticket.description,
+                <ShowMoreText
+                    lines={2}
+                    more="more"
+                    less="less"
+
+                >
+                    {ticket.description}
+                </ShowMoreText>,
                 ticket.priority,
                 ticket.type,
                 ticket.created_by,
@@ -47,7 +56,14 @@ export default function DeveloperTicketsAndProjects() {
         ticketsAndProjects[0]['projects'].forEach(project => {
             projectArray.push([
                 project.title,
-                project.description,
+                <ShowMoreText
+                    lines={2}
+                    more="more"
+                    less="less"
+
+                >
+                    {project.description}
+                    </ShowMoreText>,
                 project.created_by,
                 project.created_on,
                 project.id
@@ -58,13 +74,28 @@ export default function DeveloperTicketsAndProjects() {
     }
     return (<>
         {/*table containing personnel assigned to project*/}
-        <TicketBreakdown/>
+        {currentUserRole == 'Admin' || currentUserRole == 'Developer'
+            ? <TicketBreakdown/>
+            : null
+        }
+
         {loading ? <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
             <Grid container spacing={3} direction='row' justifyContent="space-between"
                   alignItems="flex-start">
                 <Grid item xs={12} sm={12} md={5} lg={5}>
                     <MUIDataTable
-                        columns={['Title', 'Description', 'Created by', 'Created on']}
+                        columns={['Title', 'Description', 'Created by', 'Created on', {
+                            name: "",
+                            options: {
+                                filter: false,
+                                //makes the content of the column into a href
+                                customBodyRender: (value) => {
+                                    return (
+                                        <a href={`http://localhost:3000/projects/${value}`}>View/Modify Project</a>
+                                    );
+                                }
+                            }
+                        }]}
                         data={formatTicketProject()[0]}
                         title={'Your Projects'}
                     />
@@ -86,7 +117,7 @@ export default function DeveloperTicketsAndProjects() {
                             }
                         }]}
                         data={formatTicketProject()[1]}
-                        title={'Your tickets'}
+                        title={currentUserRole == 'User'? 'Submitted tickets':'Your tickets'}
                     />
 
                 </Grid>

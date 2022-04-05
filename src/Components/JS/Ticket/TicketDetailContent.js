@@ -40,12 +40,14 @@ export default function TicketDetailContent(props) {
     const ticketDetailElements = ticketDetailData.map((entry) =>
         <div key={uuidv4()}>
             {/*box that contains both columns*/}
-            <Divider/>
+            <Divider
+            sx={{pb:1.5}}
+            />
             <Box sx={{
                 display: "flex",
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                height: 80
+                height: '100%'
             }}>
                 {/*left column*/}
                 <Box sx={
@@ -66,14 +68,18 @@ export default function TicketDetailContent(props) {
                             color="#212121"
                             fontSize="1.1rem"
                             fontWeight={500}
-
                             gutterBottom
+                            sx={{mt:1}}
+
                         >
                             {entry.leftHeader}
 
                         </Typography>
 
-                        <Typography variant="subtitle2">
+                        <Typography
+                            variant="subtitle2"
+
+                        >
                             {entry.leftSubtitle}
                         </Typography>
 
@@ -98,6 +104,7 @@ export default function TicketDetailContent(props) {
                             color="#212121"
                             fontSize="1.1rem"
                             gutterBottom
+                            sx={{mt:1}}
                         >
                             {entry.rightHeader}
 

@@ -32,7 +32,7 @@ export default function TicketEditForm(props) {
                     .catch(error => console.log(error))
             }
 
-            fetchUsers(20)
+            fetchUsers(100)
         }
 
         , [])

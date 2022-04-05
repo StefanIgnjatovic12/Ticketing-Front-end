@@ -4,7 +4,7 @@ import Container from "@mui/material/Container";
 import AddProject from "./AddProject";
 import {getTime} from "../getTime";
 import ProjectEditForm from "./ProjectEditForm";
-
+import ShowMoreText from "react-show-more-text";
 
 export default function ProjectList() {
     const [projects, setProjects] = useState(null)
@@ -69,7 +69,14 @@ export default function ProjectList() {
         for (let i = 0; i < projects.length; i++) {
             projectDataArr.push([
                 projects[i].title,
-                projects[i].description,
+                <ShowMoreText
+                    lines={2}
+                    more="more"
+                    less="less"
+
+                >
+                    {projects[i].description}
+                </ShowMoreText>,
                 projects[i].created_on,
                 `${projects[i].created_by.first_name} ${projects[i].created_by.last_name}`,
                 projects[i].id

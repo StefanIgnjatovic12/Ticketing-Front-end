@@ -4,6 +4,7 @@ import MUIDataTable from "mui-datatables";
 import {Grid} from "@mui/material";
 import Container from "@mui/material/Container";
 import TicketBreakdown from "../DeveloperDashboard/TicketBreakdown";
+import ShowMoreText from "react-show-more-text";
 
 export default function AllTicketList() {
     const [ticketData, setTicketData] = useState(null)
@@ -32,7 +33,14 @@ export default function AllTicketList() {
         ticketData.forEach(ticket => {
             formattedTicketArray.push([
                 ticket.title,
-                ticket.description,
+                <ShowMoreText
+                    lines={2}
+                    more="more"
+                    less="less"
+
+                >
+                    {ticket.description}
+                </ShowMoreText>,
                 ticket.priority,
                 `${ticket.created_by.first_name} ${ticket.created_by.last_name}`,
                 (ticket?.assigned_developer?.last_name

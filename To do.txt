@@ -1,9 +1,38 @@
 make it so that projects user is already assigned to dont appear in project menu
 make it so that tickets already assigned to user don't appear in ticket menu
 
-make it so that assigned developer on ticket page works
+make it so that assigned developer on ticket page works - done
 add ticket type to everything
-make assigned developer excluded field from ticket history
-add _ to django function names
-make it so that you cant assign someone a ticket if they arent a developer
+make assigned developer excluded field from ticket history - done
+add _ to django function names - done
+make it so that you cant assign someone a ticket if they arent a developer - done
 handle case when user is assigned to projects but projects do not have any tickets
+
+finish redirect on login
+
+make it so you can change project title and description - DONE
+add ticket type and ticket status to ticket detail - done
+project edit form > check github
+https://github.com/gregnb/mui-datatables/issues/1899 - DONE
+
+make it so that the ticket dropdown menu updates after a user is assigned to a project -
+^ check again because its causing infinite loop if using function as dependecy - DONE
+add way to unassign user from ticket - already have it - DONE
+add all ticket page - DONE
+change ticket edit form to include new fields - done
+
+make it so that developer only can edit state of ticket - done
+
+add conditional rendering of the sidebar list items based on user role - done
+
+fix ticket detail so you can add more text - done
+
+dashboard for user with projects theyre assigned to and tickets theyve submitted
+
+unathorized and demo login screens
+prevent access to individual project pages if user isnt assigned to that project
+prevent access to individual ticket pages if user isn't assigned to parent project
+
+make all fields mandatory for add ticket
+add ticket/project deletion for new tables
+

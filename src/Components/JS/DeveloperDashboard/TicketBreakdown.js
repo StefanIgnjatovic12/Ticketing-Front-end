@@ -19,11 +19,12 @@ export default function TicketBreakdown() {
     let location = useLocation()
     let URL
     //if developer page, get ticket breakdown for developer, else get breakdown for all tickets
-    location.pathname == "/devdash"
+    location.pathname == "/maindash"
         ? URL = `http://127.0.0.1:8000/api/dev-ticket-breakdown/${localStorage.getItem('id')}/`
         : URL = 'http://127.0.0.1:8000/api/all-ticket-breakdown/'
 
     useEffect(() => {
+        console.log(location.pathname)
         const fetchTicketBreakdown = () => {
             const requestOption = {
                 method: 'GET',
@@ -129,84 +130,113 @@ export default function TicketBreakdown() {
         ],
     };
     return (
-        <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
-            <Grid container spacing={18} direction='row' justifyContent="space-between"
-                  alignItems="flex-start" >
+        <>
+            {/*if all data is 0, dont display the graphs*/}
+            {ticketPriority
+                ? Object.values(ticketPriority).every(item => item === 0)
+                    ? null
+                    : <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
+                        <Grid container spacing={18} direction='row' justifyContent="space-between"
+                              alignItems="flex-start">
 
-                <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <AppBar position="sticky" sx={{width: 400}} elevation={4}>
-                        <Toolbar sx={{backgroundColor: "#1976D2"}}>
-                            <Typography
-                                component="h1"
-                                variant="h6"
-                                color="inherit"
-                                noWrap
-                                sx={{flexGrow: 1}}
-                            >
-                                Tickets by priority
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                    <Paper sx={{position: "relative", height: 400, width: 400, p: 2}}>
-                        <Pie
-                            data={ticketPriorityData}
-                            options={{
-                                responsive: true,
-                                maintainAspectRatio: true,
-                            }}/>
+                            <Grid item xs={12} sm={12} md={4} lg={4}>
+                                <AppBar position="sticky" sx={{width: 400}} elevation={4}>
+                                    <Toolbar sx={{backgroundColor: "#1976D2"}}>
+                                        <Typography
+                                            component="h1"
+                                            variant="h6"
+                                            color="inherit"
+                                            noWrap
+                                            sx={{flexGrow: 1}}
+                                        >
+                                            {location.pathname == '/maindash'
+                                                ? "Your tickets by priority"
+                                                : location.pathname == '/alltickets'
+                                                    ? 'All tickets by priority'
+                                                    : null}
 
-                    </Paper>
-                </Grid>
+                                        </Typography>
+                                    </Toolbar>
+                                </AppBar>
+                                <Paper sx={{position: "relative", height: 400, width: 400, p: 2}}>
+                                    <Pie
+                                        data={ticketPriorityData}
+                                        options={{
+                                            responsive: true,
+                                            maintainAspectRatio: true,
+                                        }}
 
-                <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <AppBar position="sticky" sx={{width: 400}} elevation={4}>
-                        <Toolbar sx={{backgroundColor: "#1976D2"}}>
-                            <Typography
-                                component="h1"
-                                variant="h6"
-                                color="inherit"
-                                noWrap
-                                sx={{flexGrow: 1}}
-                            >
-                                Tickets by status
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                    <Paper sx={{position: "relative", height: 400, width: 400, p: 2}}>
-                        <Pie
-                            data={ticketStatusData}
-                            options={{
-                                responsive: true,
-                                maintainAspectRatio: true
-                            }}/>
-                    </Paper>
-                </Grid>
+                                    />
+                                </Paper>
+                            </Grid>
 
-                <Grid item xs={12} sm={12} md={4} lg={4}>
-                    <AppBar position="sticky" sx={{width: 400}} elevation={4}>
-                        <Toolbar sx={{backgroundColor: "#1976D2"}}>
-                            <Typography
-                                component="h1"
-                                variant="h6"
-                                color="inherit"
-                                noWrap
-                                sx={{flexGrow: 1}}
-                            >
-                                Tickets by type
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                    <Paper sx={{position: "relative", height: 400, width: 400, p: 2}}>
-                        <Pie
-                            data={ticketTypeData}
-                            options={{
-                                responsive: true,
-                                maintainAspectRatio: true,
-                            }}/>
+                            <Grid item xs={12} sm={12} md={4} lg={4}>
+                                <AppBar position="sticky" sx={{width: 400}} elevation={4}>
+                                    <Toolbar sx={{backgroundColor: "#1976D2"}}>
+                                        <Typography
+                                            component="h1"
+                                            variant="h6"
+                                            color="inherit"
+                                            noWrap
+                                            sx={{flexGrow: 1}}
+                                        >
+                                            {location.pathname == '/maindash'
+                                                ? "Your tickets by status"
+                                                : location.pathname == '/alltickets'
+                                                    ? 'All tickets by status'
+                                                    : null}
+                                        </Typography>
+                                    </Toolbar>
+                                </AppBar>
+                                <Paper sx={{position: "relative", height: 400, width: 400, p: 2}}>
+                                    <Pie
+                                        data={ticketStatusData}
+                                        options={{
+                                            responsive: true,
+                                            maintainAspectRatio: true,
+                                        }}
 
-                    </Paper>
-                </Grid>
-            </Grid>
-        </Container>
+                                    />
+                                </Paper>
+
+                            </Grid>
+
+                            <Grid item xs={12} sm={12} md={4} lg={4}>
+                                <AppBar position="sticky" sx={{width: 400}} elevation={4}>
+                                    <Toolbar sx={{backgroundColor: "#1976D2"}}>
+                                        <Typography
+                                            component="h1"
+                                            variant="h6"
+                                            color="inherit"
+                                            noWrap
+                                            sx={{flexGrow: 1}}
+                                        >
+                                            {location.pathname == '/maindash'
+                                                ? "Your tickets by type"
+                                                : location.pathname == '/alltickets'
+                                                    ? 'All tickets by type'
+                                                    : null}
+                                        </Typography>
+                                    </Toolbar>
+                                </AppBar>
+                                <Paper sx={{position: "relative", height: 400, width: 400, p: 2}}>
+                                    <Pie
+                                        data={ticketTypeData}
+                                        options={{
+                                            responsive: true,
+                                            maintainAspectRatio: true,
+                                        }}
+
+                                    />
+                                </Paper>
+
+
+                            </Grid>
+                        </Grid>
+                    </Container>
+                : null
+            }
+        </>
+
     )
 }

@@ -91,7 +91,11 @@ export default function DashboardContent(props) {
                         noWrap
                         sx={{flexGrow: 1}}
                     >
-                        Dashboard
+                        {localStorage.getItem('role') == 'Admin'
+                        ? "Admin Dashboard"
+                        : localStorage.getItem('role') == 'Developer'
+                            ? "Developer Dashboard"
+                            : "User Dashboard"}
                     </Typography>
                     <IconButton color="inherit">
                         <Badge badgeContent={4} color="secondary">
@@ -132,7 +136,7 @@ export default function DashboardContent(props) {
                 {props.projectDetail && <ProjectDetail/>}
                 {props.ticketDetail && <TicketDetail/> }
                 {props.allTickets && <AllTicketList/>}
-                {props.devDash && <DeveloperTicketsAndProjects/>}
+                {props.mainDash && <DeveloperTicketsAndProjects/>}
 
             </Box>
         </Box>
