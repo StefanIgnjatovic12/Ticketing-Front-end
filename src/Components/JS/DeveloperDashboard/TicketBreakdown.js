@@ -24,7 +24,6 @@ export default function TicketBreakdown() {
         : URL = 'http://127.0.0.1:8000/api/all-ticket-breakdown/'
 
     useEffect(() => {
-        console.log(location.pathname)
         const fetchTicketBreakdown = () => {
             const requestOption = {
                 method: 'GET',

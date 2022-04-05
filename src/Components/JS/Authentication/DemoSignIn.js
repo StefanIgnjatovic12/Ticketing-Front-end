@@ -17,7 +17,6 @@ import {useAuth} from "../UserManagement/CurrentUserContext";
 import {useNavigate} from "react-router-dom";
 
 
-
 export default function DemoSignIn() {
     // let demo_dev = btoa('Demo_Dev:demo_dev_password')
     //     //ZGVtb19kZXY6ZGVtb19kZXZfcGFzc3dvcmQ=
@@ -37,7 +36,6 @@ export default function DemoSignIn() {
     };
 
     const handleSubmit = (e) => {
-        console.log(e.target.name)
         let credentials
         if (e.target.name === 'admin') {
             credentials = btoa('Demo_Admin')
@@ -61,8 +59,8 @@ export default function DemoSignIn() {
             .then(response => response.json())
             .then(data => {
                 localStorage.setItem('token', data['token'])
+                return fetchCurrentUser()
             })
-            .then(fetchCurrentUser)
             .then(() => {
                 localStorage.getItem('role') == "Admin"
                     ? navigate("/manage")
@@ -72,7 +70,6 @@ export default function DemoSignIn() {
             .catch(error => console.log(error))
     }
     // const credentials = btoa(`${data.get('username')}:${data.get('password')}`);
-
 
 
     return (

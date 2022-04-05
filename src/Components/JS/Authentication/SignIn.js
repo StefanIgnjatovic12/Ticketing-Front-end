@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useAuth} from "../UserManagement/CurrentUserContext"
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Alert, AlertTitle} from "@mui/material";
 import {useNavigate} from 'react-router-dom';
 import DemoSignIn from "./DemoSignIn";
@@ -26,11 +26,26 @@ export default function SignIn() {
     const [failedLogin, setFailedLogin] = useState(false)
     const {fetchCurrentUser} = useAuth()
 
+    // useEffect(() => {
+    //     if (localStorage.getItem('token')) {
+    //         const requestOptions = {
+    //         method: 'POST',
+    //         headers: {
+    //             'Accept': 'application/json, text/plain, */*',
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Token ${localStorage.getItem('token')}`
+    //         },
+    //         body: {}
+    //     }
+    //     fetch('http://127.0.0.1:8000/api/logout/', requestOptions)
+    //     }
+    // },[])
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const credentials = btoa(`${data.get('username')}:${data.get('password')}`);
-        const requestOptions = {
+        const requestOptionsSignIn = {
             method: "POST",
             credentials: 'include',
             headers: {
@@ -41,7 +56,7 @@ export default function SignIn() {
             body: JSON.stringify({})
 
         }
-        fetch('http://127.0.0.1:8000/api/login/', requestOptions)
+        fetch('http://127.0.0.1:8000/api/login/', requestOptionsSignIn)
             .then(response => {
                 if (response.status === 401) {
                     setFailedLogin(true)
@@ -50,9 +65,10 @@ export default function SignIn() {
             })
             .then(data => {
                 localStorage.setItem('token', data['token'])
+                return fetchCurrentUser()
             })
-            .then(fetchCurrentUser)
             .then(() => {
+                console.log(localStorage.getItem('role'))
                 localStorage.getItem('role') == "Admin"
                     ? navigate("/manage")
                     : navigate("/maindash")
@@ -61,7 +77,6 @@ export default function SignIn() {
             .catch(error => console.log(error))
 
     }
-
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">

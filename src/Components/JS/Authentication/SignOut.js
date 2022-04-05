@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import SignIn from "./SignIn";
 import Button from "@mui/material/Button";
 import {Alert, Grid} from "@mui/material";
-
+import {Navigate} from "react-router";
 
 export default function SignOut() {
     const [open, setOpen] = useState(true)
@@ -18,6 +18,7 @@ export default function SignOut() {
         }
         fetch('http://127.0.0.1:8000/api/logout/', requestOptions)
     },[])
+
 
     return (
         <Grid
