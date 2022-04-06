@@ -1,7 +1,7 @@
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState, useMemo} from 'react';
 import Title from '../Title';
 import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
@@ -13,8 +13,10 @@ import {v4 as uuidv4} from 'uuid';
 import ListSubheader from "@mui/material/ListSubheader";
 
 export default function UserSelectMenus(props) {
+
     const makeItems = useCallback(
         (data) => {
+            console.log('called')
             const items = [];
             for (let project of data) {
                 items.push(
@@ -73,7 +75,7 @@ export default function UserSelectMenus(props) {
     useEffect(() => {
         //only fetch data to populate ticket dropdown if 1 user is selected
         if (props.selectedUser.length === 1) {
-
+            console.log('use effect for tickets called')
             fetch(`http://127.0.0.1:8000/api/project-users/${props.selectedUser}`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -82,7 +84,7 @@ export default function UserSelectMenus(props) {
 
         }
 
-    }, [props.selectedUser, makeItems])
+    }, [props.selectedUser, props.users])
 
     //load projects for dropdown
     useEffect(() => {

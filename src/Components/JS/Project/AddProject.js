@@ -3,7 +3,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from '@mui/material/Button'
 import {useEffect, useState} from "react";
-import {InputLabel} from "@mui/material";
+import {Alert, InputLabel} from "@mui/material";
 import Box from "@mui/material/Box";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -18,6 +18,7 @@ import {v4 as uuidv4} from "uuid";
 export default function TicketEditForm(props) {
     const [users, setUsers] = useState(null)
     const [open, setOpen] = useState(false)
+    const [alertOpen, setAlertOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [personName, setPersonName] = useState([])
     // const [selectedUsers, setSelectedUsers] = useState([])
@@ -26,6 +27,7 @@ export default function TicketEditForm(props) {
                 fetch(`http://127.0.0.1:8000/api/users/?limit=${num}`)
                     .then(response => response.json())
                     .then(data => {
+
                         setUsers(data)
                         setLoading(true)
                     })
@@ -78,8 +80,15 @@ export default function TicketEditForm(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        props.setAddProject(formValues)
-        setOpen(false)
+        const checkFormValues = (value) => {
+            return value !== ""
+        }
+        if (Object.values(formValues).every(checkFormValues)) {
+
+            props.setAddProject(formValues)
+            setOpen(false)
+
+        } else setAlertOpen(true)
 
     };
     return (
@@ -90,7 +99,25 @@ export default function TicketEditForm(props) {
                 </IconButton>
             </Tooltip>
             <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={"xs"}>
+                {alertOpen
+                    ? <Alert
+                        severity="error"
+                        action={
+                            <Button
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setAlertOpen(false)
+                                }}
+                            >
+                                x
+                            </Button>
+                        }
+                    >
+                        Please specify a project title and description before submitting
 
+                    </Alert>
+                    : null}
                 <DialogTitle sx={{pl: 4.6}}>Create a new project</DialogTitle>
                 <DialogContent>
 

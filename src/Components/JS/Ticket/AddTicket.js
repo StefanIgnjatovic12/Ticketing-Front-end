@@ -16,10 +16,11 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {v4 as uuidv4} from "uuid";
-
+import {Alert, AlertTitle} from "@mui/material";
 
 export default function AddTicket(props) {
     const [open, setOpen] = useState(false)
+    const [alertOpen, setAlertOpen] = useState(false)
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -45,25 +46,58 @@ export default function AddTicket(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        props.setAddTicket(formValues)
-        setOpen(false)
+        //checks if all fields of form are filled out
+        const checkFormValues = (value) => {
+            return value !== ""
+        }
+        if (Object.values(formValues).every(checkFormValues)
+            && formValues.hasOwnProperty('priority')
+            && formValues.hasOwnProperty('type')
+        ){
+
+            props.setAddTicket(formValues)
+            setOpen(false)
+
+        } else setAlertOpen(true)
+
+        // props.setAddTicket(formValues)
+        // setOpen(false)
 
     };
     return (
         <>
-             <Tooltip title="Submit comment">
+
+            <Tooltip title="Submit comment">
                 <IconButton onClick={handleClickOpen}>
                     <AddCircleIcon/>
                 </IconButton>
             </Tooltip>
             <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={"xs"}>
+                {alertOpen
+                    ? <Alert
+                        severity="error"
+                        action={
+                            <Button
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setAlertOpen(false)
+                                }}
+                            >
+                                x
+                            </Button>
+                        }
+                    >
+                        Please fill out all the fields before submitting
 
+                    </Alert>
+                    : null}
                 <DialogTitle sx={{pl: 4.6}}>Submit new ticket</DialogTitle>
                 <DialogContent>
 
                     <Box p={2}>
                         {/*<form*/}
-                        <Box pb={3} >
+                        <Box pb={3}>
                             <TextField
                                 fullWidth
                                 id="standard-multiline-static"
@@ -77,7 +111,7 @@ export default function AddTicket(props) {
                                 onChange={handleInputChange}
                             />
                         </Box>
-                        <Box pb={5} >
+                        <Box pb={5}>
                             <TextField
                                 fullWidth
                                 id="standard-multiline-static"

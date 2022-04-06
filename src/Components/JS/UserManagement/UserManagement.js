@@ -33,11 +33,10 @@ export default function UserManagement() {
     const userData = () => {
         let userDataArr = []
         users.forEach(user => {
-
             userDataArr.push([
                 `${user.first_name} ${user.last_name}`,
                 user.email,
-                user.roles.assigned_role,
+                user.roles.assigned_role !== null ? user.roles.assigned_role : "",
                 //if user has assigned projects/ticket map them to a list within the cell
                 user.assigned_projects !== null
                     ? user.assigned_projects.map(project => <li key={uuidv4()}>{project}</li>)
@@ -137,7 +136,7 @@ export default function UserManagement() {
                     .catch(error => console.log(error))
             }
 
-            fetchUsers(20)
+            fetchUsers(100)
         }
 
         , [searchDone])

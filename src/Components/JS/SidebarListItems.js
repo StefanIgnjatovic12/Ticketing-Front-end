@@ -5,15 +5,25 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {Link} from "react-router-dom";
-
+import {ListItem} from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 
 export default function SideBarListItems() {
     const currentUserRole = localStorage.getItem('role')
-
+    const currentUserName = localStorage.getItem('user')
     return (
         currentUserRole === 'Admin'
             ? <>
+                <ListItem>
+                    <Typography>
+                        Welcome
+                    </Typography>
+
+                    <Typography sx={{color: "#1976D2", ml: 1}}>
+                        {currentUserName}
+                    </Typography>
+                </ListItem>
                 <ListItemButton>
                     <ListItemIcon>
                         <DashboardIcon/>
@@ -47,6 +57,15 @@ export default function SideBarListItems() {
             </>
             :
             <>
+                <ListItem>
+                    <Typography>
+                        Welcome
+                    </Typography>
+
+                    <Typography sx={{color: "#1976D2", ml: 1}}>
+                        {currentUserName}
+                    </Typography>
+                </ListItem>
                 <ListItemButton>
                     <ListItemIcon>
                         <DashboardIcon/>

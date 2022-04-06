@@ -35,4 +35,7 @@ prevent access to individual ticket pages if user isn't assigned to parent proje
 
 make all fields mandatory for add ticket
 add ticket/project deletion for new tables
-
+make it so that a user that signs up is a USER by default - done
+check why demo users arent showing up in the role page tables
+can only assign tickets if role is developer
+make sure only admin can delete tickets and projects
