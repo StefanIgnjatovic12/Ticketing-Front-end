@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import MUIDataTable from "mui-datatables";
 import {useEffect, useState} from "react";
-import { useCurrentUser } from "../UserManagement/CurrentUserContext"
+import {useCurrentUser} from "../UserManagement/CurrentUserContext"
 import {useLocation} from "react-router";
 import {Typography} from "@mui/material";
 import TicketDetailContent from "./TicketDetailContent"
@@ -15,7 +15,8 @@ import AddComment from '../Comment/AddComment'
 import {getTime} from '../getTime'
 import {MuiThemeProvider} from '@material-ui/core/styles';
 import {getMuiTheme} from '../getMuiTheme'
-import { useAuth } from "../UserManagement/CurrentUserContext"
+import {useAuth} from "../UserManagement/CurrentUserContext"
+import {useNavigate} from "react-router-dom";
 
 export default function TicketDetail() {
 
@@ -32,9 +33,12 @@ export default function TicketDetail() {
     const [addComment, setAddComment] = useState(null)
     const [files, setFiles] = useState(null)
     const [loading, setLoading] = useState(null)
+    const [accessPermittedCheck, setAccessPermittedCheck] = useState([])
     let location = useLocation();
     let ticketID = location.pathname
-
+    let currentUserID = localStorage.getItem('id')
+    let currentUserRole = localStorage.getItem('role')
+    const navigate = useNavigate()
 
     //Loading all data on page, called on page load and when a ticket is edited or comment added
     useEffect(() => {
@@ -44,13 +48,35 @@ export default function TicketDetail() {
             fetch(`http://127.0.0.1:8000/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
-                    setSavedComments(data[0].comments)
-                    setTicketInfo(data[0].ticket_info)
-                    setSavedAttachments(data[0].attachments)
-                    setTicketHistory(data[0].ticket_history)
-                    setLoading(true)
+                    let performStateUpdate = true
+                    //array containing the ticket author and assigned dev
+                    let permittedUsers = [data[0].ticket_author.user_id, data[0].ticket_info.assigned_developer_id]
+                    //if current user is neither ticket author, assigned dev or admin, he/she shouldn't have access
+                    if (!permittedUsers.includes(parseInt(currentUserID))) {
+                        if (currentUserRole !== 'Admin') {
+                            performStateUpdate = false
+                            navigate('/unauthorized')
+                        }
+                    }
+                    //prevent state setting if permission checks are failed
+                    if (performStateUpdate) {
+                        setSavedComments(data[0].comments)
+                        setTicketInfo(data[0].ticket_info)
+                        setSavedAttachments(data[0].attachments)
+                        setTicketHistory(data[0].ticket_history)
+                        setAccessPermittedCheck([data[0].ticket_author.user_id, data[0].ticket_info.assigned_developer_id])
+                        setLoading(true)
+                    }
+
 
                 })
+                // .then(() => {
+                //     console.log(accessPermittedCheck)
+                //     if (![data[0].ticket_author.user_id, data[0].ticket_info.assigned_developer_id].includes(currentUserID) || currentUserRole !== 'Admin') {
+                //         // navigate('/unauthorized')
+                //         console.log('access permission check failed')
+                //     }
+                // })
                 .catch(error => console.log(error))
         }
         // fetchCurrentUser()
@@ -214,9 +240,9 @@ export default function TicketDetail() {
         }
 
         if (files) {
-                formData.append('created_on', getTime())
-                formData.append('file', files[0])
-                formData.append('parent_ticket', ticketID.split('/')[2])
+            formData.append('created_on', getTime())
+            formData.append('file', files[0])
+            formData.append('parent_ticket', ticketID.split('/')[2])
 
 
             addAttachment()
@@ -335,9 +361,9 @@ export default function TicketDetail() {
                                     let deleteCommentIds = []
                                     rowsDeleted.data.forEach(row => deleteCommentIds.push(assignedCommentData()[row.dataIndex][3]))
                                     deleteCommentFetch(deleteCommentIds)
+                                },
+                                selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
 
-
-                                }
                             }}
                             title={"Ticket comments"}
                         />
@@ -360,6 +386,8 @@ export default function TicketDetail() {
                                 print: false,
                                 download: false,
                                 viewColumns: false,
+                                selectableRows: 'none'
+
 
                             }}
                             title={'Ticket history'}
@@ -407,9 +435,9 @@ export default function TicketDetail() {
                                     rowsDeleted.data.forEach(row => deleteAttachmentIds.push(attachedFiles()[row.dataIndex][3]))
                                     // console.log(deleteAttachmentIds)
                                     deleteAttachmentFetch(deleteAttachmentIds)
+                                },
+                                selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
 
-
-                                }
 
                             }}
                             title={"Ticket attachments"}

@@ -28,14 +28,15 @@ export default function SideBarListItems() {
                     <ListItemIcon>
                         <DashboardIcon/>
                     </ListItemIcon>
-                    <Link to="/manage" style={{textDecoration: 'none'}}>User Administration</Link>
+                    <Link to="/maindash" style={{textDecoration: 'none'}}>Your dashboard</Link>
                 </ListItemButton>
                 <ListItemButton>
                     <ListItemIcon>
                         <DashboardIcon/>
                     </ListItemIcon>
-                    <Link to="/maindash" style={{textDecoration: 'none'}}>Your dashboard</Link>
+                    <Link to="/manage" style={{textDecoration: 'none'}}>User Management</Link>
                 </ListItemButton>
+
                 <ListItemButton>
                     <ListItemIcon>
                         <ShoppingCartIcon/>

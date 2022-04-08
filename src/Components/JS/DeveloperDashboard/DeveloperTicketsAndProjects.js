@@ -63,7 +63,7 @@ export default function DeveloperTicketsAndProjects() {
 
                 >
                     {project.description}
-                    </ShowMoreText>,
+                </ShowMoreText>,
                 project.created_by,
                 project.created_on,
                 project.id
@@ -88,6 +88,7 @@ export default function DeveloperTicketsAndProjects() {
                             name: "",
                             options: {
                                 filter: false,
+
                                 //makes the content of the column into a href
                                 customBodyRender: (value) => {
                                     return (
@@ -96,6 +97,8 @@ export default function DeveloperTicketsAndProjects() {
                                 }
                             }
                         }]}
+                        options={{selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
+                        }}
                         data={formatTicketProject()[0]}
                         title={'Your Projects'}
                     />
@@ -117,7 +120,9 @@ export default function DeveloperTicketsAndProjects() {
                             }
                         }]}
                         data={formatTicketProject()[1]}
-                        title={currentUserRole == 'User'? 'Submitted tickets':'Your tickets'}
+                        options={{selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
+                        }}
+                        title={currentUserRole == 'User' ? 'Submitted tickets' : 'Your tickets'}
                     />
 
                 </Grid>

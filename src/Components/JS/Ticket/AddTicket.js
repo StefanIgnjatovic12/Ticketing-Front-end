@@ -59,10 +59,6 @@ export default function AddTicket(props) {
             setOpen(false)
 
         } else setAlertOpen(true)
-
-        // props.setAddTicket(formValues)
-        // setOpen(false)
-
     };
     return (
         <>

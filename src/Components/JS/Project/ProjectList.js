@@ -144,7 +144,8 @@ export default function ProjectList() {
                                     deleteProjectFetch(deleteProjectArray)
                                     // console.log(deleteProjectArray)
 
-                                }
+                                },
+                                selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
 
                             }
                         }

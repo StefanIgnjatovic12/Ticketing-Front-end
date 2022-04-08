@@ -62,9 +62,7 @@ export default function DemoSignIn() {
                 return fetchCurrentUser()
             })
             .then(() => {
-                localStorage.getItem('role') == "Admin"
-                    ? navigate("/manage")
-                    : navigate("/maindash")
+                navigate('/maindash')
 
             })
             .catch(error => console.log(error))

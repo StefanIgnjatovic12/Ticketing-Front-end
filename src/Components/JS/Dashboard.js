@@ -23,6 +23,7 @@ import AllTicketList from "./Ticket/AllTicketList";
 import DeveloperTicketsAndProjects from "./DeveloperDashboard/DeveloperTicketsAndProjects";
 import TicketBreakdown from "./DeveloperDashboard/TicketBreakdown";
 import SideBarListItems from "./SidebarListItems";
+import Unauthorized from "./Authentication/Unauthorized";
 
 
 const drawerWidth = 240;
@@ -139,6 +140,7 @@ export default function DashboardContent(props) {
                 {props.ticketDetail && <TicketDetail/> }
                 {props.allTickets && <AllTicketList/>}
                 {props.mainDash && <DeveloperTicketsAndProjects/>}
+                {props.unauthorized && <Unauthorized/>}
 
             </Box>
         </Box>

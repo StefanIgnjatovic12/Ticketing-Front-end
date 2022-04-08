@@ -7,6 +7,7 @@ import AddTicket from "../Ticket/AddTicket";
 import {getTime} from "../getTime";
 import ProjectEditForm from "./ProjectEditForm";
 import ShowMoreText from "react-show-more-text";
+import {useNavigate} from "react-router-dom";
 
 export default function ProjectDetail() {
 
@@ -21,6 +22,9 @@ export default function ProjectDetail() {
     let location = useLocation();
     let projectID = location.pathname
 
+    let currentUserID = localStorage.getItem('id')
+    let currentUserRole = localStorage.getItem('role')
+    const navigate = useNavigate()
 
     //get personnel attached to project
     useEffect(() => {
@@ -29,10 +33,25 @@ export default function ProjectDetail() {
             fetch(`http://127.0.0.1:8000/api${ID}`)
                 .then(response => response.json())
                 .then(data => {
-                    setProjectInfo(data[0].project_info)
-                    setAssignedUsers(data[0].assigned_users)
-                    setAssignedTickets(data[0].assigned_tickets)
-                    setLoading(true)
+                    let performStateUpdate = true
+                    let permittedUsers = []
+                    //push user ids of those assigned to project to array
+                    data[0].assigned_users.forEach(user => {
+                        permittedUsers.push(user.user_id)
+                    })
+                    if (!permittedUsers.includes(parseInt(currentUserID))) {
+                        if (currentUserRole !== 'Admin') {
+                            performStateUpdate = false
+                            navigate('/unauthorized')
+                        }
+                    }
+                    if (performStateUpdate) {
+                        setProjectInfo(data[0].project_info)
+                        setAssignedUsers(data[0].assigned_users)
+                        setAssignedTickets(data[0].assigned_tickets)
+                        setLoading(true)
+                    }
+
                 })
                 .catch(error => console.log(error))
         }
@@ -245,7 +264,9 @@ export default function ProjectDetail() {
                                             rowsDeleted.data.forEach(row => deleteUserIDArray.push(assignedUserData()[row.dataIndex][3]))
 
                                             deleteProjectUser(deleteUserIDArray)
-                                        }
+                                        },
+                                        selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
+
                                     }
                                 }
                                 // https://github.com/gregnb/mui-datatables/issues/1881
@@ -306,7 +327,9 @@ export default function ProjectDetail() {
                                             rowsDeleted.data.forEach(row => deleteTicketArray.push(assignedTicketData()[row.dataIndex][4]))
                                             deleteTicket(deleteTicketArray)
                                         },
-                                        print: false
+                                        print: false,
+                                        selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
+
 
                                     }
                                 }

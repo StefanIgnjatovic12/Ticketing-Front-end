@@ -68,11 +68,7 @@ export default function SignIn() {
                 return fetchCurrentUser()
             })
             .then(() => {
-                console.log(localStorage.getItem('role'))
-                localStorage.getItem('role') == "Admin"
-                    ? navigate("/manage")
-                    : navigate("/maindash")
-
+                navigate('/maindash')
             })
             .catch(error => console.log(error))
 

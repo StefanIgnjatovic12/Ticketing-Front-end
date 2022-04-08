@@ -25,6 +25,7 @@ export default function UserManagement() {
     const [searchDone, setSearchDone] = useState(null)
     const [userAlreadyAssignedToProject, setUserAlreadyAssignedToProject] = useState(false)
     const [userAlreadyAssignedToTicket, setUserAlreadyAssignedToTicket] = useState(false)
+    const [selectedUserNotAdminOrDev, setSelectedUserNotAdminOrDev] = useState(false)
     //Tickets
     const [assignableTickets, setAssignableTickets] = useState([])
     const [selectedTicket, setSelectedTicket] = useState(null)
@@ -190,6 +191,8 @@ export default function UserManagement() {
             .then(data => {
                 if (data == "Ticket already assigned to user") {
                     setUserAlreadyAssignedToTicket(true)
+                } else if (data == 'Tickets can only be assigned to developers or admins') {
+                    setSelectedUserNotAdminOrDev(true)
                 }
                 return data
             })
@@ -241,34 +244,40 @@ export default function UserManagement() {
                         : null
                     }
                     {/*if user is already assigned to project or ticket open alert*/}
-                    {userAlreadyAssignedToProject || userAlreadyAssignedToTicket
-                        ? <Alert
-                            severity="error"
-                            action={
-                                <Button
-                                    color="inherit"
-                                    size="small"
-                                    onClick={() => {
+                    {
+                        userAlreadyAssignedToProject
+                        || userAlreadyAssignedToTicket
+                        || selectedUserNotAdminOrDev
+                            ? <Alert
+                                severity="error"
+                                action={
+                                    <Button
+                                        color="inherit"
+                                        size="small"
+                                        onClick={() => {
 
-                                        setUserAlreadyAssignedToProject(false)
-                                        setUserAlreadyAssignedToTicket(false)
+                                            setUserAlreadyAssignedToProject(false)
+                                            setUserAlreadyAssignedToTicket(false)
+                                            setSelectedUserNotAdminOrDev(false)
 
-                                    }}
-                                >
-                                    x
-                                </Button>
-                            }
+                                        }}
+                                    >
+                                        x
+                                    </Button>
+                                }
 
-                        >
+                            >
 
-                            <AlertTitle>Error</AlertTitle>
-                            {userAlreadyAssignedToProject
-                                ? 'The selected user is already assigned to that project'
-                                : 'The selected user is already assigned to that ticket'
-                            }
+                                <AlertTitle>Error</AlertTitle>
+                                {userAlreadyAssignedToProject
+                                    ? 'The selected user is already assigned to that project'
+                                    : userAlreadyAssignedToTicket
+                                        ? 'The selected user is already assigned to that ticket'
+                                        : 'Tickets can only be assigned to developers and admins'
+                                }
 
-                        </Alert>
-                        : null
+                            </Alert>
+                            : null
                     }
 
                 </Grid>
