@@ -3,7 +3,6 @@ import MUIDataTable from "mui-datatables";
 import Container from "@mui/material/Container";
 import AddProject from "./AddProject";
 import {getTime} from "../getTime";
-import ProjectEditForm from "./ProjectEditForm";
 import ShowMoreText from "react-show-more-text";
 
 export default function ProjectList() {

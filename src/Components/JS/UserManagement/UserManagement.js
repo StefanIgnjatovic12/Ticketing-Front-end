@@ -161,7 +161,7 @@ export default function UserManagement() {
         fetch(`http://127.0.0.1:8000/api/assigned-user-add/projects/`, requestOptions)
             .then(response => response.json())
             .then(data => {
-                if (data == "User already assigned to project") {
+                if (data === "User already assigned to project") {
                     setUserAlreadyAssignedToProject(true)
                 }
                 return data
@@ -189,9 +189,9 @@ export default function UserManagement() {
         fetch(`http://127.0.0.1:8000/api/assigned-user-add/tickets/`, requestOptions)
             .then(response => response.json())
             .then(data => {
-                if (data == "Ticket already assigned to user") {
+                if (data === "Ticket already assigned to user") {
                     setUserAlreadyAssignedToTicket(true)
-                } else if (data == 'Tickets can only be assigned to developers or admins') {
+                } else if (data === 'Tickets can only be assigned to developers or admins') {
                     setSelectedUserNotAdminOrDev(true)
                 }
                 return data

@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import SignIn from "./SignIn";
 import Button from "@mui/material/Button";
 import {Alert, Grid} from "@mui/material";
-import {Navigate} from "react-router";
 
 export default function SignOut() {
     const [open, setOpen] = useState(true)

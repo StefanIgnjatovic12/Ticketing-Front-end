@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import MUIDataTable from "mui-datatables";
-import AddTicket from "../Ticket/AddTicket";
 import TicketBreakdown from "./TicketBreakdown";
 import ShowMoreText from "react-show-more-text";
 
@@ -74,7 +73,7 @@ export default function DeveloperTicketsAndProjects() {
     }
     return (<>
         {/*table containing personnel assigned to project*/}
-        {currentUserRole == 'Admin' || currentUserRole == 'Developer'
+        {currentUserRole === 'Admin' || currentUserRole === 'Developer'
             ? <TicketBreakdown/>
             : null
         }
@@ -122,7 +121,7 @@ export default function DeveloperTicketsAndProjects() {
                         data={formatTicketProject()[1]}
                         options={{selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
                         }}
-                        title={currentUserRole == 'User' ? 'Submitted tickets' : 'Your tickets'}
+                        title={currentUserRole === 'User' ? 'Submitted tickets' : 'Your tickets'}
                     />
 
                 </Grid>

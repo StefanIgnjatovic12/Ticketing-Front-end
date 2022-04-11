@@ -1,15 +1,6 @@
-import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-// import Button from "@mui/material/Button";
-import Button from '@mui/material/Button'
 import {useState} from "react";
-import {InputLabel} from "@mui/material";
 import Box from "@mui/material/Box";
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Link from "@mui/material/Link";
@@ -18,12 +9,6 @@ import {useNavigate} from "react-router-dom";
 
 
 export default function DemoSignIn() {
-    // let demo_dev = btoa('Demo_Dev:demo_dev_password')
-    //     //ZGVtb19kZXY6ZGVtb19kZXZfcGFzc3dvcmQ=
-    //      let demo_admin = btoa('Demo_Admin:demo_admin_password')
-    //     //RGVtb19BZG1pbjpkZW1vX2FkbWluX3Bhc3N3b3Jk
-    //     let demo_user = btoa('Demo_User:demo_user_password')
-    //     //RGVtb19Vc2VyOmRlbW9fdXNlcl9wYXNzd29yZA==
     const [open, setOpen] = useState(false)
     const {fetchCurrentUser} = useAuth()
     const navigate = useNavigate();

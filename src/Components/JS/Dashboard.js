@@ -14,14 +14,13 @@ import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-// import {mainListItems, secondaryListItems} from './SidebarListItems';
 import UserManagement from "./UserManagement/UserManagement";
 import ProjectList from "./Project/ProjectList";
 import ProjectDetail from "./Project/ProjectDetail";
 import TicketDetail from "./Ticket/TicketDetail";
 import AllTicketList from "./Ticket/AllTicketList";
 import DeveloperTicketsAndProjects from "./DeveloperDashboard/DeveloperTicketsAndProjects";
-import TicketBreakdown from "./DeveloperDashboard/TicketBreakdown";
+import AutocompleteSearch from "./DeveloperDashboard/AutocompleteSearch";
 import SideBarListItems from "./SidebarListItems";
 import Unauthorized from "./Authentication/Unauthorized";
 
@@ -93,17 +92,18 @@ export default function DashboardContent(props) {
                         noWrap
                         sx={{flexGrow: 1}}
                     >
-                        {localStorage.getItem('role') == 'Admin'
+                        {localStorage.getItem('role') === 'Admin'
                         ? "Admin Dashboard"
-                        : localStorage.getItem('role') == 'Developer'
+                        : localStorage.getItem('role') === 'Developer'
                             ? "Developer Dashboard"
                             : "User Dashboard"}
                     </Typography>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon/>
-                        </Badge>
-                    </IconButton>
+                    <AutocompleteSearch/>
+                    {/*<IconButton color="inherit">*/}
+                    {/*    <Badge badgeContent={4} color="secondary">*/}
+                    {/*        <NotificationsIcon/>*/}
+                    {/*    </Badge>*/}
+                    {/*</IconButton>*/}
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>

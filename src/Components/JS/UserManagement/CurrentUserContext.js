@@ -5,7 +5,6 @@ const CurrentUserContext = createContext({});
 export const CurrentUserProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState(null)
     const [currentUserRole, setCurrentUserRole] = useState(null)
-    const [currentUserID, setCurrentUserID] = useState(null)
 
     const fetchCurrentUser = () => {
         const requestOption = {

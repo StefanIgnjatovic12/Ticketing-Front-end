@@ -1,9 +1,7 @@
 import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-// import Button from "@mui/material/Button";
 import Button from '@mui/material/Button'
 import {useState} from "react";
 import {InputLabel} from "@mui/material";
@@ -53,7 +51,7 @@ export default function TicketEditForm(props) {
     };
     return (
         <>
-            {currentUserRole == 'Admin' || currentUserRole == 'Developer'
+            {currentUserRole === 'Admin' || currentUserRole === 'Developer'
                 ? <Button variant="outlined" onClick={handleClickOpen}>
                     Edit ticket
                 </Button>
@@ -70,7 +68,7 @@ export default function TicketEditForm(props) {
 
                         {/*Only admin can edit title and description*/}
 
-                        {currentUserRole == "Admin"
+                        {currentUserRole === "Admin"
                             ? <>
                                 {/*TITLE*/}
                                 <Box pb={3}>
@@ -108,7 +106,7 @@ export default function TicketEditForm(props) {
                         }
 
                         {/*Admin and Developer can edit type, status and priority */}
-                        {currentUserRole == 'Admin' || currentUserRole == 'Developer'
+                        {currentUserRole === 'Admin' || currentUserRole === 'Developer'
                             ?
                             <>
                                 {/*TYPE*/}

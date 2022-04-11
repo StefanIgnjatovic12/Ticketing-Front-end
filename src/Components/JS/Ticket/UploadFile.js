@@ -1,7 +1,4 @@
 import {withStyles} from "@material-ui/core/styles";
-import FileUpload from 'react-material-file-upload';
-import Box from "@mui/material/Box";
-import Dialog from '@mui/material/Dialog';
 import {useState} from "react";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import IconButton from '@mui/material/IconButton';

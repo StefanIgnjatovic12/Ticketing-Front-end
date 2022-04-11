@@ -27,15 +27,16 @@ add conditional rendering of the sidebar list items based on user role - done
 
 fix ticket detail so you can add more text - done
 
-dashboard for user with projects theyre assigned to and tickets theyve submitted
+dashboard for user with projects theyre assigned to and tickets theyve submitted - done
 
 unathorized and demo login screens
-prevent access to individual project pages if user isnt assigned to that project
-prevent access to individual ticket pages if user isn't assigned to parent project
+prevent access to individual project pages if user isnt assigned to that project - done
+prevent access to individual ticket pages if user isn't assigned to parent project - done
 
-make all fields mandatory for add ticket
-add ticket/project deletion for new tables
+make all fields mandatory for add ticket - done
+add ticket/project deletion for new tables - done
 make it so that a user that signs up is a USER by default - done
 check why demo users arent showing up in the role page tables
-can only assign tickets if role is developer
-make sure only admin can delete tickets and projects
+can only assign tickets if role is developer or admin - done
+make sure only admin can delete tickets and projects - done
+add user page

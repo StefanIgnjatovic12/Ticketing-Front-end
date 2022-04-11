@@ -1,9 +1,8 @@
 import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-// import Button from "@mui/material/Button";
+
 import Button from '@mui/material/Button'
 import {useState} from "react";
 import {InputLabel} from "@mui/material";
@@ -16,7 +15,7 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {v4 as uuidv4} from "uuid";
-import {Alert, AlertTitle} from "@mui/material";
+import {Alert} from "@mui/material";
 
 export default function AddTicket(props) {
     const [open, setOpen] = useState(false)

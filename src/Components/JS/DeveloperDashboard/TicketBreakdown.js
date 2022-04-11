@@ -4,7 +4,7 @@ import {Pie} from 'react-chartjs-2';
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
+
 import Toolbar from "@mui/material/Toolbar";
 import {AppBar} from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -19,7 +19,7 @@ export default function TicketBreakdown() {
     let location = useLocation()
     let URL
     //if developer page, get ticket breakdown for developer, else get breakdown for all tickets
-    location.pathname == "/maindash"
+    location.pathname === "/maindash"
         ? URL = `http://127.0.0.1:8000/api/dev-ticket-breakdown/${localStorage.getItem('id')}/`
         : URL = 'http://127.0.0.1:8000/api/all-ticket-breakdown/'
 
@@ -148,9 +148,9 @@ export default function TicketBreakdown() {
                                             noWrap
                                             sx={{flexGrow: 1}}
                                         >
-                                            {location.pathname == '/maindash'
+                                            {location.pathname === '/maindash'
                                                 ? "Your tickets by priority"
-                                                : location.pathname == '/alltickets'
+                                                : location.pathname === '/alltickets'
                                                     ? 'All tickets by priority'
                                                     : null}
 
@@ -179,9 +179,9 @@ export default function TicketBreakdown() {
                                             noWrap
                                             sx={{flexGrow: 1}}
                                         >
-                                            {location.pathname == '/maindash'
+                                            {location.pathname === '/maindash'
                                                 ? "Your tickets by status"
-                                                : location.pathname == '/alltickets'
+                                                : location.pathname === '/alltickets'
                                                     ? 'All tickets by status'
                                                     : null}
                                         </Typography>
@@ -210,9 +210,9 @@ export default function TicketBreakdown() {
                                             noWrap
                                             sx={{flexGrow: 1}}
                                         >
-                                            {location.pathname == '/maindash'
+                                            {location.pathname === '/maindash'
                                                 ? "Your tickets by type"
-                                                : location.pathname == '/alltickets'
+                                                : location.pathname === '/alltickets'
                                                     ? 'All tickets by type'
                                                     : null}
                                         </Typography>

@@ -3,28 +3,22 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import MUIDataTable from "mui-datatables";
 import {useEffect, useState} from "react";
-import {useCurrentUser} from "../UserManagement/CurrentUserContext"
 import {useLocation} from "react-router";
 import {Typography} from "@mui/material";
 import TicketDetailContent from "./TicketDetailContent"
 import TicketEditForm from "./TicketEditForm";
 import Box from "@mui/material/Box";
-import UploadFile from '../UploadFile'
+import UploadFile from './UploadFile'
 import AddComment from '../Comment/AddComment'
-
 import {getTime} from '../getTime'
 import {MuiThemeProvider} from '@material-ui/core/styles';
 import {getMuiTheme} from '../getMuiTheme'
-import {useAuth} from "../UserManagement/CurrentUserContext"
 import {useNavigate} from "react-router-dom";
 
 export default function TicketDetail() {
 
 
-    const mockData = [['data1', 'data2', 'data3'],
-        ['data1', 'data2', 'data3'],
-        ['data1', 'data2', 'data3'],]
-    // const { fetchCurrentUser } = useAuth()
+
     const [savedComments, setSavedComments] = useState(null)
     const [savedAttachments, setSavedAttachments] = useState(null)
     const [ticketHistory, setTicketHistory] = useState(null)
@@ -33,7 +27,6 @@ export default function TicketDetail() {
     const [addComment, setAddComment] = useState(null)
     const [files, setFiles] = useState(null)
     const [loading, setLoading] = useState(null)
-    const [accessPermittedCheck, setAccessPermittedCheck] = useState([])
     let location = useLocation();
     let ticketID = location.pathname
     let currentUserID = localStorage.getItem('id')
@@ -64,7 +57,6 @@ export default function TicketDetail() {
                         setTicketInfo(data[0].ticket_info)
                         setSavedAttachments(data[0].attachments)
                         setTicketHistory(data[0].ticket_history)
-                        setAccessPermittedCheck([data[0].ticket_author.user_id, data[0].ticket_info.assigned_developer_id])
                         setLoading(true)
                     }
 

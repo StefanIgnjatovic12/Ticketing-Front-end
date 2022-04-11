@@ -6,11 +6,10 @@ import {
 import DashboardContent from "./Components/JS/Dashboard";
 import SignUp from "./Components/JS/Authentication/SignUp";
 import SignIn from "./Components/JS/Authentication/SignIn";
-import DemoSignIn from "./Components/JS/Authentication/DemoSignIn";
 import SignOut from "./Components/JS/Authentication/SignOut";
 import {CurrentUserProvider} from "./Components/JS/UserManagement/CurrentUserContext";
 import RequireAuth from "./Components/JS/Authentication/RequireAuth";
-import Unauthorized from "./Components/JS/Authentication/Unauthorized";
+
 
 export default function App() {
     return (
