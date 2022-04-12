@@ -83,12 +83,12 @@ export default function AutocompleteSearch() {
                     navigate(`/tickets/${value.id}`)
                     navigate(0)
                 }
-                // else if (value !== null && value.type === 'Users') {
-                //     setOpen(false)
-                //     navigate(`/users/${value.id}`)
-                //     navigate(0)
+                else if (value !== null && value.type === 'Users') {
+                    setOpen(false)
+                    navigate(`/users/${value.id}`)
+                    navigate(0)
 
-            }}
+            }}}
             isOptionEqualToValue={(option, value) => option.title === value.title}
             getOptionLabel={(option) => option.title}
             options={options}
