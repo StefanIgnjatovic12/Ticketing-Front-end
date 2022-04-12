@@ -3,6 +3,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
+import '../../CSS/searchbar.css'
 
 function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -62,10 +63,7 @@ export default function AutocompleteSearch() {
             size="small"
             sx={{
                 width: 300,
-                '& .MuiInput-root': {
-                        borderColor:'#fff'}
-
-            }}
+                }}
             open={open}
             onOpen={() => {
                 setOpen(true);
@@ -74,21 +72,21 @@ export default function AutocompleteSearch() {
                 setOpen(false);
             }}
             //navigate to page after option is selected in menu and remove the selected option
-            onChange={(event, value) =>{
-               if (value !== null && value.type === 'Projects'){
-                   setOpen(false)
-                   navigate(`/projects/${value.id}`)
-                   navigate(0)
+            onChange={(event, value) => {
+                if (value !== null && value.type === 'Projects') {
+                    setOpen(false)
+                    navigate(`/projects/${value.id}`)
+                    navigate(0)
 
-               } else if (value !== null && value.type === 'Tickets') {
-                   setOpen(false)
-                   navigate(`/tickets/${value.id}`)
-                   navigate(0)
-               }
-               // else if (value !== null && value.type === 'Users') {
-               //     setOpen(false)
-               //     navigate(`/users/${value.id}`)
-               //     navigate(0)
+                } else if (value !== null && value.type === 'Tickets') {
+                    setOpen(false)
+                    navigate(`/tickets/${value.id}`)
+                    navigate(0)
+                }
+                // else if (value !== null && value.type === 'Users') {
+                //     setOpen(false)
+                //     navigate(`/users/${value.id}`)
+                //     navigate(0)
 
             }}
             isOptionEqualToValue={(option, value) => option.title === value.title}
@@ -127,6 +125,7 @@ export default function AutocompleteSearch() {
                 />
             )}
         />
+
     );
 }
 

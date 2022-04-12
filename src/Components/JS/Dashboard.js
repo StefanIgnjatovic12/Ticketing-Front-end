@@ -140,6 +140,7 @@ export default function DashboardContent(props) {
                 {props.ticketDetail && <TicketDetail/> }
                 {props.allTickets && <AllTicketList/>}
                 {props.mainDash && <DeveloperTicketsAndProjects/>}
+                {props.userPage && <DeveloperTicketsAndProjects/>}
                 {props.unauthorized && <Unauthorized/>}
 
             </Box>

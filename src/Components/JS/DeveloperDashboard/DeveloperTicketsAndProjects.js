@@ -4,13 +4,16 @@ import Grid from "@mui/material/Grid";
 import MUIDataTable from "mui-datatables";
 import TicketBreakdown from "./TicketBreakdown";
 import ShowMoreText from "react-show-more-text";
+import {useLocation} from "react-router";
 
 export default function DeveloperTicketsAndProjects() {
     const currentUserRole = localStorage.getItem('role')
     const [ticketsAndProjects, setTicketsAndProjects] = useState(null)
     const [loading, setLoading] = useState(false)
+    const location = useLocation()
     useEffect(() => {
-        let current_user_id = localStorage.getItem('id')
+        //if on maindash page, current user is the one logged in. else its admin viewing any users page, use the user page ID
+        let current_user_id = location.pathname === "/maindash" ? localStorage.getItem('id') : location.pathname.split('/')[2]
         const requestOption = {
             method: 'GET', headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -73,7 +76,7 @@ export default function DeveloperTicketsAndProjects() {
     }
     return (<>
         {/*table containing personnel assigned to project*/}
-        {currentUserRole === 'Admin' || currentUserRole === 'Developer'
+        {(currentUserRole === 'Admin' &&  location.pathname === "/maindash") || (currentUserRole === 'Developer' &&  location.pathname === "/maindash")
             ? <TicketBreakdown/>
             : null
         }
@@ -99,7 +102,7 @@ export default function DeveloperTicketsAndProjects() {
                         options={{selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
                         }}
                         data={formatTicketProject()[0]}
-                        title={'Your Projects'}
+                        title={ location.pathname === "/maindash" ? "Your Projects" : "User's Projects"}
                     />
 
 
@@ -121,7 +124,14 @@ export default function DeveloperTicketsAndProjects() {
                         data={formatTicketProject()[1]}
                         options={{selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
                         }}
-                        title={currentUserRole === 'User' ? 'Submitted tickets' : 'Your tickets'}
+                        title={
+                            (currentUserRole === 'User' && location.pathname === '/maindash')
+                                ? 'Submitted tickets'
+                                : location.pathname.split('/')[1] === 'users'
+                                    ? "User's tickets"
+                                    : "Your tickets"
+                        }
+
                     />
 
                 </Grid>

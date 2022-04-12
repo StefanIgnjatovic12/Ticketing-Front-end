@@ -3,8 +3,11 @@ import {Typography} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import * as React from "react";
 import {v4 as uuidv4} from 'uuid';
+import {Link} from "react-router-dom";
 
 export default function TicketDetailContent(props) {
+                        <Link to="/maindash" style={{textDecoration: 'none'}}>Your dashboard</Link>
+
     const ticketDetailData = [
         {
             "leftHeader": "Ticket title",
@@ -14,9 +17,9 @@ export default function TicketDetailContent(props) {
         },
         {
             "leftHeader": "Assigned developer",
-            "leftSubtitle": `${props.ticket_info.assigned_developer}`,
+            "leftSubtitle": <Link to={{pathname: `/users/${props.ticket_info.assigned_developer_id}`}}>{props.ticket_info.assigned_developer}</Link>,
             "rightHeader": "Ticket submitter",
-            "rightSubtitle": `${props.ticket_info.created_by}`
+            "rightSubtitle": <Link to={{pathname: `/users/${props.ticket_author.user_id}`}}>{props.ticket_info.created_by}</Link>
         },
         {
             "leftHeader": "Parent project",

@@ -152,7 +152,9 @@ export default function TicketBreakdown() {
                                                 ? "Your tickets by priority"
                                                 : location.pathname === '/alltickets'
                                                     ? 'All tickets by priority'
-                                                    : null}
+                                                    : location.pathname.split('/')[1] === 'users'
+                                                        ? "User's tickets by priority"
+                                                        : null }
 
                                         </Typography>
                                     </Toolbar>
@@ -183,7 +185,9 @@ export default function TicketBreakdown() {
                                                 ? "Your tickets by status"
                                                 : location.pathname === '/alltickets'
                                                     ? 'All tickets by status'
-                                                    : null}
+                                                    : location.pathname.split('/')[1] === 'users'
+                                                        ? 'User;s tickets by status'
+                                                        : null }
                                         </Typography>
                                     </Toolbar>
                                 </AppBar>
@@ -210,11 +214,18 @@ export default function TicketBreakdown() {
                                             noWrap
                                             sx={{flexGrow: 1}}
                                         >
+                                            {/*{location.pathname === '/maindash'*/}
+                                            {/*    ? "Your tickets by type"*/}
+                                            {/*    : location.pathname === '/alltickets'*/}
+                                            {/*        ? 'All tickets by type'*/}
+                                            {/*        : null}*/}
                                             {location.pathname === '/maindash'
                                                 ? "Your tickets by type"
                                                 : location.pathname === '/alltickets'
                                                     ? 'All tickets by type'
-                                                    : null}
+                                                    : location.pathname.split('/')[1] === 'users'
+                                                        ? "User's tickets by type"
+                                                        : null }
                                         </Typography>
                                     </Toolbar>
                                 </AppBar>

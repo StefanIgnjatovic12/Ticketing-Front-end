@@ -23,6 +23,7 @@ export default function TicketDetail() {
     const [savedAttachments, setSavedAttachments] = useState(null)
     const [ticketHistory, setTicketHistory] = useState(null)
     const [ticketInfo, setTicketInfo] = useState(null)
+    const [ticketAuthor, setTicketAuthor] = useState(null)
     const [ticketEditForm, setTicketEditForm] = useState(null)
     const [addComment, setAddComment] = useState(null)
     const [files, setFiles] = useState(null)
@@ -55,6 +56,7 @@ export default function TicketDetail() {
                     if (performStateUpdate) {
                         setSavedComments(data[0].comments)
                         setTicketInfo(data[0].ticket_info)
+                        setTicketAuthor(data[0].ticket_author)
                         setSavedAttachments(data[0].attachments)
                         setTicketHistory(data[0].ticket_history)
                         setLoading(true)
@@ -62,13 +64,6 @@ export default function TicketDetail() {
 
 
                 })
-                // .then(() => {
-                //     console.log(accessPermittedCheck)
-                //     if (![data[0].ticket_author.user_id, data[0].ticket_info.assigned_developer_id].includes(currentUserID) || currentUserRole !== 'Admin') {
-                //         // navigate('/unauthorized')
-                //         console.log('access permission check failed')
-                //     }
-                // })
                 .catch(error => console.log(error))
         }
         // fetchCurrentUser()
@@ -81,7 +76,6 @@ export default function TicketDetail() {
 
         //changes the state of ticket edit done because it is a dependency of the useState used to fetch data
         //ie the ticket data gets refetched after the edit automatically without reloading the page
-        // setTicketEditDone(Math.floor(Math.random() * 1000))
 
         const editTicketData = (ticketID) => {
             const requestOptions = {
@@ -324,6 +318,7 @@ export default function TicketDetail() {
 
                         {loading && <TicketDetailContent
                             ticket_info={ticketInfo}
+                            ticket_author={ticketAuthor}
                         />}
 
                     </Paper>

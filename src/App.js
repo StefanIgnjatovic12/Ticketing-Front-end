@@ -21,6 +21,7 @@ export default function App() {
                             <Route path="manage" element={<DashboardContent role={true}/>}/>
                             <Route path="projects" element={<DashboardContent project={true}/>}/>
                             <Route path="alltickets" element={<DashboardContent allTickets={true}/>}/>
+                            <Route path="users/:userId" element={<DashboardContent userPage={true}/>}/>
                         </Route>
 
                         <Route path="/" element={<SignIn/>}/>

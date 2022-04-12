@@ -2,12 +2,11 @@ import {useEffect, useState} from "react";
 import MUIDataTable from "mui-datatables";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import {useLocation} from "react-router";
 import AddTicket from "../Ticket/AddTicket";
 import {getTime} from "../getTime";
 import ProjectEditForm from "./ProjectEditForm";
 import ShowMoreText from "react-show-more-text";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 
 export default function ProjectDetail() {
 
@@ -252,7 +251,19 @@ export default function ProjectDetail() {
                         {/*PERSONNEL TABLE*/}
                         <Grid item xs={12} sm={12} md={5} lg={5}>
                             <MUIDataTable
-                                columns={['User name', 'Email', 'Role']}
+                                columns={['User name', 'Email', 'Role', {
+                                    name: "",
+                                    options: {
+                                        filter: false,
+
+                                        //makes the content of the column into a href
+                                        customBodyRender: (value) => {
+                                            return (
+                                                <a href={`http://localhost:3000/users/${value}`}>View user page</a>
+                                            );
+                                        }
+                                    }
+                                }]}
                                 data={assignedUserData()}
                                 title={'Personnel assigned to project'}
                                 options={
