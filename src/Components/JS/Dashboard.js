@@ -23,6 +23,7 @@ import DeveloperTicketsAndProjects from "./DeveloperDashboard/DeveloperTicketsAn
 import AutocompleteSearch from "./DeveloperDashboard/AutocompleteSearch";
 import SideBarListItems from "./SidebarListItems";
 import Unauthorized from "./Authentication/Unauthorized";
+import PasswordResetConf from "./Authentication/PasswordResetConf";
 
 
 const drawerWidth = 240;
@@ -142,6 +143,7 @@ export default function DashboardContent(props) {
                 {props.mainDash && <DeveloperTicketsAndProjects/>}
                 {props.userPage && <DeveloperTicketsAndProjects/>}
                 {props.unauthorized && <Unauthorized/>}
+                {props.passReset && <PasswordResetConf/>}
 
             </Box>
         </Box>

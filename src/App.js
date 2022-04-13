@@ -9,6 +9,7 @@ import SignIn from "./Components/JS/Authentication/SignIn";
 import SignOut from "./Components/JS/Authentication/SignOut";
 import {CurrentUserProvider} from "./Components/JS/UserManagement/CurrentUserContext";
 import RequireAuth from "./Components/JS/Authentication/RequireAuth";
+import PasswordResetConf from "./Components/JS/Authentication/PasswordResetConf";
 
 
 export default function App() {
@@ -28,6 +29,8 @@ export default function App() {
                         <Route path="signin" element={<SignIn/>}/>
                         <Route path="signup" element={<SignUp/>}/>
                         <Route path="signout" element={<SignOut/>}/>
+                        <Route path="password-reset/:token" element={<PasswordResetConf passReset={true}/>}/>
+
 
                         <Route path="maindash" element={<DashboardContent mainDash={true}/>}/>
                         <Route path="tickets/:ticketId" element={<DashboardContent ticketDetail={true}/>}/>

@@ -15,6 +15,7 @@ import {useState} from "react";
 import {Alert, AlertTitle} from "@mui/material";
 import {useNavigate} from 'react-router-dom';
 import DemoSignIn from "./DemoSignIn";
+import PasswordReset from "./PasswordReset";
 
 const theme = createTheme();
 
@@ -22,6 +23,7 @@ const theme = createTheme();
 export default function SignIn() {
     const navigate = useNavigate();
     const [failedLogin, setFailedLogin] = useState(false)
+    const [passResetFormOpen, setPassResetFormOpen] = useState(false)
     const {fetchCurrentUser} = useAuth()
 
     // useEffect(() => {
@@ -74,6 +76,7 @@ export default function SignIn() {
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
+                {passResetFormOpen && <PasswordReset setPassResetFormOpen={setPassResetFormOpen} passResetFormOpen={passResetFormOpen}/>}
                 <CssBaseline/>
 
                 <Box
@@ -125,7 +128,7 @@ export default function SignIn() {
                         </Button>
                         <Grid container direction="column">
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link onClick={() => setPassResetFormOpen(true)} href="#" variant="body2">
                                     Forgot password?
                                 </Link>
                             </Grid>
@@ -162,6 +165,8 @@ export default function SignIn() {
                             </Alert>
                             : null
                         }
+
+
 
                     </Box>
                 </Box>
