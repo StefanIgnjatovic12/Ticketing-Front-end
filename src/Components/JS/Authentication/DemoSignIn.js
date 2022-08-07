@@ -40,7 +40,7 @@ export default function DemoSignIn() {
             body: JSON.stringify({})
 
         }
-        fetch('http://127.0.0.1:8000/api/login/', requestOptions)
+        fetch('https://drf-react-chat-backend.herokuapp.com/api/login/', requestOptions)
             .then(response => response.json())
             .then(data => {
                 localStorage.setItem('token', data['token'])

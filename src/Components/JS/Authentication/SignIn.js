@@ -13,7 +13,7 @@ import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useAuth} from "../UserManagement/CurrentUserContext"
 import {useState} from "react";
 import {Alert, AlertTitle} from "@mui/material";
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import DemoSignIn from "./DemoSignIn";
 import PasswordReset from "./PasswordReset";
 
@@ -22,7 +22,10 @@ const theme = createTheme();
 
 export default function SignIn() {
     const navigate = useNavigate();
+    const location = useLocation()
+    const user_origin = location.state
     const [failedLogin, setFailedLogin] = useState(false)
+    const [registerSuccess, setRegisterSuccess] = useState(true)
     const [passResetFormOpen, setPassResetFormOpen] = useState(false)
     const {fetchCurrentUser} = useAuth()
 
@@ -37,7 +40,7 @@ export default function SignIn() {
     //         },
     //         body: {}
     //     }
-    //     fetch('http://127.0.0.1:8000/api/logout/', requestOptions)
+    //     fetch('https://drf-react-chat-backend.herokuapp.com/api/logout/', requestOptions)
     //     }
     // },[])
 
@@ -56,10 +59,11 @@ export default function SignIn() {
             body: JSON.stringify({})
 
         }
-        fetch('http://127.0.0.1:8000/api/login/', requestOptionsSignIn)
+        fetch('https://drf-react-chat-backend.herokuapp.com/api/login/', requestOptionsSignIn)
             .then(response => {
                 if (response.status === 401) {
                     setFailedLogin(true)
+                    return
                 }
                 return response.json()
             })
@@ -133,7 +137,7 @@ export default function SignIn() {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link onClick={()=> navigate('/signup')} variant="body2">
                                     Don't have an account? Sign Up
                                 </Link>
                             </Grid>
@@ -163,7 +167,28 @@ export default function SignIn() {
                                 <AlertTitle>Error</AlertTitle>
                                 Incorrect credentials, please try again
                             </Alert>
-                            : null
+                            : user_origin === 'signup' && registerSuccess
+                                ? <Alert
+                                severity="success"
+                                action={
+                                    <Button
+                                        color="inherit"
+                                        size="small"
+                                        onClick={() => {
+                                            setRegisterSuccess(false);
+                                        }}
+                                    >
+                                        x
+                                     </Button>
+                                }
+
+                            >
+
+                                <AlertTitle>Success</AlertTitle>
+                                You have succesfuly registered, please sign in below
+                            </Alert>
+                                : null
+
                         }
 
 

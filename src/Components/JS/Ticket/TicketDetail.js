@@ -11,8 +11,6 @@ import Box from "@mui/material/Box";
 import UploadFile from './UploadFile'
 import AddComment from '../Comment/AddComment'
 import {getTime} from '../getTime'
-import {MuiThemeProvider} from '@material-ui/core/styles';
-import {getMuiTheme} from '../getMuiTheme'
 import {useNavigate} from "react-router-dom";
 
 export default function TicketDetail() {
@@ -39,7 +37,7 @@ export default function TicketDetail() {
 
 
         const fetchTicketData = () => {
-            fetch(`http://127.0.0.1:8000/api${ticketID}`)
+            fetch(`https://drf-react-chat-backend.herokuapp.com/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
                     let performStateUpdate = true
@@ -89,7 +87,7 @@ export default function TicketDetail() {
 
             }
             console.log(ticketEditForm)
-            fetch(`http://127.0.0.1:8000/api/ticket-update/${ticketID.split('/')[2]}/`, requestOptions)
+            fetch(`https://drf-react-chat-backend.herokuapp.com/api/ticket-update/${ticketID.split('/')[2]}/`, requestOptions)
                 .then(response => console.log(response.json()))
                 .then(setTicketEditForm(null))
                 .catch(error => console.log(error))
@@ -100,7 +98,7 @@ export default function TicketDetail() {
         //ticket is edited and then API is called to update the content on screen
         if (ticketEditForm) {
             editTicketData(ticketID)
-            fetch(`http://127.0.0.1:8000/api${ticketID}`)
+            fetch(`https://drf-react-chat-backend.herokuapp.com/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
                     setTicketInfo(data[0].ticket_info)
@@ -137,7 +135,7 @@ export default function TicketDetail() {
                 body: JSON.stringify(commentPayload)
 
             }
-            fetch('http://127.0.0.1:8000/api/comment-create/', requestOptions)
+            fetch('https://drf-react-chat-backend.herokuapp.com/api/comment-create/', requestOptions)
                 .then(response => {
                     console.log(response.json())
                     setAddComment(null)
@@ -148,7 +146,7 @@ export default function TicketDetail() {
         }
         if (addComment) {
             addCommentFetch()
-            fetch(`http://127.0.0.1:8000/api${ticketID}`)
+            fetch(`https://drf-react-chat-backend.herokuapp.com/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
                     setSavedComments(data[0].comments)
@@ -184,7 +182,7 @@ export default function TicketDetail() {
             },
             body: JSON.stringify(deleteCommentArray)
         }
-        fetch(`http://127.0.0.1:8000/api/comment-delete/`, requestOptions)
+        fetch(`https://drf-react-chat-backend.herokuapp.com/api/comment-delete/`, requestOptions)
             .then(response => console.log(response))
             .catch(error => console.log(error))
     }
@@ -220,7 +218,7 @@ export default function TicketDetail() {
                 },
                 body: formData
             }
-            fetch("http://127.0.0.1:8000/api/attachment-upload/", requestOptions)
+            fetch("https://drf-react-chat-backend.herokuapp.com/api/attachment-upload/", requestOptions)
                 .then(response => console.log(response.json()))
                 .catch(error => console.log(error))
         }
@@ -232,7 +230,7 @@ export default function TicketDetail() {
 
 
             addAttachment()
-            fetch(`http://127.0.0.1:8000/api${ticketID}`)
+            fetch(`https://drf-react-chat-backend.herokuapp.com/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
                     setSavedAttachments(data[0].attachments)
@@ -256,7 +254,7 @@ export default function TicketDetail() {
             },
             body: JSON.stringify(deleteAttachmentArray)
         }
-        fetch(`http://127.0.0.1:8000/api/attachment-delete/`, requestOptions)
+        fetch(`https://drf-react-chat-backend.herokuapp.com/api/attachment-delete/`, requestOptions)
             .then(response => console.log(response))
             .catch(error => console.log(error))
     }
@@ -327,7 +325,7 @@ export default function TicketDetail() {
                 {/*Ticket comment table*/}
 
                 {loading ? <Grid item xs={12} sm={12} md={6} lg={6}>
-                    <MuiThemeProvider theme={getMuiTheme()}>
+
                         <MUIDataTable
                             columns={['Submitter', 'Message', 'Created on']}
                             data={assignedCommentData()}
@@ -354,7 +352,7 @@ export default function TicketDetail() {
                             }}
                             title={"Ticket comments"}
                         />
-                    </MuiThemeProvider>
+
 
                 </Grid> : null}
 
@@ -394,7 +392,7 @@ export default function TicketDetail() {
                                     //makes the content of the column into a href
                                     customBodyRender: (value) => {
                                         return (
-                                            <a href={`http://127.0.0.1:8000/api/attachment-download/${value}`}>
+                                            <a href={`https://drf-react-chat-backend.herokuapp.com/api/attachment-download/${value}`}>
                                                 Download attachment
                                             </a>
                                         );

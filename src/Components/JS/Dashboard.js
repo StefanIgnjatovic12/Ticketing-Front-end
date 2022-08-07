@@ -24,6 +24,7 @@ import AutocompleteSearch from "./DeveloperDashboard/AutocompleteSearch";
 import SideBarListItems from "./SidebarListItems";
 import Unauthorized from "./Authentication/Unauthorized";
 import PasswordResetConf from "./Authentication/PasswordResetConf";
+import {useNavigate} from "react-router-dom";
 
 
 const drawerWidth = 240;
@@ -59,9 +60,12 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 const mdTheme = createTheme();
 
 export default function DashboardContent(props) {
+    const navigate = useNavigate()
     const [open, setOpen] = useState(true);
+    const [hideWelcomeText, setHideWelcomeText] = useState(false)
     const toggleDrawer = () => {
         setOpen(!open);
+        setHideWelcomeText(!hideWelcomeText)
 
 
     };
@@ -91,13 +95,15 @@ export default function DashboardContent(props) {
                         variant="h6"
                         color="inherit"
                         noWrap
-                        sx={{flexGrow: 1}}
+                        sx={{flexGrow: 1, cursor:"pointer"}}
+                        onClick={() => navigate('/maindash')}
+
                     >
                         {localStorage.getItem('role') === 'Admin'
-                        ? "Admin Dashboard"
-                        : localStorage.getItem('role') === 'Developer'
-                            ? "Developer Dashboard"
-                            : "User Dashboard"}
+                            ? "Admin Dashboard"
+                            : localStorage.getItem('role') === 'Developer'
+                                ? "Developer Dashboard"
+                                : "User Dashboard"}
                     </Typography>
                     <AutocompleteSearch/>
                     {/*<IconButton color="inherit">*/}
@@ -119,7 +125,9 @@ export default function DashboardContent(props) {
                 </Toolbar>
                 <Divider/>
                 <List component="nav">
-                    <SideBarListItems/>
+                    <SideBarListItems
+                    hideWelcomeText={hideWelcomeText}
+                    />
                     {/*{mainListItems}*/}
                     {/*<Divider sx={{my: 1}}/>*/}
                     {/*{secondaryListItems}*/}
@@ -135,10 +143,10 @@ export default function DashboardContent(props) {
                 }}
             >
                 <Toolbar/>
-                {props.role && <UserManagement/> }
+                {props.role && <UserManagement/>}
                 {props.project && <ProjectList/>}
                 {props.projectDetail && <ProjectDetail/>}
-                {props.ticketDetail && <TicketDetail/> }
+                {props.ticketDetail && <TicketDetail/>}
                 {props.allTickets && <AllTicketList/>}
                 {props.mainDash && <DeveloperTicketsAndProjects/>}
                 {props.userPage && <DeveloperTicketsAndProjects/>}

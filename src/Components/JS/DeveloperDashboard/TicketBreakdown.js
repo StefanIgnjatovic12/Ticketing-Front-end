@@ -20,8 +20,8 @@ export default function TicketBreakdown() {
     let URL
     //if developer page, get ticket breakdown for developer, else get breakdown for all tickets
     location.pathname === "/maindash"
-        ? URL = `http://127.0.0.1:8000/api/dev-ticket-breakdown/${localStorage.getItem('id')}/`
-        : URL = 'http://127.0.0.1:8000/api/all-ticket-breakdown/'
+        ? URL = `https://drf-react-chat-backend.herokuapp.com/api/dev-ticket-breakdown/${localStorage.getItem('id')}/`
+        : URL = 'https://drf-react-chat-backend.herokuapp.com/api/all-ticket-breakdown/'
 
     useEffect(() => {
         const fetchTicketBreakdown = () => {

@@ -21,7 +21,7 @@ export default function DeveloperTicketsAndProjects() {
                 'Authorization': `Token ${localStorage.getItem('token')}`
             }
         }
-        fetch(`http://127.0.0.1:8000/api/developers-tickets-projects/${current_user_id}`, requestOption)
+        fetch(`https://drf-react-chat-backend.herokuapp.com/api/developers-tickets-projects/${current_user_id}`, requestOption)
             .then(request => request.json())
             .then(data => {
                 setTicketsAndProjects(data)
@@ -126,10 +126,10 @@ export default function DeveloperTicketsAndProjects() {
                         }}
                         title={
                             (currentUserRole === 'User' && location.pathname === '/maindash')
-                                ? 'Submitted tickets'
+                                ? 'Submitted Tickets'
                                 : location.pathname.split('/')[1] === 'users'
-                                    ? "User's tickets"
-                                    : "Your tickets"
+                                    ? "User's Tickets"
+                                    : "Your Tickets"
                         }
 
                     />

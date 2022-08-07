@@ -35,7 +35,7 @@ export default function AutocompleteSearch() {
             await sleep(1e3); // For demo purposes.
 
             if (active) {
-                fetch('http://127.0.0.1:8000/api/search/', requestOption)
+                fetch('https://drf-react-chat-backend.herokuapp.com/api/search/', requestOption)
                     .then(request => request.json())
                     .then(data => {
                         setOptions(data)

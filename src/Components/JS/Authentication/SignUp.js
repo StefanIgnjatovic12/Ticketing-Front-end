@@ -10,11 +10,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-
+import {useNavigate} from "react-router";
 
 const theme = createTheme();
 
 export default function SignUp() {
+    const navigate = useNavigate()
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -31,12 +32,14 @@ export default function SignUp() {
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${localStorage.getItem('token')}`
+                // 'Authorization': `Token ${localStorage.getItem('token')}`
             },
             body: JSON.stringify(registerPayload)
         }
-        fetch('http://127.0.0.1:8000/api/register/', requestOptions)
+        fetch('https://drf-react-chat-backend.herokuapp.com/api/register/', requestOptions)
             .then(response => console.log(response))
+            //telling the signin component that the user originated from the signup page
+            .then(navigate('/signin', {state: 'signup'}))
             .catch(error => console.log(error))
     }
 
@@ -125,7 +128,7 @@ export default function SignUp() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link onClick={()=>navigate('/signin')} variant="body2">
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>

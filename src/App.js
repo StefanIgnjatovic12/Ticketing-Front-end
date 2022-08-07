@@ -10,36 +10,41 @@ import SignOut from "./Components/JS/Authentication/SignOut";
 import {CurrentUserProvider} from "./Components/JS/UserManagement/CurrentUserContext";
 import RequireAuth from "./Components/JS/Authentication/RequireAuth";
 import PasswordResetConf from "./Components/JS/Authentication/PasswordResetConf";
+import theme from "./Components/JS/theme"
+import {MuiThemeProvider} from "@material-ui/core/styles";
 
 
 export default function App() {
     return (
+
         <CurrentUserProvider>
             <DialogProvider>
-                <Router>
-                    <Routes>
-                        <Route element={<RequireAuth allowedRole={'Admin'}/>}>
-                            <Route path="manage" element={<DashboardContent role={true}/>}/>
-                            <Route path="projects" element={<DashboardContent project={true}/>}/>
-                            <Route path="alltickets" element={<DashboardContent allTickets={true}/>}/>
-                            <Route path="users/:userId" element={<DashboardContent userPage={true}/>}/>
-                        </Route>
+                <MuiThemeProvider theme={theme}>
+                    <Router>
+                        <Routes>
+                            <Route element={<RequireAuth allowedRole={'Admin'}/>}>
+                                <Route path="manage" element={<DashboardContent role={true}/>}/>
+                                <Route path="projects" element={<DashboardContent project={true}/>}/>
+                                <Route path="alltickets" element={<DashboardContent allTickets={true}/>}/>
+                                <Route path="users/:userId" element={<DashboardContent userPage={true}/>}/>
+                            </Route>
 
-                        <Route path="/" element={<SignIn/>}/>
-                        <Route path="signin" element={<SignIn/>}/>
-                        <Route path="signup" element={<SignUp/>}/>
-                        <Route path="signout" element={<SignOut/>}/>
-                        <Route path="password-reset/:token" element={<PasswordResetConf passReset={true}/>}/>
-
-
-                        <Route path="maindash" element={<DashboardContent mainDash={true}/>}/>
-                        <Route path="tickets/:ticketId" element={<DashboardContent ticketDetail={true}/>}/>
-                        <Route path="projects/:projectId" element={<DashboardContent projectDetail={true}/>}/>
-                        <Route path="unauthorized" element={<DashboardContent unauthorized={true}/>}/>
+                            <Route path="/" element={<SignIn/>}/>
+                            <Route path="signin" element={<SignIn/>}/>
+                            <Route path="signup" element={<SignUp/>}/>
+                            <Route path="signout" element={<SignOut/>}/>
+                            <Route path="password-reset/:token" element={<PasswordResetConf passReset={true}/>}/>
 
 
-                    </Routes>
-                </Router>
+                            <Route path="maindash" element={<DashboardContent mainDash={true}/>}/>
+                            <Route path="tickets/:ticketId" element={<DashboardContent ticketDetail={true}/>}/>
+                            <Route path="projects/:projectId" element={<DashboardContent projectDetail={true}/>}/>
+                            <Route path="unauthorized" element={<DashboardContent unauthorized={true}/>}/>
+
+
+                        </Routes>
+                    </Router>
+                </MuiThemeProvider>
             </DialogProvider>
         </CurrentUserProvider>
     )

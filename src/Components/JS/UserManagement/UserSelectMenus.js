@@ -73,7 +73,7 @@ export default function UserSelectMenus(props) {
     useEffect(() => {
         //only fetch data to populate ticket dropdown if 1 user is selected
         if (props.selectedUser.length === 1) {
-            fetch(`http://127.0.0.1:8000/api/project-users/${props.selectedUser}`, requestOptions)
+            fetch(`https://drf-react-chat-backend.herokuapp.com/api/project-users/${props.selectedUser}`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     props.setAssignableTickets(data)
@@ -87,7 +87,7 @@ export default function UserSelectMenus(props) {
     useEffect(() => {
 
 
-        fetch('http://127.0.0.1:8000/api/projects/', requestOptions)
+        fetch('https://drf-react-chat-backend.herokuapp.com/api/projects/', requestOptions)
             .then(response => response.json())
             .then(data => {
                 props.setAllProjects(data)

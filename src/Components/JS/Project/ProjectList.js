@@ -14,7 +14,7 @@ export default function ProjectList() {
     useEffect(() => {
 
         const fetchProjects = () => {
-            fetch('http://127.0.0.1:8000/api/projects')
+            fetch('https://drf-react-chat-backend.herokuapp.com/api/projects')
                 .then(response => response.json())
                 .then(data => {
                     setProjects(data)
@@ -44,7 +44,7 @@ export default function ProjectList() {
 
             }
             // console.log(JSON.stringify(ticketPayload))
-            fetch('http://127.0.0.1:8000/api/project-create/', requestOptions)
+            fetch('https://drf-react-chat-backend.herokuapp.com/api/project-create/', requestOptions)
                 .then(response => console.log(response.json()))
                 .then(setAddProject(null))
                 .catch(error => console.log(error))
@@ -53,7 +53,7 @@ export default function ProjectList() {
         }
         if (addProject) {
             addProjectFetch()
-            fetch('http://127.0.0.1:8000/api/projects')
+            fetch('https://drf-react-chat-backend.herokuapp.com/api/projects')
                 .then(response => response.json())
                 .then(data => {
                     setProjects(data)
@@ -94,7 +94,7 @@ export default function ProjectList() {
             },
             body: JSON.stringify(deleteProjectArray)
         }
-        fetch(`http://127.0.0.1:8000/api/project-delete/`, requestOptions)
+        fetch(`https://drf-react-chat-backend.herokuapp.com/api/project-delete/`, requestOptions)
             .then(response => console.log(response))
             .catch(error => console.log(error))
     }

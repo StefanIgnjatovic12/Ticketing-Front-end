@@ -15,7 +15,7 @@ export const CurrentUserProvider = ({children}) => {
                 'Authorization': `Token ${localStorage.getItem('token')}`
             }
         }
-        return fetch('http://127.0.0.1:8000/api/users-current/', requestOption)
+        return fetch('https://drf-react-chat-backend.herokuapp.com/api/users-current/', requestOption)
             .then(response => response.json())
             .then(data => {
                 localStorage.setItem('user', data[0]['user'])

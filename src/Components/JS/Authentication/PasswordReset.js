@@ -39,7 +39,7 @@ export default function PasswordReset(props) {
             },
             body: JSON.stringify(formValues)
         }
-        fetch('http://127.0.0.1:8000/api/password_reset/', requestOptions)
+        fetch('https://drf-react-chat-backend.herokuapp.com/api/password_reset/', requestOptions)
             .then(response => response.json())
             .then(data => console.log(data))
             .then(setEmailSent(true))
