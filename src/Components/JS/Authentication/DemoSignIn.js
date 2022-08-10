@@ -82,7 +82,7 @@ export default function DemoSignIn() {
                                 width: "30%",
                                 cursor: "pointer"
                             }}
-                            src={process.env.PUBLIC_URL + "admin.png"}
+                            src={"https://drf-react-ticketing-frontend.herokuapp.com/" + "admin.png"}
                         >
                         </Box>
 
@@ -97,7 +97,7 @@ export default function DemoSignIn() {
                                 width: "30%",
                                 cursor: "pointer"
                             }}
-                            src={process.env.PUBLIC_URL + "developer.png"}
+                            src={"https://drf-react-ticketing-frontend.herokuapp.com/" + "developer.png"}
                         >
                         </Box>
 
@@ -112,7 +112,7 @@ export default function DemoSignIn() {
                                 cursor: "pointer"
                             }}
 
-                            src={process.env.PUBLIC_URL + "user.png"}
+                            src={"https://drf-react-ticketing-frontend.herokuapp.com/" + "user.png"}
                         >
                         </Box>
 
