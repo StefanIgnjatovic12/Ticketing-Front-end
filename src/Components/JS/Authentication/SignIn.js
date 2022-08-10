@@ -52,7 +52,7 @@ export default function SignIn() {
             method: "POST",
             credentials: 'include',
             headers: {
-                'Accept': 'application/json, text/plain, */*',
+                'Accept': 'application/json, text/plain',
                 'Content-Type': 'application/json',
                 "Authorization": `Basic ${credentials}`
             },
