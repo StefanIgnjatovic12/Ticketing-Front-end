@@ -141,11 +141,11 @@ export default function SignIn() {
                                     Don't have an account? Sign Up
                                 </Link>
                             </Grid>
-                            <Grid container justifyContent="flex-start">
-                                <Grid item>
-                                    <DemoSignIn/>
-                                </Grid>
-                            </Grid>
+                            {/*<Grid container justifyContent="flex-start">*/}
+                            {/*    <Grid item>*/}
+                            {/*        <DemoSignIn/>*/}
+                            {/*    </Grid>*/}
+                            {/*</Grid>*/}
                         </Grid>
                         {failedLogin
                             ? <Alert
