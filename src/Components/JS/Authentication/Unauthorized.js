@@ -34,7 +34,7 @@ export default function Unauthorized() {
                         height: "50%",
                         width: "50%"
                     }}
-                    src={process.env.PUBLIC_URL + "denied.jpg"}
+                    src={"https://drf-react-ticketing-frontend.herokuapp.com/" + "denied.jpg"}
                 >
                 </Box>
                 <Typography
