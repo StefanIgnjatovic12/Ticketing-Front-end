@@ -50,7 +50,7 @@ export default function SignIn() {
         const credentials = btoa(`${data.get('username')}:${data.get('password')}`);
         const requestOptionsSignIn = {
             method: "POST",
-            credentials: 'omit',
+            credentials: 'include',
             headers: {
                 'Accept': 'application/json, text/plain',
                 'Content-Type': 'application/json',
