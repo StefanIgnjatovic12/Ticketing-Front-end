@@ -17,7 +17,7 @@ export default function AllTicketList() {
                 'Authorization': `Token ${localStorage.getItem('token')}`
             }
         }
-        fetch('https://drf-react-chat-backend.herokuapp.com/api/tickets/', requestOption)
+        fetch('https://drf-react-ticketing-backend.herokuapp.com/api/tickets/', requestOption)
             .then(response => response.json())
             .then(data => {
                 setTicketData(data)

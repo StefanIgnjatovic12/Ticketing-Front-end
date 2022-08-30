@@ -24,7 +24,7 @@ export default function TicketEditForm(props) {
     // const [selectedUsers, setSelectedUsers] = useState([])
     useEffect(() => {
             const fetchUsers = (num) => {
-                fetch(`https://drf-react-chat-backend.herokuapp.com/api/users/?limit=${num}`)
+                fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/users/?limit=${num}`)
                     .then(response => response.json())
                     .then(data => {
 

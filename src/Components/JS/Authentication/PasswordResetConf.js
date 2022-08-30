@@ -42,7 +42,7 @@ export default function PasswordResetConf() {
             },
             body: JSON.stringify(formValues)
         }
-        fetch(`https://drf-react-chat-backend.herokuapp.com/api/password_reset/confirm/?token=${token}`, requestOptions)
+        fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/password_reset/confirm/?token=${token}`, requestOptions)
             .then(response => response.json())
             .then(data =>
                 data.status === 'OK' ? setPassResetSuccessAlert(true) : null

@@ -116,8 +116,8 @@ export default function UserManagement() {
         //if only 1 user selected, request sent to endpoint for updating single object in db
 
         selectedUser === 1
-            ? fetch(`https://drf-react-chat-backend.herokuapp.com/api/update-role/${selectedUser}/`, requestOptions)
-            : fetch(`https://drf-react-chat-backend.herokuapp.com/api/update-role/`, requestOptions)
+            ? fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/update-role/${selectedUser}/`, requestOptions)
+            : fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/update-role/`, requestOptions)
 
         setSelectedRole(null)
 
@@ -126,7 +126,7 @@ export default function UserManagement() {
     //fetch user data to populate table
     useEffect(() => {
             const fetchUsers = (num) => {
-                fetch(`https://drf-react-chat-backend.herokuapp.com/api/users/?limit=${num}`)
+                fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/users/?limit=${num}`)
                     .then(response => response.json())
                     .then(data => {
                         setUsers(data)
@@ -158,7 +158,7 @@ export default function UserManagement() {
             },
             body: JSON.stringify(assigntoProjectPayload)
         }
-        fetch(`https://drf-react-chat-backend.herokuapp.com/api/assigned-user-add/projects/`, requestOptions)
+        fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/assigned-user-add/projects/`, requestOptions)
             .then(response => response.json())
             .then(data => {
                 if (data === "User already assigned to project") {
@@ -186,7 +186,7 @@ export default function UserManagement() {
             },
             body: JSON.stringify(assigntoTicketPayload)
         }
-        fetch(`https://drf-react-chat-backend.herokuapp.com/api/assigned-user-add/tickets/`, requestOptions)
+        fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/assigned-user-add/tickets/`, requestOptions)
             .then(response => response.json())
             .then(data => {
                 if (data === "Ticket already assigned to user") {

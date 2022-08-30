@@ -21,7 +21,7 @@ export default function DeveloperTicketsAndProjects() {
                 'Authorization': `Token ${localStorage.getItem('token')}`
             }
         }
-        fetch(`https://drf-react-chat-backend.herokuapp.com/api/developers-tickets-projects/${current_user_id}`, requestOption)
+        fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/developers-tickets-projects/${current_user_id}`, requestOption)
             .then(request => request.json())
             .then(data => {
                 setTicketsAndProjects(data)

@@ -40,7 +40,7 @@ export default function SignIn() {
     //         },
     //         body: {}
     //     }
-    //     fetch('https://drf-react-chat-backend.herokuapp.com/api/logout/', requestOptions)
+    //     fetch('https://drf-react-ticketing-backend.herokuapp.com/api/logout/', requestOptions)
     //     }
     // },[])
 
@@ -59,7 +59,7 @@ export default function SignIn() {
             body: JSON.stringify({})
 
         }
-        fetch('https://drf-react-chat-backend.herokuapp.com/api/login/', requestOptionsSignIn)
+        fetch('https://drf-react-ticketing-backend.herokuapp.com/api/login/', requestOptionsSignIn)
             .then(response => {
                 console.log(response.json())
                 if (response.status === 401) {

@@ -29,7 +29,7 @@ export default function ProjectDetail() {
     useEffect(() => {
 
         const fetchProjectPersonnel = (ID) => {
-            fetch(`https://drf-react-chat-backend.herokuapp.com/api${ID}`)
+            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api${ID}`)
                 .then(response => response.json())
                 .then(data => {
                     let performStateUpdate = true
@@ -75,7 +75,7 @@ export default function ProjectDetail() {
 
             }
             console.log(projectEditForm)
-            fetch(`https://drf-react-chat-backend.herokuapp.com/api/project-update/${projectID.split('/')[2]}/`, requestOptions)
+            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/project-update/${projectID.split('/')[2]}/`, requestOptions)
                 .then(response => console.log(response.json()))
                 .then(setProjectEditForm(null))
                 .catch(error => console.log(error))
@@ -84,7 +84,7 @@ export default function ProjectDetail() {
 
         if (projectEditForm) {
             editProjectData(projectID)
-            fetch(`https://drf-react-chat-backend.herokuapp.com/api${projectID}`)
+            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api${projectID}`)
                 .then(response => response.json())
                 .then(data => {
                     setProjectInfo(data[0].project_info)
@@ -149,7 +149,7 @@ export default function ProjectDetail() {
             },
             body: JSON.stringify(deleteUserIDArray)
         }
-        fetch(`https://drf-react-chat-backend.herokuapp.com/api/assigned-user-delete${projectID}/`, requestOptions)
+        fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/assigned-user-delete${projectID}/`, requestOptions)
             .then(response => console.log(response))
             .catch(error => console.log(error))
     }
@@ -163,7 +163,7 @@ export default function ProjectDetail() {
             },
             body: JSON.stringify(deleteTicketArray)
         }
-        fetch(`https://drf-react-chat-backend.herokuapp.com/api/ticket-delete/`, requestOptions)
+        fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/ticket-delete/`, requestOptions)
             .then(response => console.log(response))
             .catch(error => console.log(error))
     }
@@ -189,7 +189,7 @@ export default function ProjectDetail() {
 
             }
             // console.log(JSON.stringify(ticketPayload))
-            fetch('https://drf-react-chat-backend.herokuapp.com/api/ticket-create/', requestOptions)
+            fetch('https://drf-react-ticketing-backend.herokuapp.com/api/ticket-create/', requestOptions)
                 .then(response => console.log(response.json()))
                 .then(setAddTicket(null))
                 .catch(error => console.log(error))
@@ -198,7 +198,7 @@ export default function ProjectDetail() {
         }
         if (addTicket) {
             addTicketFetch()
-            fetch(`https://drf-react-chat-backend.herokuapp.com/api${projectID}`)
+            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api${projectID}`)
                 .then(response => response.json())
                 .then(data => {
                     setAssignedTickets(data[0].assigned_tickets)

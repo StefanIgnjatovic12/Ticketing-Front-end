@@ -37,7 +37,7 @@ export default function TicketDetail() {
 
 
         const fetchTicketData = () => {
-            fetch(`https://drf-react-chat-backend.herokuapp.com/api${ticketID}`)
+            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
                     let performStateUpdate = true
@@ -87,7 +87,7 @@ export default function TicketDetail() {
 
             }
             console.log(ticketEditForm)
-            fetch(`https://drf-react-chat-backend.herokuapp.com/api/ticket-update/${ticketID.split('/')[2]}/`, requestOptions)
+            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/ticket-update/${ticketID.split('/')[2]}/`, requestOptions)
                 .then(response => console.log(response.json()))
                 .then(setTicketEditForm(null))
                 .catch(error => console.log(error))
@@ -98,7 +98,7 @@ export default function TicketDetail() {
         //ticket is edited and then API is called to update the content on screen
         if (ticketEditForm) {
             editTicketData(ticketID)
-            fetch(`https://drf-react-chat-backend.herokuapp.com/api${ticketID}`)
+            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
                     setTicketInfo(data[0].ticket_info)
@@ -135,7 +135,7 @@ export default function TicketDetail() {
                 body: JSON.stringify(commentPayload)
 
             }
-            fetch('https://drf-react-chat-backend.herokuapp.com/api/comment-create/', requestOptions)
+            fetch('https://drf-react-ticketing-backend.herokuapp.com/api/comment-create/', requestOptions)
                 .then(response => {
                     console.log(response.json())
                     setAddComment(null)
@@ -146,7 +146,7 @@ export default function TicketDetail() {
         }
         if (addComment) {
             addCommentFetch()
-            fetch(`https://drf-react-chat-backend.herokuapp.com/api${ticketID}`)
+            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
                     setSavedComments(data[0].comments)
@@ -182,7 +182,7 @@ export default function TicketDetail() {
             },
             body: JSON.stringify(deleteCommentArray)
         }
-        fetch(`https://drf-react-chat-backend.herokuapp.com/api/comment-delete/`, requestOptions)
+        fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/comment-delete/`, requestOptions)
             .then(response => console.log(response))
             .catch(error => console.log(error))
     }
@@ -218,7 +218,7 @@ export default function TicketDetail() {
                 },
                 body: formData
             }
-            fetch("https://drf-react-chat-backend.herokuapp.com/api/attachment-upload/", requestOptions)
+            fetch("https://drf-react-ticketing-backend.herokuapp.com/api/attachment-upload/", requestOptions)
                 .then(response => console.log(response.json()))
                 .catch(error => console.log(error))
         }
@@ -230,7 +230,7 @@ export default function TicketDetail() {
 
 
             addAttachment()
-            fetch(`https://drf-react-chat-backend.herokuapp.com/api${ticketID}`)
+            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api${ticketID}`)
                 .then(response => response.json())
                 .then(data => {
                     setSavedAttachments(data[0].attachments)
@@ -254,7 +254,7 @@ export default function TicketDetail() {
             },
             body: JSON.stringify(deleteAttachmentArray)
         }
-        fetch(`https://drf-react-chat-backend.herokuapp.com/api/attachment-delete/`, requestOptions)
+        fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/attachment-delete/`, requestOptions)
             .then(response => console.log(response))
             .catch(error => console.log(error))
     }
@@ -392,7 +392,7 @@ export default function TicketDetail() {
                                     //makes the content of the column into a href
                                     customBodyRender: (value) => {
                                         return (
-                                            <a href={`https://drf-react-chat-backend.herokuapp.com/api/attachment-download/${value}`}>
+                                            <a href={`https://drf-react-ticketing-backend.herokuapp.com/api/attachment-download/${value}`}>
                                                 Download attachment
                                             </a>
                                         );

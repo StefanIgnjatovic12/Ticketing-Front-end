@@ -15,7 +15,7 @@ export default function SignOut() {
             },
             body: {}
         }
-        fetch('https://drf-react-chat-backend.herokuapp.com/api/logout/', requestOptions)
+        fetch('https://drf-react-ticketing-backend.herokuapp.com/api/logout/', requestOptions)
     },[])
 
 

@@ -36,7 +36,7 @@ export default function SignUp() {
             },
             body: JSON.stringify(registerPayload)
         }
-        fetch('https://drf-react-chat-backend.herokuapp.com/api/register/', requestOptions)
+        fetch('https://drf-react-ticketing-backend.herokuapp.com/api/register/', requestOptions)
             .then(response => console.log(response))
             //telling the signin component that the user originated from the signup page
             .then(navigate('/signin', {state: 'signup'}))
