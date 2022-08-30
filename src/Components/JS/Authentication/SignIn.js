@@ -61,8 +61,8 @@ export default function SignIn() {
         }
         fetch('https://drf-react-ticketing-backend.herokuapp.com/api/login/', requestOptionsSignIn)
             .then(response => {
-                console.log(response.json())
-                if (response.status === 401) {
+                let dummyResponse = response
+                if (dummyResponse.status === 401) {
                     setFailedLogin(true)
                     return
                 }
