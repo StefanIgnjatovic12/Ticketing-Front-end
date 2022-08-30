@@ -94,7 +94,7 @@ export default function DeveloperTicketsAndProjects() {
                                 //makes the content of the column into a href
                                 customBodyRender: (value) => {
                                     return (
-                                        <a href={`http://localhost:3000/projects/${value}`}>View/Modify Project</a>
+                                        <a href={`http://drf-react-ticketing-frontend.herokuapp.com/projects/${value}`}>View/Modify Project</a>
                                     );
                                 }
                             }
@@ -116,7 +116,7 @@ export default function DeveloperTicketsAndProjects() {
 
                                 //makes the content of the column into a href
                                 customBodyRender: (value) => {
-                                    return (<a href={`http://localhost:3000/tickets/${value}`}>View/Modify
+                                    return (<a href={`http://drf-react-ticketing-frontend.herokuapp.com/tickets/${value}`}>View/Modify
                                         Ticket</a>);
                                 }
                             }

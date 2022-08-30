@@ -70,7 +70,7 @@ export default function AllTicketList() {
                                         //makes the content of the column into a href
                                         customBodyRender: (value) => {
                                             return (
-                                                <a href={`http://localhost:3000/tickets/${value}`}>View/Modify
+                                                <a href={`http://drf-react-ticketing-frontend.herokuapp.com/tickets/${value}`}>View/Modify
                                                     Ticket</a>
                                             );
                                         }
@@ -84,7 +84,7 @@ export default function AllTicketList() {
                                             //makes the content of the column into a href
                                             customBodyRender: (value) => {
                                                 return (
-                                                    <a href={`http://localhost:3000/projects/${value}`}>View Parent
+                                                    <a href={`http://drf-react-ticketing-frontend.herokuapp.com/projects/${value}`}>View Parent
                                                         Project</a>
                                                 );
                                             }

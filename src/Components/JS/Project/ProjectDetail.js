@@ -259,7 +259,7 @@ export default function ProjectDetail() {
                                         //makes the content of the column into a href
                                         customBodyRender: (value) => {
                                             return (
-                                                <a href={`http://localhost:3000/users/${value}`}>View user page</a>
+                                                <a href={`http://drf-react-ticketing-frontend.herokuapp.com/users/${value}`}>View user page</a>
                                             );
                                         }
                                     }
@@ -313,7 +313,7 @@ export default function ProjectDetail() {
                                         //makes the content of the column into a href
                                         customBodyRender: (value) => {
                                             return (
-                                                <a href={`http://localhost:3000/tickets/${value}`}>View/Modify
+                                                <a href={`http://drf-react-ticketing-frontend.herokuapp.com/tickets/${value}`}>View/Modify
                                                     Ticket</a>
                                             );
                                         }

@@ -111,7 +111,7 @@ export default function ProjectList() {
                                 //makes the content of the column into a href
                                 customBodyRender: (value) => {
                                     return (
-                                        <a href={`http://localhost:3000/projects/${value}`}>View/Modify Project</a>
+                                        <a href={`http://drf-react-ticketing-frontend.herokuapp.com/projects/${value}`}>View/Modify Project</a>
                                     );
                                 }
                             }
