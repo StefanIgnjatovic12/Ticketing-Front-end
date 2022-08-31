@@ -83,8 +83,16 @@ export default function ProjectDetail() {
         }
 
         if (projectEditForm) {
+            const requestOptions = {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+                }
+            }
             editProjectData(projectID)
-            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api${projectID}`)
+            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api${projectID}/`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     setProjectInfo(data[0].project_info)
@@ -259,7 +267,8 @@ export default function ProjectDetail() {
                                         //makes the content of the column into a href
                                         customBodyRender: (value) => {
                                             return (
-                                                <a href={`http://drf-react-ticketing-frontend.herokuapp.com/users/${value}`}>View user page</a>
+                                                <a href={`http://drf-react-ticketing-frontend.herokuapp.com/users/${value}`}>View
+                                                    user page</a>
                                             );
                                         }
                                     }

@@ -31,13 +31,19 @@ export default function TicketDetail() {
     let currentUserID = localStorage.getItem('id')
     let currentUserRole = localStorage.getItem('role')
     const navigate = useNavigate()
-
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+    }
     //Loading all data on page, called on page load and when a ticket is edited or comment added
     useEffect(() => {
 
-
         const fetchTicketData = () => {
-            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api${ticketID}/`)
+            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api${ticketID}/`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     let performStateUpdate = true
