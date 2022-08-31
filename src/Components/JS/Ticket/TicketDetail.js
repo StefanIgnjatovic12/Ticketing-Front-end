@@ -37,7 +37,7 @@ export default function TicketDetail() {
 
 
         const fetchTicketData = () => {
-            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api${ticketID}`)
+            fetch(`https://drf-react-ticketing-backend.herokuapp.com/api${ticketID}/`)
                 .then(response => response.json())
                 .then(data => {
                     let performStateUpdate = true
