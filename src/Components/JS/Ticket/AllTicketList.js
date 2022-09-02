@@ -70,8 +70,7 @@ export default function AllTicketList() {
                                         //makes the content of the column into a href
                                         customBodyRender: (value) => {
                                             return (
-                                                <a href={`http://drf-react-ticketing-frontend.herokuapp.com/tickets/${value}`}>View/Modify
-                                                    Ticket</a>
+                                                <Link to={`/tickets/${value}`} style={{textDecoration: 'none'}}>View/Modify Ticket</Link>
                                             );
                                         }
                                     }
@@ -84,8 +83,8 @@ export default function AllTicketList() {
                                             //makes the content of the column into a href
                                             customBodyRender: (value) => {
                                                 return (
-                                                    <a href={`http://drf-react-ticketing-frontend.herokuapp.com/projects/${value}`}>View Parent
-                                                        Project</a>
+                                                    <Link to={`/projects/${value}`} style={{textDecoration: 'none'}}>View Parent
+                                                        Project</Link>
                                                 );
                                             }
                                         }

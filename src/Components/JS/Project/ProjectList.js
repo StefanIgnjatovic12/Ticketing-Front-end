@@ -4,6 +4,8 @@ import Container from "@mui/material/Container";
 import AddProject from "./AddProject";
 import {getTime} from "../getTime";
 import ShowMoreText from "react-show-more-text";
+import {Link} from "react-router-dom";
+import * as React from "react";
 
 export default function ProjectList() {
     const [projects, setProjects] = useState(null)
@@ -111,7 +113,7 @@ export default function ProjectList() {
                                 //makes the content of the column into a href
                                 customBodyRender: (value) => {
                                     return (
-                                        <a href={`http://drf-react-ticketing-frontend.herokuapp.com/projects/${value}`}>View/Modify Project</a>
+                                        <Link to={`/projects/${value}`} style={{textDecoration: 'none'}}>View/Modify Project</Link>
                                     );
                                 }
                             }
@@ -122,11 +124,11 @@ export default function ProjectList() {
                             {
                                 customToolbar: () => {
                                     return (
-                                            <AddProject
-                                                setAddProject={setAddProject}
-                                                setSelectedUser={setSelectedUser}
-                                                selectedUser={selectedUser}
-                                            />
+                                        <AddProject
+                                            setAddProject={setAddProject}
+                                            setSelectedUser={setSelectedUser}
+                                            selectedUser={selectedUser}
+                                        />
                                     );
                                 },
                                 // customToolbarSelect: () => <ProjectEditForm/>,

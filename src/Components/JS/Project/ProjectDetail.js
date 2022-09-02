@@ -6,7 +6,8 @@ import AddTicket from "../Ticket/AddTicket";
 import {getTime} from "../getTime";
 import ProjectEditForm from "./ProjectEditForm";
 import ShowMoreText from "react-show-more-text";
-import {useNavigate, useLocation} from "react-router-dom";
+import {useNavigate, useLocation, Link} from "react-router-dom";
+import * as React from "react";
 
 export default function ProjectDetail() {
 
@@ -267,8 +268,8 @@ export default function ProjectDetail() {
                                         //makes the content of the column into a href
                                         customBodyRender: (value) => {
                                             return (
-                                                <a href={`http://drf-react-ticketing-frontend.herokuapp.com/users/${value}`}>View
-                                                    user page</a>
+                                                <Link to={`/users/${value}`} style={{textDecoration: 'none'}}>View user page</Link>
+
                                             );
                                         }
                                     }
@@ -322,8 +323,7 @@ export default function ProjectDetail() {
                                         //makes the content of the column into a href
                                         customBodyRender: (value) => {
                                             return (
-                                                <a href={`http://drf-react-ticketing-frontend.herokuapp.com/tickets/${value}`}>View/Modify
-                                                    Ticket</a>
+                                                <Link to={`/tickets/${value}`} style={{textDecoration: 'none'}}>View/Modify Ticket</Link>
                                             );
                                         }
                                     }
