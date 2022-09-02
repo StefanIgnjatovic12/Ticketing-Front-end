@@ -5,7 +5,9 @@ import MUIDataTable from "mui-datatables";
 import TicketBreakdown from "./TicketBreakdown";
 import ShowMoreText from "react-show-more-text";
 import {useLocation} from "react-router";
-import {useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import * as React from "react";
+
 export default function DeveloperTicketsAndProjects() {
     const currentUserRole = localStorage.getItem('role')
     const [ticketsAndProjects, setTicketsAndProjects] = useState(null)
@@ -77,7 +79,7 @@ export default function DeveloperTicketsAndProjects() {
     }
     return (<>
         {/*table containing personnel assigned to project*/}
-        {(currentUserRole === 'Admin' &&  location.pathname === "/maindash") || (currentUserRole === 'Developer' &&  location.pathname === "/maindash")
+        {(currentUserRole === 'Admin' && location.pathname === "/maindash") || (currentUserRole === 'Developer' && location.pathname === "/maindash")
             ? <TicketBreakdown/>
             : null
         }
@@ -95,15 +97,17 @@ export default function DeveloperTicketsAndProjects() {
                                 //makes the content of the column into a href
                                 customBodyRender: (value) => {
                                     return (
-                                        <a onClick={navigate(`/projects/${value}`)}>View/Modify Project</a>
+                                        <Link to={`/projects/${value}`} style={{textDecoration: 'none'}}>View/Modify
+                                            Project</Link>
                                     );
                                 }
                             }
                         }]}
-                        options={{selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
+                        options={{
+                            selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
                         }}
                         data={formatTicketProject()[0]}
-                        title={ location.pathname === "/maindash" ? "Your Projects" : "User's Projects"}
+                        title={location.pathname === "/maindash" ? "Your Projects" : "User's Projects"}
                     />
 
 
@@ -117,13 +121,17 @@ export default function DeveloperTicketsAndProjects() {
 
                                 //makes the content of the column into a href
                                 customBodyRender: (value) => {
-                                    return (<a onClick={navigate(`/tickets/${value}`)} >View/Modify
-                                        Ticket</a>);
+                                    return (
+                                        <Link to={`/tickets/${value}`} style={{textDecoration: 'none'}}>View/Modify
+                                            Ticket</Link>
+
+                                    );
                                 }
                             }
                         }]}
                         data={formatTicketProject()[1]}
-                        options={{selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
+                        options={{
+                            selectableRows: localStorage.getItem('role') === 'Admin' ? 'multiple' : 'none',
                         }}
                         title={
                             (currentUserRole === 'User' && location.pathname === '/maindash')
