@@ -5,12 +5,13 @@ import MUIDataTable from "mui-datatables";
 import TicketBreakdown from "./TicketBreakdown";
 import ShowMoreText from "react-show-more-text";
 import {useLocation} from "react-router";
-
+import {useNavigate} from 'react-router-dom'
 export default function DeveloperTicketsAndProjects() {
     const currentUserRole = localStorage.getItem('role')
     const [ticketsAndProjects, setTicketsAndProjects] = useState(null)
     const [loading, setLoading] = useState(false)
     const location = useLocation()
+    const navigate = useNavigate()
     useEffect(() => {
         //if on maindash page, current user is the one logged in. else its admin viewing any users page, use the user page ID
         let current_user_id = location.pathname === "/maindash" ? localStorage.getItem('id') : location.pathname.split('/')[2]
@@ -94,7 +95,7 @@ export default function DeveloperTicketsAndProjects() {
                                 //makes the content of the column into a href
                                 customBodyRender: (value) => {
                                     return (
-                                        <a href={`https://drf-react-ticketing-frontend.herokuapp.com/projects/${value}`}>View/Modify Project</a>
+                                        <div onClick={navigate(`/projects/${value}`)}>View/Modify Project</div>
                                     );
                                 }
                             }
@@ -116,8 +117,8 @@ export default function DeveloperTicketsAndProjects() {
 
                                 //makes the content of the column into a href
                                 customBodyRender: (value) => {
-                                    return (<a href={`https://drf-react-ticketing-frontend.herokuapp.com/tickets/${value}`}>View/Modify
-                                        Ticket</a>);
+                                    return (<div onClick={navigate(`/tickets/${value}`)} >View/Modify
+                                        Ticket</div>);
                                 }
                             }
                         }]}
