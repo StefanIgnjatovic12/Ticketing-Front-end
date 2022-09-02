@@ -16,7 +16,6 @@ import {Alert, AlertTitle} from "@mui/material";
 import {useNavigate, useLocation} from 'react-router-dom';
 import DemoSignIn from "./DemoSignIn";
 import PasswordReset from "./PasswordReset";
-
 const theme = createTheme();
 
 
@@ -28,21 +27,6 @@ export default function SignIn() {
     const [registerSuccess, setRegisterSuccess] = useState(true)
     const [passResetFormOpen, setPassResetFormOpen] = useState(false)
     const {fetchCurrentUser} = useAuth()
-
-    // useEffect(() => {
-    //     if (localStorage.getItem('token')) {
-    //         const requestOptions = {
-    //         method: 'POST',
-    //         headers: {
-    //             'Accept': 'application/json, text/plain, */*',
-    //             'Content-Type': 'application/json',
-    //             'Authorization': `Token ${localStorage.getItem('token')}`
-    //         },
-    //         body: {}
-    //     }
-    //     fetch('https://drf-react-ticketing-backend.herokuapp.com/api/logout/', requestOptions)
-    //     }
-    // },[])
 
     const handleSubmit = (event) => {
         event.preventDefault();
