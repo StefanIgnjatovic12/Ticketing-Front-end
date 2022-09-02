@@ -95,7 +95,7 @@ export default function DeveloperTicketsAndProjects() {
                                 //makes the content of the column into a href
                                 customBodyRender: (value) => {
                                     return (
-                                        <div onClick={navigate(`/projects/${value}`)}>View/Modify Project</div>
+                                        <a onClick={navigate(`/projects/${value}`)}>View/Modify Project</a>
                                     );
                                 }
                             }
@@ -117,8 +117,8 @@ export default function DeveloperTicketsAndProjects() {
 
                                 //makes the content of the column into a href
                                 customBodyRender: (value) => {
-                                    return (<div onClick={navigate(`/tickets/${value}`)} >View/Modify
-                                        Ticket</div>);
+                                    return (<a onClick={navigate(`/tickets/${value}`)} >View/Modify
+                                        Ticket</a>);
                                 }
                             }
                         }]}
