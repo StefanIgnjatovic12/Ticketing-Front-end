@@ -225,7 +225,7 @@ export default function TicketDetail() {
                 body: formData
             }
             fetch("https://drf-react-ticketing-backend.herokuapp.com/api/attachment-upload/", requestOptions)
-                .then(response => console.log(response.json()))
+                .then(response => console.log(response.text()))
                 .catch(error => console.log(error))
         }
 
