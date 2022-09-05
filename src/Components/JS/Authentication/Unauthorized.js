@@ -34,7 +34,7 @@ export default function Unauthorized() {
                         height: "50%",
                         width: "50%"
                     }}
-                    src={'public/denied.jpg'}
+                    src={"%PUBLIC_URL%/denied.jpg"}
                 >
                 </Box>
                 <Typography
