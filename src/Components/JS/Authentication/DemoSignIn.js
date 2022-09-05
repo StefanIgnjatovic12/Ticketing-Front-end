@@ -6,9 +6,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Link from "@mui/material/Link";
 import {useAuth} from "../UserManagement/CurrentUserContext";
 import {useNavigate} from "react-router-dom";
-import admin_pic from 'public/admin.png';
-import developer_pic from 'public/developer.png';
-import user_pic from 'public/user.png';
+
 
 export default function DemoSignIn() {
     const [open, setOpen] = useState(false)
@@ -85,7 +83,7 @@ export default function DemoSignIn() {
                                 cursor: "pointer"
                             }}
                             // src={process.env.PUBLIC_URL + "admin.png"}
-                            src={admin_pic}
+                            src={'public/admin.png'}
                         >
                         </Box>
 
@@ -100,7 +98,7 @@ export default function DemoSignIn() {
                                 width: "30%",
                                 cursor: "pointer"
                             }}
-                            src={developer_pic}
+                            src={'public/developer.png'}
                         >
                         </Box>
 
@@ -115,7 +113,7 @@ export default function DemoSignIn() {
                                 cursor: "pointer"
                             }}
 
-                            src={user_pic}
+                            src={'public/user.png'}
                         >
                         </Box>
 
