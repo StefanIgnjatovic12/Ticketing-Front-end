@@ -6,9 +6,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Link from "@mui/material/Link";
 import {useAuth} from "../UserManagement/CurrentUserContext";
 import {useNavigate} from "react-router-dom";
-import admin_pic from 'build/admin.png';
-import dev_pic from 'build/developer.png';
-import user_pic from 'build/user.png'
+import admin_pic from 'images/admin.png';
+import dev_pic from 'images/developer.png';
+import user_pic from 'images/user.png'
 
 export default function DemoSignIn() {
     const [open, setOpen] = useState(false)
