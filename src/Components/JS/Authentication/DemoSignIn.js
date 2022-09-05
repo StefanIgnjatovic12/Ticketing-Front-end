@@ -42,7 +42,7 @@ export default function DemoSignIn() {
             body: JSON.stringify({})
 
         }
-        fetch('https://drf-react-ticketing-backend.herokuapp.com/api/login/', requestOptions)
+        fetch('https://drf-react-ticketing-backend.herokuapp.com/api/demo-login/', requestOptions)
             .then(response => response.json())
             .then(data => {
                 localStorage.setItem('token', data['token'])
