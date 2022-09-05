@@ -6,9 +6,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Link from "@mui/material/Link";
 import {useAuth} from "../UserManagement/CurrentUserContext";
 import {useNavigate} from "react-router-dom";
-import admin_pic from 'images/admin.png';
-import dev_pic from 'images/developer.png';
-import user_pic from 'images/user.png'
+
 
 export default function DemoSignIn() {
     const [open, setOpen] = useState(false)
@@ -84,8 +82,8 @@ export default function DemoSignIn() {
                                 width: "30%",
                                 cursor: "pointer"
                             }}
-                            // src={process.env.PUBLIC_URL + "admin.png"}
-                            src={admin_pic}
+                            src={process.env.PUBLIC_URL + "admin.png"}
+
                         >
                         </Box>
 
@@ -100,42 +98,45 @@ export default function DemoSignIn() {
                                 width: "30%",
                                 cursor: "pointer"
                             }}
-                            src={dev_pic}
+                            src={process.env.PUBLIC_URL + "dev.png"}
+
+
                         >
-                        </Box>
-
-                        <Box
-                            name="user"
-                            onClick={handleSubmit}
-                            component="img"
-                            sx={{
-                                ml: 2,
-                                height: "31%",
-                                width: "31%",
-                                cursor: "pointer"
-                            }}
-
-                            src={user_pic}
-                        >
-                        </Box>
-
                     </Box>
-                </DialogContent>
-                {/*<DialogActions>*/}
-                {/*    <Button onClick={handleClose}>Cancel</Button>*/}
-                {/*    /!*<Button onClick={handleClose}>Subscribe</Button>*!/*/}
-                {/*    <Button*/}
-                {/*        variant="contained"*/}
-                {/*        color="primary"*/}
-                {/*        type="submit"*/}
-                {/*        onClick={handleSubmit}*/}
-                {/*    >*/}
-                {/*        Submit*/}
-                {/*    </Button>*/}
-                {/*</DialogActions>*/}
-            </Dialog>
-        </>
+
+                    <Box
+                        name="user"
+                        onClick={handleSubmit}
+                        component="img"
+                        sx={{
+                            ml: 2,
+                            height: "31%",
+                            width: "31%",
+                            cursor: "pointer"
+                        }}
+
+                        src={process.env.PUBLIC_URL + "user.png"}
+
+                            >
+                            < /Box>
+
+                            </Box>
+                            </DialogContent>
+                        {/*<DialogActions>*/}
+                        {/*    <Button onClick={handleClose}>Cancel</Button>*/}
+                        {/*    /!*<Button onClick={handleClose}>Subscribe</Button>*!/*/}
+                        {/*    <Button*/}
+                        {/*        variant="contained"*/}
+                        {/*        color="primary"*/}
+                        {/*        type="submit"*/}
+                        {/*        onClick={handleSubmit}*/}
+                        {/*    >*/}
+                        {/*        Submit*/}
+                        {/*    </Button>*/}
+                        {/*</DialogActions>*/}
+                            </Dialog>
+                            </>
 
 
-    )
-}
+                            )
+                        }
