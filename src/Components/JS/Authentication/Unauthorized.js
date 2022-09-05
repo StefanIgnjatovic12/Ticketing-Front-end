@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button'
 import Box from "@mui/material/Box";
-import denied_pic from 'images/denied.jpg';
+
 export default function Unauthorized() {
     const navigate = useNavigate()
     const [open, setOpen] = useState(true)
@@ -34,7 +34,7 @@ export default function Unauthorized() {
                         height: "50%",
                         width: "50%"
                     }}
-                    src={denied_pic}
+                    src={process.env.PUBLIC_URL + "denied.jpg"}
                 >
                 </Box>
                 <Typography
