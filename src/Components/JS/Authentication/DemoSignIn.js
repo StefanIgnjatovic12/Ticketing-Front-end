@@ -82,7 +82,7 @@ export default function DemoSignIn() {
                                 width: "30%",
                                 cursor: "pointer"
                             }}
-                            src={process.env.PUBLIC_URL + "admin.png"}
+                            src={process.env.REACT_APP_PUBLIC_URL + "admin.png"}
 
                         >
                         </Box>
@@ -98,7 +98,7 @@ export default function DemoSignIn() {
                                 width: "30%",
                                 cursor: "pointer"
                             }}
-                            src={process.env.PUBLIC_URL + "dev.png"}
+                            src={process.env.REACT_APP_PUBLIC_URL + "dev.png"}
 
 
                         >
@@ -115,7 +115,7 @@ export default function DemoSignIn() {
                             cursor: "pointer"
                         }}
 
-                        src={process.env.PUBLIC_URL + "user.png"}
+                        src={process.env.REACT_APP_PUBLIC_URL + "user.png"    }
 
                             >
                             < /Box>
