@@ -199,6 +199,7 @@ export default function TicketDetail() {
         let attachedFilesArr = []
 
         savedAttachments.forEach(attachment => {
+            console.log(attachment)
             attachedFilesArr.push([
                 attachment.file_name,
                 attachment.uploaded_by,
