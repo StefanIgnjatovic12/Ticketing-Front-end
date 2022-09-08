@@ -92,7 +92,6 @@ export default function TicketDetail() {
                 body: JSON.stringify(ticketEditForm)
 
             }
-            console.log(ticketEditForm)
             fetch(`https://drf-react-ticketing-backend.herokuapp.com/api/ticket-update/${ticketID.split('/')[2]}/`, requestOptions)
                 .then(response => console.log(response.json()))
                 .then(setTicketEditForm(null))
@@ -122,6 +121,7 @@ export default function TicketDetail() {
 
     //-----------ADD COMMENT ------------
     useEffect(() => {
+        console.log('add comment useEffect ran')
         const addCommentFetch = () => {
             // setCurrentTime(getTime)
 
@@ -212,6 +212,7 @@ export default function TicketDetail() {
     }
 
     useEffect(() => {
+        console.log('attachment useEffect ran')
         //append the state which contains the file to the formData
         //append the id of the parent ticket
         let formData = new FormData();
