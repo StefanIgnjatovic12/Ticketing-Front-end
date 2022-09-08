@@ -26,6 +26,7 @@ export default function TicketDetail() {
     const [addComment, setAddComment] = useState(null)
     const [files, setFiles] = useState(null)
     const [loading, setLoading] = useState(null)
+    const [reRenderPage, setReRenderPage] = useState(0)
     let location = useLocation();
     let ticketID = location.pathname
     let currentUserID = localStorage.getItem('id')
@@ -73,7 +74,7 @@ export default function TicketDetail() {
         // fetchCurrentUser()
         fetchTicketData()
 
-    }, [])
+    }, [reRenderPage])
 
     //-----------EDIT TICKET DATA ------------
     useEffect(() => {
@@ -110,6 +111,7 @@ export default function TicketDetail() {
                     //set the ticket history so that that table is also updated
                     setTicketHistory(data[0].ticket_history)
                     setLoading(true)
+                    setReRenderPage(reRenderPage + 1)
 
                 })
                 .catch(error => console.log(error))
@@ -157,6 +159,7 @@ export default function TicketDetail() {
                 .then(data => {
                     setSavedComments(data[0].comments)
                     setLoading(true)
+                    setReRenderPage(reRenderPage + 1)
 
                 })
                 .catch(error => console.log(error))
@@ -243,6 +246,7 @@ export default function TicketDetail() {
                 .then(data => {
                     setSavedAttachments(data[0].attachments)
                     setLoading(true)
+                    setReRenderPage(reRenderPage + 1)
                     // setFiles(null)
 
                 })
