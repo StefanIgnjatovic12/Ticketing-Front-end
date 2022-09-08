@@ -14,9 +14,6 @@ import {getTime} from '../getTime'
 import {useNavigate} from "react-router-dom";
 
 export default function TicketDetail() {
-
-
-
     const [savedComments, setSavedComments] = useState(null)
     const [savedAttachments, setSavedAttachments] = useState(null)
     const [ticketHistory, setTicketHistory] = useState(null)
@@ -123,7 +120,6 @@ export default function TicketDetail() {
 
     //-----------ADD COMMENT ------------
     useEffect(() => {
-        console.log('add comment useEffect ran')
         const addCommentFetch = () => {
             // setCurrentTime(getTime)
 
@@ -202,7 +198,6 @@ export default function TicketDetail() {
         let attachedFilesArr = []
 
         savedAttachments.forEach(attachment => {
-            console.log(attachment)
             attachedFilesArr.push([
                 attachment.file_name,
                 attachment.uploaded_by,
@@ -215,7 +210,6 @@ export default function TicketDetail() {
     }
 
     useEffect(() => {
-        console.log('attachment useEffect ran')
         //append the state which contains the file to the formData
         //append the id of the parent ticket
         let formData = new FormData();
