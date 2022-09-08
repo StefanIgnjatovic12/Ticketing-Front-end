@@ -43,6 +43,8 @@ export default function DemoSignIn() {
         fetch('https://drf-react-ticketing-backend.herokuapp.com/api/demo-login/', requestOptions)
             .then(response => response.json())
             .then(data => {
+                console.log('demo login data:')
+                console.log(data)
                 localStorage.setItem('token', data['token'])
                 return fetchCurrentUser()
             })
@@ -122,18 +124,6 @@ export default function DemoSignIn() {
 
                             </Box>
                             </DialogContent>
-                        {/*<DialogActions>*/}
-                        {/*    <Button onClick={handleClose}>Cancel</Button>*/}
-                        {/*    /!*<Button onClick={handleClose}>Subscribe</Button>*!/*/}
-                        {/*    <Button*/}
-                        {/*        variant="contained"*/}
-                        {/*        color="primary"*/}
-                        {/*        type="submit"*/}
-                        {/*        onClick={handleSubmit}*/}
-                        {/*    >*/}
-                        {/*        Submit*/}
-                        {/*    </Button>*/}
-                        {/*</DialogActions>*/}
                             </Dialog>
                             </>
 
