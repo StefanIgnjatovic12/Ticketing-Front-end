@@ -23,11 +23,11 @@ export default function DemoSignIn() {
     const handleSubmit = (e) => {
         let credentials
         if (e.target.name === 'admin') {
-            credentials = btoa('Demo_Admin')
+            credentials = btoa('Demo_Admin:Demo_Admin_Password')
         } else if (e.target.name === 'developer') {
-            credentials = btoa('Demo_Dev')
+            credentials = btoa('Demo_Dev:Demo_Dev_Password')
         } else if (e.target.name === 'user') {
-            credentials = btoa('Demo_User')
+            credentials = btoa('Demo_User:Demo_User_Password')
         }
         const requestOptions = {
             method: "POST",
@@ -40,11 +40,9 @@ export default function DemoSignIn() {
             body: JSON.stringify({})
 
         }
-        fetch('https://drf-react-ticketing-backend.herokuapp.com/api/demo-login/', requestOptions)
+        fetch('https://drf-react-ticketing-backend.herokuapp.com/api/login/', requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log('demo login data:')
-                console.log(data)
                 localStorage.setItem('token', data['token'])
                 return fetchCurrentUser()
             })
@@ -54,7 +52,6 @@ export default function DemoSignIn() {
             })
             .catch(error => console.log(error))
     }
-    // const credentials = btoa(`${data.get('username')}:${data.get('password')}`);
 
 
     return (
