@@ -63,6 +63,7 @@ export default function AutocompleteSearch() {
             size="small"
             sx={{
                 width: 300,
+
                 }}
             open={open}
             onOpen={() => {
