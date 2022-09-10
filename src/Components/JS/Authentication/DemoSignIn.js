@@ -97,7 +97,7 @@ export default function DemoSignIn() {
                                 width: "30%",
                                 cursor: "pointer"
                             }}
-                            src={"/dev.png"}
+                            src={"/developer.png"}
 
 
                         >
