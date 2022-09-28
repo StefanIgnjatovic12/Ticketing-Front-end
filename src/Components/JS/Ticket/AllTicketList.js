@@ -61,7 +61,7 @@ export default function AllTicketList() {
             <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
                 <Grid container>
                     {loading
-                        ? <Grid item xs={12} sm={12} md={12} lg={12} ml={12} sx={{ml:0}}>
+                        ? <Grid item xs={12} sm={12} md={12} lg={12} ml={12} sx={{ml: 0}}>
                             <MUIDataTable
                                 columns={['Ticket title', 'Description', 'Priority', 'Created by', 'Assigned developer', {
                                     name: "",
@@ -71,7 +71,8 @@ export default function AllTicketList() {
                                         //makes the content of the column into a href
                                         customBodyRender: (value) => {
                                             return (
-                                                <Link to={`/tickets/${value}`} style={{textDecoration: 'none'}}>View/Modify Ticket</Link>
+                                                <Link to={`/tickets/${value}`} style={{textDecoration: 'none'}}>View/Modify
+                                                    Ticket</Link>
                                             );
                                         }
                                     }
@@ -84,7 +85,8 @@ export default function AllTicketList() {
                                             //makes the content of the column into a href
                                             customBodyRender: (value) => {
                                                 return (
-                                                    <Link to={`/projects/${value}`} style={{textDecoration: 'none'}}>View Parent
+                                                    <Link to={`/projects/${value}`} style={{textDecoration: 'none'}}>View
+                                                        Parent
                                                         Project</Link>
                                                 );
                                             }
@@ -95,15 +97,7 @@ export default function AllTicketList() {
                                 title={'All tickets'}
                                 options={
                                     {
-
-                                        // onRowsDelete: (rowsDeleted) => {
-                                        //     //on row delete get the ticket ID corresponding to the row and call the function
-                                        //     // let deletedticketID = assignedTicketData()[rowsDeleted.data[0].dataIndex][4]
-                                        //     // deleteProjectTicket(deletedticketID)
-                                        //     let deleteTicketArray = []
-                                        //     rowsDeleted.data.forEach(row => deleteTicketArray.push(assignedTicketData()[row.dataIndex][4]))
-                                        //     deleteTicket(deleteTicketArray)
-                                        // },
+                                        selectableRows: 'none',
                                         print: false
 
                                     }
