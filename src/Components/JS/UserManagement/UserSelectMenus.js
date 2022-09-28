@@ -97,7 +97,7 @@ export default function UserSelectMenus(props) {
     }, [])
     return (
         <>
-            <Title>Change user role</Title>
+            <Title>Select a user account to edit</Title>
 
             <Box sx={{mb: 2}}>
                 {/*Select user form*/}
